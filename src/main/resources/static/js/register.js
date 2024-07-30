@@ -3,7 +3,7 @@ document.getElementById('register').addEventListener('click', function() {
     const name = document.getElementById('name').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    const address = document.getElementById('address').value;
+    // const address = document.getElementById('address').value;
 
     if (password !== confirmPassword) {
         document.getElementById('message').textContent = 'Passwords do not match!';
@@ -12,12 +12,12 @@ document.getElementById('register').addEventListener('click', function() {
 
     const registerData = {
         email: email,
-        name: name,
+        username: name,
         password: password,
-        address: address
+        confirmPassword: confirmPassword
     };
 
-    fetch('/api/user/register', {
+    fetch('/api/auth/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
