@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo" onclick="location.reload()">Studylink</div>
+            <ul class="nav-links">
+                <li><a href="메인 페이지의 주소를 입력하면 됩니당">Home</a></li>
+                <li class="dropdown">
+                    <a href="#">Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">메뉴1</a></li>
+                        <li><a href="#">메뉴2</a></li>
+                        <li><a href="#">메뉴3</a></li>
+                    </ul>
+                </li>
+                <li><a href="노션으로 About 페이지를 만들어서 보기 옵션으로 변경 후 링크를 걸면 됩니다.">About</a></li>
+                <li class="dropdown">
+                    <a href="#">Help</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">메뉴1</a></li>
+                        <li><a href="#">메뉴2</a></li>
+                        <li><a href="#">메뉴3</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="background"></div>
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter your username">
+        <input type="password" id="password" placeholder="Enter your password">
+        <button id="submit">Login</button>
+        <p id="message"></p>
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
