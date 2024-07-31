@@ -35,6 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-# Ignore application configuration files
-/src/main/resources/application.properties
