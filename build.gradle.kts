@@ -40,3 +40,8 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+springBoot {
+	mainClass = "com.project.project.ProjectApplication"
+}
+

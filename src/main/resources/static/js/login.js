@@ -3,11 +3,11 @@ document.getElementById('submit').addEventListener('click', function() {
     const password = document.getElementById('password').value;
 
     const loginData = {
-        username: username,
+        email: username,
         password: password
     };
 
-    fetch('/api/user/login', {
+    fetch('/api/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,11 +21,13 @@ document.getElementById('submit').addEventListener('click', function() {
             messageElement.textContent = 'Login successful!';
             messageElement.style.color = 'green';
         } else {
+            window.location.href = "/"
             messageElement.textContent = 'Login failed: ' + data.message;
         }
     })
     .catch(error => {
-        document.getElementById('message').textContent = '아이디와 비밀번호를 입력하세요';
+        console.log("321")
+        document.getElementById('message').textContent = error.message;
     });
 });
 document.addEventListener('DOMContentLoaded', function() {

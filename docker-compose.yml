@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    image: simple-spring-boot-app
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://34.47.75.9:3306/studylink
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=studylink123!
