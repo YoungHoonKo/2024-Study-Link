@@ -1,42 +1,174 @@
-document.getElementById('register').addEventListener('click', function() {
-    const email = document.getElementById('email').value;
-    const name = document.getElementById('name').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    // const address = document.getElementById('address').value;
 
-    if (password !== confirmPassword) {
-        document.getElementById('message').textContent = 'Passwords do not match!';
-        return;
+document.getElementById('register').addEventListener('click', function(event) {
+    event.preventDefault(); // 폼이 기본적으로 제출되지 않도록 방지
+
+    const email = document.getElementById('email');
+    const name = document.getElementById('name');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const address = document.getElementById('address') ? document.getElementById('address') : null;
+    const detailAddress = document.getElementById('detailAddress');
+    const postcode = document.getElementById('postcode');
+
+    let message = '';
+    let passwordRequirementsMessage = '';
+
+    // 입력 필드 초기화
+    email.classList.remove('error');
+    name.classList.remove('error');
+    password.classList.remove('error');
+    confirmPassword.classList.remove('error');
+    if (address) {
+        address.classList.remove('error');
+    }
+    detailAddress.classList.remove('error');
+    postcode.classList.remove('error');
+
+    if (!email.value) {
+        email.classList.add('error');
+        email.placeholder = 'Email is required';
+    } else if (!validateEmail(email.value)) {
+        email.classList.add('error');
+        email.value = '';
+        email.placeholder = 'Invalid email format';
+        message += 'Email is incorrect.<br>';
+    }
+    if (!name.value) {
+        name.classList.add('error');
+        name.placeholder = 'Name is required';
+    }
+    if (!password.value) {
+        password.classList.add('error');
+        password.placeholder = 'Password is required';
+    } else if (!validatePassword(password.value)) {
+        password.classList.add('error');
+        passwordRequirementsMessage = '대문자, 특수문자, 숫자를 포함해야 됩니다.';
+    }
+    if (!confirmPassword.value) {
+        confirmPassword.classList.add('error');
+        confirmPassword.placeholder = 'Confirm Password is required';
+    }
+    if (password.value && confirmPassword.value && password.value !== confirmPassword.value) {
+        message += 'Passwords do not match!<br>';
+        password.classList.add('error');
+        confirmPassword.classList.add('error');
+    }
+    if (!postcode.value) {
+        postcode.classList.add('error');
+        postcode.placeholder = 'Postcode is required';
+    }
+    if (!address.value) {
+        address.classList.add('error');
+        address.placeholder = 'Address is required';
+    }
+    if (!detailAddress.value) {
+        detailAddress.classList.add('error');
+        detailAddress.placeholder = 'Detail Address is required';
+    } else if (!validateAddress(detailAddress.value)) {
+        detailAddress.classList.add('error');
+        detailAddress.value = '';
+        detailAddress.placeholder = 'Check your Adderss again';
     }
 
-    const registerData = {
-        email: email,
-        username: name,
-        password: password,
-        confirmPassword: confirmPassword
-    };
+    const messageElement = document.getElementById('message');
+    const passwordRequirementsElement = document.getElementById('passwordRequirements');
 
-    fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(registerData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        const messageElement = document.getElementById('message');
-        if (data.email != null) {
-            messageElement.textContent = 'Registration successful!';
-            messageElement.style.color = 'green';
-            window.location.href = "/"
-        } else {
-            messageElement.textContent = 'Registration failed: ' + data.message;
-            window.location.href = "/"
-        }
-    })
-    .catch(error => {
-        document.getElementById('message').textContent = 'An error occurred: ' + error.message;
-    });
+    if (message || passwordRequirementsMessage) {
+        messageElement.innerHTML = message;
+        messageElement.style.color = 'red';
+        passwordRequirementsElement.innerHTML = passwordRequirementsMessage;
+        passwordRequirementsElement.style.color = 'red';
+    } else if (!email.value || !name.value || !password.value || !confirmPassword.value || !postcode.value || !address.value || !detailAddress.value) {
+        messageElement.innerHTML = 'Please fill out all required fields.';
+        messageElement.style.color = 'red';
+        passwordRequirementsElement.innerHTML = '';
+    } else {
+        const registerData = {
+            email: email.value,
+            name: name.value,
+            password: password.value,
+            confirmPassword: confirmPassword.value,
+            address: address.value + ' ' + detailAddress.value,
+            postcode: postcode.value
+        };
+
+        fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registerData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.email != null) {
+                messageElement.textContent = 'Registration successful!';
+                messageElement.style.color = 'green';
+                passwordRequirementsElement.innerHTML = '';
+            } else {
+                messageElement.textContent = 'Registration failed: ' + data.message;
+                messageElement.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            messageElement.textContent = 'An error occurred: ' + error.message;
+            messageElement.style.color = 'red';
+        });
+    }
+});
+
+// 이메일 형식 확인 함수
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+// 비밀번호 형식 확인 함수
+function validatePassword(password) {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasUpperCase && hasLowerCase && hasNumbers && hasSpecial;
+}
+
+// 주소 형식 확인 함수 (한국어와 숫자만 허용)
+function validateAddress(address) {
+    const re = /^[0-9가-힣\s]+$/;
+    return re.test(address);
+}
+
+// 주소 필드에서 숫자와 한국어만 입력되도록 제한
+document.getElementById('address').addEventListener('input', function(event) {
+    const address = event.target.value;
+    const filteredAddress = address.replace(/[^0-9가-힣\s]/g, '');
+    const messageElement = document.getElementById('message');
+    if (address !== filteredAddress) {
+        event.target.value = filteredAddress;
+        messageElement.innerHTML = '주소는 한국어와 숫자로 정확하게 입력하세요.';
+        messageElement.style.color = 'red';
+    } else {
+        messageElement.innerHTML = '';
+    }
+});
+
+// 상세 주소 필드에서 숫자와 한국어만 입력되도록 제한
+document.getElementById('detailAddress').addEventListener('input', function(event) {
+    const detailAddress = event.target.value;
+    const filteredDetailAddress = detailAddress.replace(/[/[^ㄱ-ㅎ가-힣0-9]]/g, '');
+    if (detailAddress !== filteredDetailAddress) {
+        event.target.value = filteredDetailAddress;
+        document.getElementById('message').innerHTML = '주소를 올바르게 입력하세요.';
+        document.getElementById('message').style.color = 'red';
+    } else {
+        document.getElementById('message').innerHTML = '';
+    }
+});
+
+// 로고 클릭 시 페이지 이동
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('logo').addEventListener('click', function() {
+        window.location.href = '/';
+=======
+
 });
