@@ -38,16 +38,18 @@ public class AuthenticationService {
         }
 
         User user = new User();
-        user.setUsername(userRegistrationDto.getUsername());
+        user.setUsername(userRegistrationDto.getName());
         user.setEmail(userRegistrationDto.getEmail());
         // 비밀번호 암호화
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
         user.setProfilePictureUrl(null);
         user.setBio(null);
         user.setSkill(null);
+        user.setStatus("ACTIVE");
         user.setInterests(null);
         user.setRole("ROLE_USER");
-        user.setAddress(null);
+        user.setAddress(userRegistrationDto.getAddress());
+        user.setPostcode(userRegistrationDto.getPostcode());
 
         return userRepository.save(user);
     }

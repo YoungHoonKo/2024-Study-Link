@@ -10,8 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRegistrationDto {
-    private String username;
+    private String name;
     private String email;
     private String password;
     private String confirmPassword;
+    private String address;
+    private String postcode;
 }

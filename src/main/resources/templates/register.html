@@ -15,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
@@ -23,11 +23,12 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo" onclick="location.reload()">Studylink</div>
+            <div class="logo" id="logo">Studylink</div>
             <ul class="nav-links">
                 <li><a href="../main_page/index.html">Home</a></li>
                 <li class="dropdown">
@@ -57,11 +58,28 @@
         <input type="text" id="name" placeholder="Enter your name">
         <input type="password" id="password" placeholder="Enter your password">
         <input type="password" id="confirmPassword" placeholder="Confirm your password">
-
-        <!-- <input type="text" id="address" placeholder="Enter your address"> -->
+        <input type="text" id="postcode" placeholder="Enter your postcode" readonly>
+        <input type="text" id="address" placeholder="Enter your address" readonly>
+        <input type="text" id="detailAddress" placeholder="Enter your detailed address">
+        <button type="button" onclick="execDaumPostcode()">Find Address</button>
         <button id="register">Submit</button>
         <p id="message"></p>
+        <p id="passwordRequirements"></p> <!-- 비밀번호 요구사항을 표시할 영역 추가 -->
     </div>
     <script src="/js/register.js"></script>
+    <script>
+        document.getElementById('logo').addEventListener('click', function() {
+            window.location.href = '/';
+        });
+
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById('address').value = data.address;
+                }
+            }).open();
+        }
+    </script>
 </body>
 </html>

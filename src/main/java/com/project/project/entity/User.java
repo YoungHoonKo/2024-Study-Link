@@ -36,6 +36,12 @@ public class User{
     @Column(name = "address")
     private String address;
 
+    @Column(name = "postcode")
+    private String postcode;
+
+    @Column(name="status", nullable = false)
+    private String status;
+
     @Column(name = "profilePictureUrl", length = 255)
     private String profilePictureUrl;
 
