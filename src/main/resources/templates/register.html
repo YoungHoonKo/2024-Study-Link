@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
+
     <link rel="stylesheet" href="/css/register.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
@@ -22,6 +23,7 @@
     <link rel="manifest" href="/images/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+  
     <meta name="theme-color" content="#ffffff">
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </head>
@@ -66,10 +68,12 @@
         <p id="message"></p>
         <p id="passwordRequirements"></p> <!-- 비밀번호 요구사항을 표시할 영역 추가 -->
     </div>
+
     <script src="/js/register.js"></script>
     <script>
         document.getElementById('logo').addEventListener('click', function() {
             window.location.href = '/';
+
         });
 
         function execDaumPostcode() {

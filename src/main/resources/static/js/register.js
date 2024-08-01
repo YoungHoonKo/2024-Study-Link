@@ -1,3 +1,4 @@
+
 document.getElementById('register').addEventListener('click', function(event) {
     event.preventDefault(); // 폼이 기본적으로 제출되지 않도록 방지
 
@@ -168,5 +169,6 @@ document.getElementById('detailAddress').addEventListener('input', function(even
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('logo').addEventListener('click', function() {
         window.location.href = '/';
-    });
+=======
+
 });
