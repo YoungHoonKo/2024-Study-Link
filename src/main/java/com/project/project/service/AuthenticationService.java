@@ -18,14 +18,11 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager
+            PasswordEncoder passwordEncoder
     ){
-        this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -49,21 +46,13 @@ public class AuthenticationService {
         user.setBio(null);
         user.setSkill(null);
         user.setInterests(null);
+        user.setRole("ROLE_USER");
+        user.setAddress(null);
 
         return userRepository.save(user);
     }
 
-    public User authenticate(LoginUserDto input) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()
-                )
-        );
 
-        return userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new UserNotFoundException("사용자를 찾을 수 없습니다."));
-    }
 
     @Transactional
     public User updateUser(String email, UserUpdateDto userUpdateDto){

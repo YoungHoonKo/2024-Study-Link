@@ -17,4 +17,12 @@ public class ViewController {
     public String home(){
         return "index";
     }
+    @GetMapping("/start")
+    public String start(){
+        return "start";
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
 }

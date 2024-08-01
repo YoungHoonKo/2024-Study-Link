@@ -27,14 +27,13 @@ document.getElementById('register').addEventListener('click', function() {
     .then(response => response.json())
     .then(data => {
         const messageElement = document.getElementById('message');
-        if (data.email) {
+        if (data.email != null) {
             messageElement.textContent = 'Registration successful!';
             messageElement.style.color = 'green';
-            window.location.href = "/login"
+            window.location.href = "/"
         } else {
-            console.log(data)
             messageElement.textContent = 'Registration failed: ' + data.message;
-            window.location.href = "/login"
+            window.location.href = "/"
         }
     })
     .catch(error => {
