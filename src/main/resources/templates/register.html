@@ -4,30 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
-    <link rel="stylesheet" href="/css/register.css">
-    <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favicons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/images/favicons/manifest.json">
+    <link rel="stylesheet" href="register.css">
+    <link rel="shortcut-icon" type="image/x-icon" href="../imgs/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="../imgs/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../imgs/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../imgs/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../imgs/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../imgs/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../imgs/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../imgs/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../imgs/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../imgs/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../imgs/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../imgs/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../imgs/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../imgs/favicons/favicon-16x16.png">
+    <link rel="manifest" href="../imgs/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="../imgs/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo" onclick="location.reload()">Studylink</div>
+            <div class="logo" id="logo">Studylink</div>
             <ul class="nav-links">
                 <li><a href="../main_page/index.html">Home</a></li>
                 <li class="dropdown">
@@ -57,11 +58,28 @@
         <input type="text" id="name" placeholder="Enter your name">
         <input type="password" id="password" placeholder="Enter your password">
         <input type="password" id="confirmPassword" placeholder="Confirm your password">
-
-        <!-- <input type="text" id="address" placeholder="Enter your address"> -->
+        <input type="text" id="postcode" placeholder="Enter your postcode" readonly>
+        <input type="text" id="address" placeholder="Enter your address" readonly>
+        <input type="text" id="detailAddress" placeholder="Enter your detailed address">
+        <button type="button" onclick="execDaumPostcode()">Find Address</button>
         <button id="register">Submit</button>
         <p id="message"></p>
+        <p id="passwordRequirements"></p> <!-- 비밀번호 요구사항을 표시할 영역 추가 -->
     </div>
-    <script src="/js/register.js"></script>
+    <script src="register.js"></script>
+    <script>
+        document.getElementById('logo').addEventListener('click', function() {
+            window.location.href = '../main_page/index.html';
+        });
+
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById('address').value = data.address;
+                }
+            }).open();
+        }
+    </script>
 </body>
 </html>
