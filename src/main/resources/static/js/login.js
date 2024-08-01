@@ -1,36 +1,43 @@
-document.getElementById('submit').addEventListener('click', function() {
+document.getElementById('submit').addEventListener('click', function(event) {
+    event.preventDefault(); // 폼이 기본적으로 제출되지 않도록 방지
+
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+
+    const messageElement = document.getElementById('message');
+
+    if (!username || !password) {
+        messageElement.textContent = '아이디와 비밀번호를 입력하세요';
+        messageElement.style.color = 'red';
+        return;
+    }
 
     const loginData = {
         email: username,
         password: password
     };
 
-    fetch('/api/auth/login', {
+    fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(loginData)
     })
-        .then(response => response.json())
-        .then(data => {
-            const messageElement = document.getElementById('message');
-            if (data.token) {
-                messageElement.textContent = 'Login successful!';
-                messageElement.style.color = 'green';
-                localStorage.setItem('token', data.token); // JWT 토큰을 로컬 스토리지에 저장
-                window.location.href = "/test";
-            } else {
-                messageElement.textContent = 'Login failed: ' + data.message;
-                messageElement.style.color = 'red';
-            }
-        })
-        .catch(error => {
-            document.getElementById('message').textContent = '아이디와 비밀번호를 입력하세요';
-            document.getElementById('message').style.color = 'red';
-        });
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            messageElement.textContent = 'Login successful!';
+            messageElement.style.color = 'green';
+        } else {
+            messageElement.textContent = 'Login failed: 아이디와 비밀번호가 틀립니다.';
+            messageElement.style.color = 'red';
+        }
+    })
+    .catch(error => {
+        messageElement.textContent = '오류가 발생했습니다: ' + error.message;
+        messageElement.style.color = 'red';
+    });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -42,5 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdown.addEventListener('mouseleave', function() {
             this.querySelector('.dropdown-content').style.display = 'none';
         });
+    });
+
+    document.getElementById('logo').addEventListener('click', function() {
+        window.location.href = '/';
     });
 });
