@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        window.onload = function() {
+            // JWT 토큰을 포함한 요청을 서버로 보내서 리다이렉트 처리
+            fetch('/test', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('access')
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/test';
+                    } else {
+                        alert('Failed to redirect to /test');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        };
+    </script>
+</head>
+<body>
+<p>Redirecting to the test page...</p>
+</body>
+</html>
