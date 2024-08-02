@@ -31,8 +31,7 @@ document.getElementById('submit').addEventListener('click', function(event) {
             messageElement.textContent = 'Login successful!';
             messageElement.style.color = 'green';
             localStorage.setItem('access', accessToken);
-            console.log(localStorage.getItem('access'))
-            // window.location.href="/"
+            window.location.href="/"
         } else {
             messageElement.textContent = 'Login failed: 아이디와 비밀번호가 틀립니다.';
             messageElement.style.color = 'red';

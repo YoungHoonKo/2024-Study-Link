@@ -4,14 +4,26 @@ import com.project.project.dto.UserRegistrationDto;
 import com.project.project.exception.EmailAlreadyInUseException;
 import com.project.project.exception.PasswordMismatchException;
 import com.project.project.service.AuthenticationService;
+import com.project.project.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthenticationService authenticationService;
+    @Autowired
+    private JWTUtil jwtUtil;
 
     public AuthController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
@@ -31,6 +43,13 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/validate-token")
+    public ResponseEntity<HttpStatus> validateToken(@RequestBody String token){
+            return ResponseEntity.ok(HttpStatus.OK);
+        }
+
+
+
     static class ApiResponse {
         private boolean success;
         private String message;
@@ -47,5 +66,18 @@ public class AuthController {
         public String getMessage() {
             return message;
         }
+    }
+
+    @PostMapping("/check-role")
+    public Map<String, String> checkRole(@AuthenticationPrincipal UserDetails userDetails){
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        String roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(", "));
+
+        System.out.println("User roles: " + roles);
+        Map<String, String> response = new HashMap<>();
+        response.put("roles", roles);
+        return response;
     }
 }
