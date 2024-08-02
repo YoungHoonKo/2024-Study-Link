@@ -53,7 +53,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
+                .addFilterBefore(new JWTFilter(jwtUtil,refreshTokenRepository), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager, jwtUtil, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
                 .formLogin(form -> form.disable())
