@@ -1,5 +1,4 @@
-
-document.getElementById('register').addEventListener('click', function(event) {
+document.getElementById('register').addEventListener('click', function (event) {
     event.preventDefault(); // 폼이 기본적으로 제출되지 않도록 방지
 
     const email = document.getElementById('email');
@@ -67,7 +66,7 @@ document.getElementById('register').addEventListener('click', function(event) {
     } else if (!validateAddress(detailAddress.value)) {
         detailAddress.classList.add('error');
         detailAddress.value = '';
-        detailAddress.placeholder = 'Check your Adderss again';
+        detailAddress.placeholder = 'Check your Address again';
     }
 
     const messageElement = document.getElementById('message');
@@ -84,8 +83,8 @@ document.getElementById('register').addEventListener('click', function(event) {
         passwordRequirementsElement.innerHTML = '';
     } else {
         const registerData = {
-            email: email.value,
             name: name.value,
+            email: email.value,
             password: password.value,
             confirmPassword: confirmPassword.value,
             address: address.value + ' ' + detailAddress.value,
@@ -99,21 +98,28 @@ document.getElementById('register').addEventListener('click', function(event) {
             },
             body: JSON.stringify(registerData)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.email != null) {
-                messageElement.textContent = 'Registration successful!';
-                messageElement.style.color = 'green';
-                passwordRequirementsElement.innerHTML = '';
-            } else {
-                messageElement.textContent = 'Registration failed: ' + data.message;
+            .then(response => response.json().then(data => ({ status: response.status, data })))
+            .then(({ status, data }) => {
+                if (status === 201) {
+                    messageElement.textContent = '회원가입 성공!';
+                    messageElement.style.color = 'green';
+                    window.location.href = "/login"
+                } else if (status === 409) {
+                    messageElement.textContent = '회원가입 실패: 이미 사용 중인 이메일입니다.';
+                    messageElement.style.color = 'red';
+                } else if (status === 400) {
+                    messageElement.textContent = '회원가입 실패: ' + (data.message || '비밀번호가 일치하지 않습니다.');
+                    messageElement.style.color = 'red';
+                } else {
+                    messageElement.textContent = '회원가입 실패: 서버 오류가 발생했습니다.';
+                    messageElement.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                messageElement.textContent = 'An error occurred: ' + error.message;
                 messageElement.style.color = 'red';
-            }
-        })
-        .catch(error => {
-            messageElement.textContent = 'An error occurred: ' + error.message;
-            messageElement.style.color = 'red';
-        });
+            });
     }
 });
 
@@ -139,7 +145,7 @@ function validateAddress(address) {
 }
 
 // 주소 필드에서 숫자와 한국어만 입력되도록 제한
-document.getElementById('address').addEventListener('input', function(event) {
+document.getElementById('address').addEventListener('input', function (event) {
     const address = event.target.value;
     const filteredAddress = address.replace(/[^0-9가-힣\s]/g, '');
     const messageElement = document.getElementById('message');
@@ -153,9 +159,9 @@ document.getElementById('address').addEventListener('input', function(event) {
 });
 
 // 상세 주소 필드에서 숫자와 한국어만 입력되도록 제한
-document.getElementById('detailAddress').addEventListener('input', function(event) {
+document.getElementById('detailAddress').addEventListener('input', function (event) {
     const detailAddress = event.target.value;
-    const filteredDetailAddress = detailAddress.replace(/[/[^ㄱ-ㅎ가-힣0-9]]/g, '');
+    const filteredDetailAddress = detailAddress.replace(/[^0-9가-힣\s]/g, '');
     if (detailAddress !== filteredDetailAddress) {
         event.target.value = filteredDetailAddress;
         document.getElementById('message').innerHTML = '주소를 올바르게 입력하세요.';
@@ -166,9 +172,8 @@ document.getElementById('detailAddress').addEventListener('input', function(even
 });
 
 // 로고 클릭 시 페이지 이동
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('logo').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('logo').addEventListener('click', function () {
         window.location.href = '/';
-=======
-
+    })
 });

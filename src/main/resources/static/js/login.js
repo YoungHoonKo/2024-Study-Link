@@ -13,7 +13,7 @@ document.getElementById('submit').addEventListener('click', function(event) {
     }
 
     const loginData = {
-        email: username,
+        username: username,
         password: password
     };
 
@@ -24,11 +24,14 @@ document.getElementById('submit').addEventListener('click', function(event) {
         },
         body: JSON.stringify(loginData)
     })
-    .then(response => response.json())
+    .then(response => response)
     .then(data => {
-        if (data.success) {
+        console.log(data.headers)
+        if (data.ok) {
             messageElement.textContent = 'Login successful!';
             messageElement.style.color = 'green';
+            localStorage.setItem('access', data.headers.get("access"));
+            // window.location.href="/"
         } else {
             messageElement.textContent = 'Login failed: 아이디와 비밀번호가 틀립니다.';
             messageElement.style.color = 'red';

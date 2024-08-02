@@ -1,7 +1,6 @@
 package com.project.project.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.project.dto.CustomUserDetails;
 import com.project.project.entity.RefreshToken;
 import com.project.project.repository.RefreshTokenRepository;
 import jakarta.servlet.FilterChain;
@@ -65,7 +64,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-
+        System.out.println("role" + role);
         String access = jwtUtil.createJwt("access",username,role,60000L);
         String refresh = jwtUtil.createJwt("refresh",username,role,86400000L);
 
