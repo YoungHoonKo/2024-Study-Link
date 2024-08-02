@@ -71,8 +71,8 @@ public class ReissueController {
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", username, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh",username,role,86400000L);
+        String newAccess = jwtUtil.createAccessJwt("access", username, role);
+        String newRefresh = jwtUtil.createRefreshJwt("refresh",username,role);
 
         refreshTokenRepository.deleteByRefresh(refresh);
         addRefreshToken(username,newRefresh,86400000L);

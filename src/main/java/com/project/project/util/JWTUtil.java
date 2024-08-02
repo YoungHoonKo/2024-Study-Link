@@ -12,9 +12,15 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private final SecretKey secretKey;
+    private final Long accessExpirationTime;
+    private final Long refreshExpirationTime;
 
-    public JWTUtil(@Value("${jwt.secret}") String secret) {
+    public JWTUtil(@Value("${jwt.secret}") String secret,
+                   @Value("${jwt.access-expiration}") Long accessExpirationTime,
+                   @Value("${jwt.refresh-expiration}") Long refreshExpirationTime) {
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        this.accessExpirationTime = accessExpirationTime;
+        this.refreshExpirationTime = refreshExpirationTime;
     }
 
     public String getEmail(String token){
@@ -33,13 +39,23 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createJwt(String category,String email, String role, Long expiredMs){
+    public String createAccessJwt(String category,String email, String role){
         return Jwts.builder()
                 .claim("category",category)
                 .claim("email",email)
                 .claim("role",role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .expiration(new Date(System.currentTimeMillis() + accessExpirationTime))
+                .signWith(secretKey)
+                .compact();
+    }
+    public String createRefreshJwt(String category,String email, String role){
+        return Jwts.builder()
+                .claim("category",category)
+                .claim("email",email)
+                .claim("role",role)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + refreshExpirationTime))
                 .signWith(secretKey)
                 .compact();
     }
