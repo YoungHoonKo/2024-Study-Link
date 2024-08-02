@@ -7,6 +7,7 @@ import com.project.project.exception.EmailAlreadyInUseException;
 import com.project.project.exception.PasswordMismatchException;
 import com.project.project.exception.UserNotFoundException;
 import com.project.project.repository.UserRepository;
+import com.project.project.util.JWTUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,15 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final JWTUtil jwtUtil;
     public AuthenticationService(
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            JWTUtil jwtUtil
     ){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
     @Transactional
     public User signup(UserRegistrationDto userRegistrationDto){
@@ -81,4 +84,8 @@ public class AuthenticationService {
         }
         userRepository.deleteUserByEmail(email);
     }
+
+//    public Boolean vaildateToken(String token){
+//        return jwtUtil.isExpired(token);
+//    }
 }

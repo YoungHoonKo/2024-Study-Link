@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
             imageUrl: 'your-image-url3.jpg'
         }
     ];
+    const accessToken = localStorage.getItem("access");
+
 
     const galleryPreview = document.getElementById('galleryPreview');
     let currentIndex = 0;

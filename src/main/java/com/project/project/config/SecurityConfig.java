@@ -43,10 +43,10 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/start", "/", "/api/auth/login", "/api/auth/register", "/login",
-                                "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/test1").permitAll()
-                        .requestMatchers("/user/**", "/test").hasRole("USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/start", "/", "/api/auth/register","/login","/admin",
+                                "/register", "/css/**", "/js/**", "/images/**", "/reissue","/mypage").permitAll()
+                        .requestMatchers("/user/**","/api/auth/validate-token","/api/auth/check-role").hasRole("USER")
+                        .requestMatchers("/admin/**","/api/auth/check-role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
