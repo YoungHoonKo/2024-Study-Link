@@ -10,18 +10,13 @@ public class ViewController {
 
     @GetMapping("/login")
     public String login(Authentication authentication){
-        return "login";
-    }
-
-    @GetMapping("/")
-    public String home(){
-        return "index";
+        return "user/login";
     }
 
 
     @GetMapping("/register")
     public String register(){
-        return "register";
+        return "user/register";
     }
 
     @GetMapping("/start")
@@ -35,7 +30,7 @@ public class ViewController {
     }
     @GetMapping("/mypage")
     public String mypage(){
-        return "mypage";
+        return "user/mypage";
     }
     @GetMapping("/admin")
     public String admin(){
