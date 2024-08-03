@@ -26,12 +26,12 @@ document.getElementById('submit').addEventListener('click', function(event) {
     })
     .then(response => response)
     .then(data => {
-        console.log(data.headers)
         if (data.ok) {
+            const accessToken = data.headers.get("access");
             messageElement.textContent = 'Login successful!';
             messageElement.style.color = 'green';
-            localStorage.setItem('access', data.headers.get("access"));
-            // window.location.href="/"
+            localStorage.setItem('access', accessToken);
+            window.location.href="/"
         } else {
             messageElement.textContent = 'Login failed: 아이디와 비밀번호가 틀립니다.';
             messageElement.style.color = 'red';
