@@ -4,13 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -30,8 +25,11 @@ public class User{
     @Column(nullable = false, name = "password",length = 255)
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "user_role")
+    private String user_role;
+
+    @OneToOne(mappedBy = "user")
+    private Admin admin;
 
     @Column(name = "address")
     private String address;
@@ -59,4 +57,11 @@ public class User{
     @Column(name = "interest")
     private List<String> interests;
 
+
+    public String getRole(){
+        return (admin != null) ? "ROLE_ADMIN":"ROLE_USER";
+    }
+    public void setUserRole(){
+        this.user_role = getRole();
+    }
 }

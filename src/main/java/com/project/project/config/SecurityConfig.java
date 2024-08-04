@@ -1,6 +1,7 @@
 package com.project.project.config;
 
 import com.project.project.repository.RefreshTokenRepository;
+import com.project.project.repository.UserRepository;
 import com.project.project.util.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager, UserRepository userRepository) throws Exception {
         http
                 .httpBasic(basic -> basic.disable())
                 .csrf(csrf -> csrf.disable())
@@ -53,7 +54,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-                .addFilterBefore(new JWTFilter(jwtUtil,refreshTokenRepository), LoginFilter.class)
+                .addFilterBefore(new JWTFilter(jwtUtil,refreshTokenRepository,userRepository), LoginFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager, jwtUtil, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
                 .formLogin(form -> form.disable())

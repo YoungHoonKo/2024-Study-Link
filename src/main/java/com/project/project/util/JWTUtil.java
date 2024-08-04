@@ -12,50 +12,51 @@ import java.util.Date;
 @Component
 public class JWTUtil {
     private final SecretKey secretKey;
-    private final Long accessExpirationTime;
-    private final Long refreshExpirationTime;
+    private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
     public JWTUtil(@Value("${jwt.secret}") String secret,
-                   @Value("${jwt.access-expiration}") Long accessExpirationTime,
-                   @Value("${jwt.refresh-expiration}") Long refreshExpirationTime) {
+                   @Value("${jwt.accessTokenExpiration}") Long accessTokenExpiration,
+                   @Value("${jwt.refreshTokenExpiration}") Long refreshTokenExpiration
+    ) {
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
-        this.accessExpirationTime = accessExpirationTime;
-        this.refreshExpirationTime = refreshExpirationTime;
+        this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
-    public String getEmail(String token){
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("email",String.class);
+    public String getEmail(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("email", String.class);
     }
 
-    public String getRole(String token){
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role",String.class);
+    public String getRole(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
 
-    public String getCategory(String token){
+    public String getCategory(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category", String.class);
     }
 
-    public Boolean isExpired(String token){
+    public Boolean isExpired(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    public String createAccessJwt(String category,String email, String role){
+    public String createAccessJwt(String email, String role) {
         return Jwts.builder()
-                .claim("category",category)
-                .claim("email",email)
-                .claim("role",role)
+                .claim("category", "access")
+                .claim("email", email)
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + accessExpirationTime))
+                .expiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
                 .signWith(secretKey)
                 .compact();
     }
-    public String createRefreshJwt(String category,String email, String role){
+    public String createRefreshJwt(String email, String role) {
         return Jwts.builder()
-                .claim("category",category)
-                .claim("email",email)
-                .claim("role",role)
+                .claim("category", "refresh")
+                .claim("email", email)
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + refreshExpirationTime))
+                .expiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .signWith(secretKey)
                 .compact();
     }

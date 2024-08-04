@@ -49,9 +49,9 @@ public class AuthenticationService {
         user.setSkill(null);
         user.setStatus("ACTIVE");
         user.setInterests(null);
-        user.setRole("ROLE_USER");
         user.setAddress(userRegistrationDto.getAddress());
         user.setPostcode(userRegistrationDto.getPostcode());
+        user.setUserRole();
         return userRepository.save(user);
     }
 
