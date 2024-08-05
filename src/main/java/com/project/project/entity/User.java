@@ -25,8 +25,8 @@ public class User{
     @Column(nullable = false, name = "password",length = 255)
     private String password;
 
-    @Column(name = "user_role")
-    private String user_role;
+    @Column(name = "role")
+    private String role;
 
     @OneToOne(mappedBy = "user")
     private Admin admin;
@@ -62,6 +62,6 @@ public class User{
         return (admin != null) ? "ROLE_ADMIN":"ROLE_USER";
     }
     public void setUserRole(){
-        this.user_role = getRole();
+        this.role = getRole();
     }
 }

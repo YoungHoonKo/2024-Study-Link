@@ -116,7 +116,7 @@ public class JWTFilter extends OncePerRequestFilter {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             user.setEmail(username);
-            user.setUser_role(jwtUtil.getRole(accessToken));
+            user.setRole(jwtUtil.getRole(accessToken));
             CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
             Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
