@@ -5,12 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/Admin")
+@RequestMapping("/admin")
 @Controller
 public class AdminController {
 
-    @GetMapping("/admin/member")
+    @GetMapping("/member")
     public String admin_member(Model model) {
-        return "user_list";
+        return "Admin/user_list";
     }
 }

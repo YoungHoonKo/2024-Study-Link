@@ -1,4 +1,4 @@
-package com.project.project.repository.custom;
+//package com.project.project.repository.custom;
 
-public class AdminRepositoryCustomImpl implements AdminRepositoryCustom {
-}
+//public class AdminRepositoryCustomImpl implements AdminRepositoryCustom {
+//}
