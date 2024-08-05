@@ -11,7 +11,16 @@ public class AdminMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/resources/**")
+                .addResourceLocations("classpath:/resources/static");
                 ;
     }
+
+    public static class Resources {
+        private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+                "classpath:/META-INF/resources/", "classpath:/resources/","classpath:/static/","classpath:/public/"
+        };
+        private String[] staticLocations = CLASSPATH_RESOURCE_LOCATIONS;
+    }
+
 
 }
