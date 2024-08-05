@@ -2,11 +2,9 @@ package com.project.project;
 
 import com.project.project.entity.User;
 import com.project.project.repository.AdminRepository;
-import com.project.project.repository.AdminRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
