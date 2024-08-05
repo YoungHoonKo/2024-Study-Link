@@ -18,7 +18,5 @@ public class AdminTest {
     //리포지토리 _ findbyuserrole 테스트
     @Test
     public void test_repository_role() {
-
-        for(User user : resultList)
     }
 }
