@@ -1,18 +1,15 @@
 package com.project.project.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Admin {
 
     @Id
@@ -26,4 +23,10 @@ public class Admin {
 
     @Column(name="pass_word", nullable = false)
     private String password;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    //getter setter
 }
