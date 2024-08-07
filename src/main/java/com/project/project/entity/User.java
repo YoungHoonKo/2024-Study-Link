@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -25,11 +25,8 @@ public class User{
     @Column(nullable = false, name = "password",length = 255)
     private String password;
 
-    @Column(name = "user_role")
-    private String user_role;
-
-    @OneToOne(mappedBy = "user")
-    private Admin admin;
+    @Column(name = "role")
+    private String Role;
 
     @Column(name = "address")
     private String address;
@@ -47,6 +44,7 @@ public class User{
     @Column(name = "bio", columnDefinition = "TEXT")
     private String bio;
 
+    //user_skills, user_interest
     @ElementCollection
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "skill")
@@ -58,10 +56,8 @@ public class User{
     private List<String> interests;
 
 
-    public String getRole(){
-        return (admin != null) ? "ROLE_ADMIN":"ROLE_USER";
-    }
-    public void setUserRole(){
-        this.user_role = getRole();
-    }
+    //user이랑 연관관계 설정
+    @OneToOne(mappedBy = "user")
+    private Admin admin;
+
 }
