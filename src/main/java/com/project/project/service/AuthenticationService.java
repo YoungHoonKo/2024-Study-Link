@@ -85,7 +85,4 @@ public class AuthenticationService {
         userRepository.deleteUserByEmail(email);
     }
 
-//    public Boolean vaildateToken(String token){
-//        return jwtUtil.isExpired(token);
-//    }
 }

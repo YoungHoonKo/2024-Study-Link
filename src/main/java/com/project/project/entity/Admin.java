@@ -14,10 +14,10 @@ public class Admin {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="email", unique = true, nullable = false)
-    private String email;
+    @Column(name="user_name", unique = true, nullable = false)
+    private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "pass_word", nullable = false)
     private String password;
 
     @OneToOne
