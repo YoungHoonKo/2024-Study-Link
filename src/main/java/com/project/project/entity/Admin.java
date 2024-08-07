@@ -13,6 +13,7 @@ import lombok.*;
 public class Admin {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name ="username", unique = true, nullable = false)
