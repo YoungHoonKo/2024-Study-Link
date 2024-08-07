@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
 
+    //admin 저장
     Admin save(Admin admin);
-    Optional<Admin> findByName(String name);
     Optional<Admin> findById(Long id);
     List<Admin> findAll();
 }
