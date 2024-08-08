@@ -1,0 +1,72 @@
+<!--상위 관리자의 관리자 계정 관리 페이지 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 계정 관리</title>
+    <link rel="stylesheet" href="/css/Admin/adminList.css">
+</head>
+<body>
+<div class="admin-management">
+    <h1>관리자 계정 관리</h1>
+    <button onclick="showAddAdminModal()">관리자 추가</button>
+    <table>
+        <thead>
+        <tr>
+            <th>관리자 이름</th>
+            <th>이메일</th>
+            <th>권한</th>
+            <th>조작</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 관리자 목록이 동적으로 로드됨 -->
+        <!-- 예시 데이터 -->
+        <tr>
+            <td>홍길동</td>
+            <td>hong@example.com</td>
+            <td>슈퍼 관리자</td>
+            <td>
+                <button onclick="editAdmin('홍길동')">수정</button>
+                <button onclick="deleteAdmin('홍길동')">삭제</button>
+            </td>
+        </tr>
+        <tr>
+            <td>김철수</td>
+            <td>kim@example.com</td>
+            <td>관리자</td>
+            <td>
+                <button onclick="editAdmin('김철수')">수정</button>
+                <button onclick="deleteAdmin('김철수')">삭제</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 관리자 추가 모달 -->
+<div id="addAdminModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddAdminModal()">&times;</span>
+        <h2>관리자 추가</h2>
+        <form id="addAdminForm">
+            <label for="adminName">이름:</label>
+            <input type="text" id="adminName" name="adminName" required>
+            <label for="adminEmail">이메일:</label>
+            <input type="email" id="adminEmail" name="adminEmail" required>
+            <label for="adminRole">권한:</label>
+            <select id="adminRole" name="adminRole">
+                <option value="super-admin">슈퍼 관리자</option>
+                <option value="admin">관리자</option>
+            </select>
+            <button type="submit">추가</button>
+        </form>
+    </div>
+</div>
+<!--<script src="/js/Admin/admin_board.js">
+ -->
+<script src="/js/Admin/admin_list.js">
+</script>
+</body>
+</html>

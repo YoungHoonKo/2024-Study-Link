@@ -2,8 +2,10 @@ package com.project.project.controller;
 
 
 import com.project.project.dto.BoardDTO;
+import com.project.project.entity.Admin;
 import com.project.project.entity.User;
 import com.project.project.repository.UserRepository;
+import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class AdminController {
     UserRepository userRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    AdminService adminService;
+
 //member-list
     @GetMapping("/member")
     public String admin_member(Model model) {
@@ -38,5 +43,12 @@ public class AdminController {
         List<BoardDTO> boards = boardService.findAll();
         model.addAttribute("boards", boards);
         return "/Admin/board_list";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        List<Admin> admin = adminService.findAll();
+        model.addAttribute("admin", admin);
+        return "/Admin/admin_list";
     }
 }

@@ -29,5 +29,7 @@ public class Admin {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //getter setter
+    @Column(name ="admin_role")
+    private String adminRole;
+
 }
