@@ -30,6 +30,6 @@ public class Admin {
     private User user;
 
     @Column(name ="admin_role")
-    private String adminRole;
+    private String Role;
 
 }
