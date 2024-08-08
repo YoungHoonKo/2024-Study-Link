@@ -12,23 +12,28 @@
     <thead>
     <tr>
         <th>아이디</th>
-        <th>사용자 이름</th>
-        <th>이메일</th>
-        <th>역할</th>
+        <th>작성자</th>
+        <th>비밀번호</th>
+        <th>제목</th>
+        <th>내용</th>
+        <th>조회수</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="User : ${users}">
-        <td th:text="${users.id}">1</td>
-        <td th:text="${users.username}">홍길동</td>
-        <td th:text="${users.email}">example@example.com</td>
-        <td th:text="${users.Role}">USER</td>
-        <td th:text="${users.status}">ACTIVE</td>
-
+    <!-- th:each를 사용하여 boards 리스트의 각 BoardDTO 객체를 반복 -->
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.id}">1</td>
+        <td th:text="${board.boardWriter}">홍길동</td>
+        <td th:text="${board.boardPass}">example@example.com</td>
+        <td th:text="${board.boardTitle}">게시글 제목</td>
+        <td th:text="${board.boardContents}">게시글 내용</td>
+        <td th:text="${board.boardHits}">123</td>
     </tr>
     </tbody>
 </table>
 
-<script src="/js/Admin/admin_board.js"></script>
+<script src="/js/Admin/admin_board.js">
+</script>
 </body>
+
 </html>

@@ -11,24 +11,23 @@
 <table>
     <thead>
     <tr>
-        <th>아이디</th>
-        <th>사용자 이름</th>
-        <th>이메일</th>
-        <th>역할</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="User : ${users}">
-        <td th:text="${users.id}">1</td>
-        <td th:text="${users.username}">홍길동</td>
-        <td th:text="${users.email}">example@example.com</td>
-        <td th:text="${users.Role}">USER</td>
-        <td th:text="${users.status}">ACTIVE</td>
-
+    <!-- th:each를 사용하여 users 리스트의 각 User 객체를 반복 -->
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.username}">Jane Doe</td>
+        <td th:text="${user.password}">Jane Doe</td>
+        <td th:text="${user.status}">Jane Doe</td>
+        <td th:text="${user.role}">Jane Doe</td>
+        <td th:text="${user.email}">john.doe@example.com</td>
     </tr>
     </tbody>
 </table>
-
 <script src="/js/Admin/admin_member.js"></script>
 </body>
 </html>
