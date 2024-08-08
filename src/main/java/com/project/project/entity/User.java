@@ -60,4 +60,10 @@ public class User{
     @OneToOne(mappedBy = "user")
     private Admin admin;
 
+    @OneToOne
+    private UserSkill userSkills;
+
+    @OneToOne
+    private UserInterest userInterest;
+
 }
