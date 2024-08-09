@@ -51,7 +51,7 @@ public class AuthenticationService {
         user.setInterests(null);
         user.setAddress(userRegistrationDto.getAddress());
         user.setPostcode(userRegistrationDto.getPostcode());
-        user.setUserRole();
+        user.SetUserRole("ROLE_USER");
         return userRepository.save(user);
     }
 

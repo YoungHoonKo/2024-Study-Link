@@ -61,9 +61,13 @@ public class User{
     @Column(name = "interest")
     private List<String> interests;
 
-    //user이랑 연관관계 설정
-    @OneToOne(mappedBy = "user")
-    private Admin admin;
 
+    public void SetUserRole(String role){
+        this.Role = role;
+    }
+
+    public String getUserRole(){
+        return this.Role;
+    }
 
 }
