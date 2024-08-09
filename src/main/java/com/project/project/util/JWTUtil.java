@@ -54,7 +54,8 @@ public class JWTUtil {
         }catch (MalformedJwtException e){
             log.error("Invalid JWT token.");
         }catch (ExpiredJwtException e){
-            log.error("Expireed JWT token.");
+            log.error("Expireed JWT token.",e);
+            throw e;
         }catch (UnsupportedJwtException e){
             log.error("Unsupported JWT token");
         }catch (IllegalArgumentException e){
@@ -97,7 +98,6 @@ public class JWTUtil {
 
     public String createAccessJwt(String email, String role) {
         return Jwts.builder()
-                .claim("category", "access")
                 .claim("email", email)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -107,7 +107,6 @@ public class JWTUtil {
     }
     public String createRefreshJwt(String email, String role) {
         String refreshToken = Jwts.builder()
-                .claim("category", "refresh")
                 .claim("email", email)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -117,7 +116,6 @@ public class JWTUtil {
 
         UserRefreshToken userRefreshToken = new UserRefreshToken(email,refreshToken,refreshTokenExpiration);
         userRefreshTokenRepository.save(userRefreshToken);
-        log.info("refreshtiem");
         return refreshToken;
     }
 }

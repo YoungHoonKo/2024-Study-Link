@@ -1,6 +1,7 @@
 package com.project.project.util;
 
 import com.project.project.repository.BlackListRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,11 +33,22 @@ public class JWTFilter extends OncePerRequestFilter {
                     log.info("Save authentication in SecurityContextHolder.");
                 }
             }
-        }catch (Exception e){
+        }catch (ExpiredJwtException e){
+            log.warn("Access token expired: {}", accessToken);
             SecurityContextHolder.clearContext();
+        }catch (Exception e){
+            log.error("An error occurred during token processing", e);
+            SecurityContextHolder.clearContext();
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "An error occurred during token processing");
+            return;
         }
 
         filterChain.doFilter(request,response);
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request){
+        String path = request.getRequestURI();
+        return path.startsWith("/api/auth/**");
+    }
 }
