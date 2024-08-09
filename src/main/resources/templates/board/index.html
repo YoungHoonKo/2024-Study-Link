@@ -6,15 +6,19 @@
 </head>
 <body>
 <button onclick="saveReq()">글작성</button>
-<a href="/Board/save">글작성(링크)</a> <!-- 경로 수정 -->
+<a href="/board/save">글작성(링크)</a> <!-- 경로 수정 -->
 <button onclick="listReq()">글목록</button>
+<button onclick="pagingReq()">페이징 목록</button>
 </body>
 <script>
     const saveReq = () => {
-        location.href = "/Board/save"; // 경로 수정
+        location.href = "/board/save";
     }
     const listReq = () => {
-        location.href = "/Board/"; // 경로 수정
+        location.href = "/board/";
+    }
+    const pagingReq = () => {
+        location.href = "/board/paging";
     }
 </script>
 </html>

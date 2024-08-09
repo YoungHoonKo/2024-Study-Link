@@ -15,7 +15,7 @@
     </tr>
     <tr th:each="board : ${boardList}">
         <td th:text="${board.id}"></td>
-        <td><a th:href="@{|/Board/${board.id}|}" th:text="${board.boardTitle}"></a></td> <!-- 경로 수정 -->
+        <td><a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.boardTitle}"></a></td> <!-- 경로 수정 -->
         <td th:text="${board.boardWriter}"></td>
         <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${board.boardHits}"></td>
