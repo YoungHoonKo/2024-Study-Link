@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 목록</title>
-   <link rel="stylesheet" href="/css/Admin/memberList.css">
+    <link rel="stylesheet" href="/css/Admin/memberList.css">
 </head>
 <body>
 <h1>회원 목록</h1>
@@ -17,6 +17,7 @@
         <th>Status</th>
         <th>Role</th>
         <th>Email</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -25,9 +26,24 @@
         <td th:text="${user.id}">1</td>
         <td th:text="${user.username}">Jane Doe</td>
         <td th:text="${user.password}">Jane Doe</td>
-        <td th:text="${user.status}">Jane Doe</td>
-        <td th:text="${user.role}">Jane Doe</td>
+        <td>
+            <select th:id="'status_' + ${user.id}" th:name="'status_' + ${user.id}" th:value="${user.status}">
+                <option value="active" th:selected="${user.status == 'active'}">Active</option>
+                <option value="inactive" th:selected="${user.status == 'inactive'}">Inactive</option>
+                <option value="banned" th:selected="${user.status == 'banned'}">Banned</option>
+            </select>
+        </td>
+        <td>
+            <select th:id="'role_' + ${user.id}" th:name="'role_' + ${user.id}" th:value="${user.role}">
+                <option value="user" th:selected="${user.role == 'user'}">User</option>
+                <option value="admin" th:selected="${user.role == 'admin'}">Admin</option>
+                <option value="moderator" th:selected="${user.role == 'moderator'}">Moderator</option>
+            </select>
+        </td>
         <td th:text="${user.email}">john.doe@example.com</td>
+        <td>
+            <button type="button" th:id="'save_' + ${user.id}" onclick="saveChanges(${user.id})">Save</button>
+        </td>
     </tr>
     </tbody>
 </table>

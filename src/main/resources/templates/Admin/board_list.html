@@ -17,6 +17,7 @@
         <th>제목</th>
         <th>내용</th>
         <th>조회수</th>
+        <th>게시물 상태</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,14 @@
         <td th:text="${board.boardTitle}">게시글 제목</td>
         <td th:text="${board.boardContents}">게시글 내용</td>
         <td th:text="${board.boardHits}">123</td>
+        <td>
+            <label>
+            <select th:id="'status_' + ${board.id}" th:name="'status_'+ ${board.id}" th:value="${board.status}">
+                <option value="active" th:selected="${board.status == 'active'}">Active</option>
+                <option value="active" th:selected="${board.status == 'active'}">Banned</option>
+            </select>
+            </label>
+        </td>
     </tr>
     </tbody>
 </table>

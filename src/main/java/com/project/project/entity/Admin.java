@@ -29,6 +29,9 @@ public class Admin {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name="status")
+    private String status;
+
     @Column(name ="admin_role")
     private String Role;
 

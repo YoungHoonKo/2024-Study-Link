@@ -17,29 +17,17 @@
             <th>관리자 이름</th>
             <th>이메일</th>
             <th>권한</th>
-            <th>조작</th>
+            <th>비밀번호</th>
         </tr>
         </thead>
         <tbody>
-        <!-- 관리자 목록이 동적으로 로드됨 -->
-        <!-- 예시 데이터 -->
-        <tr>
-            <td>홍길동</td>
-            <td>hong@example.com</td>
-            <td>슈퍼 관리자</td>
-            <td>
-                <button onclick="editAdmin('홍길동')">수정</button>
-                <button onclick="deleteAdmin('홍길동')">삭제</button>
-            </td>
-        </tr>
-        <tr>
-            <td>김철수</td>
-            <td>kim@example.com</td>
-            <td>관리자</td>
-            <td>
-                <button onclick="editAdmin('김철수')">수정</button>
-                <button onclick="deleteAdmin('김철수')">삭제</button>
-            </td>
+        <tr th:each="admin : ${admin}">
+            <td th:text ="${admin.id}">1</td>
+            <td th:text="${admin.username}">홍길동</td>
+            <td th:text="${admin.email}">홍길동</td>
+            <td th:text="${admin.password}">홍길동</td>
+            <td th:text="${admin.Role}">홍길동</td>
+            <td th:text="${admin.status}">active</td>
         </tr>
         </tbody>
     </table>
