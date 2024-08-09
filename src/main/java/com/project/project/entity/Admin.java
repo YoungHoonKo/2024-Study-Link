@@ -25,6 +25,12 @@ public class Admin {
     @Column(name="pass_word", nullable = false)
     private String password;
 
+    @Column(name="user_name", unique = true, nullable = false)
+    private String username;
+
+    @Column(name = "pass_word", nullable = false)
+    private String password;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
