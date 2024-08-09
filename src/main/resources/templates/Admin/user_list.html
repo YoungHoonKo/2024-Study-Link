@@ -24,7 +24,8 @@
     <!-- th:each를 사용하여 users 리스트의 각 User 객체를 반복 -->
     <tr th:each="user : ${users}">
         <td th:text="${user.id}">1</td>
-        <td th:text="${user.username}">Jane Doe</td>
+        <!-- 이름을 클릭하면 모달 창이 열리도록 링크를 추가 -->
+        <td><a href="javascript:void(0);" th:text="${user.username}" onclick="openModal('${user.username}', '${user.email}')"></a></td>
         <td th:text="${user.password}">Jane Doe</td>
         <td>
             <select th:id="'status_' + ${user.id}" th:name="'status_' + ${user.id}" th:value="${user.status}">
@@ -46,7 +47,17 @@
         </td>
     </tr>
     </tbody>
+    <!-- FIXME 모달창 안뜨는문제-->
 </table>
+
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>회원 정보</h2>
+        <p id="modalUsername"></p>
+        <p id="modalEmail"></p>
+    </div>
+</div>
 <script src="/js/Admin/admin_member.js"></script>
 </body>
 </html>
