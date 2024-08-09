@@ -1,18 +1,29 @@
 package com.project.project.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "admin")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Admin {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name ="username", unique = true, nullable = false)
+    private String username;
+
+    @Column(name ="email", unique = true, nullable = false)
+    private String email;
+
+    @Column(name="pass_word", nullable = false)
+    private String password;
 
     @Column(name="user_name", unique = true, nullable = false)
     private String username;
@@ -21,6 +32,8 @@ public class Admin {
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    //getter setter
 }
