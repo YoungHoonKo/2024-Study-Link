@@ -34,5 +34,6 @@ public class Admin {
 
     @Column(name ="admin_role")
     private String Role;
+    //upper - lower 으로 두개 구분할 예정
 
 }
