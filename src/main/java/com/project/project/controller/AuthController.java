@@ -10,6 +10,7 @@ import com.project.project.util.JWTUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final AuthenticationService authenticationService;
     private final JWTUtil jwtUtil;
@@ -63,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/validate-token")
-    public ResponseEntity<HttpStatus> validateToken(@RequestBody String token){
+    public ResponseEntity<HttpStatus> validateToken(){
             return ResponseEntity.ok(HttpStatus.OK);
         }
 

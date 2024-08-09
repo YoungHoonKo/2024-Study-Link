@@ -25,59 +25,44 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo" onclick="location.reload()">Studylink</div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li class="dropdown">
-                    <a href="#">Menu</a>
-                    <ul class="dropdown-content">
-                        <li><a href="#">게시판</a></li>
-                        <li><a href="#">test</a></li>
-                        <li><a href="#">메뉴3</a></li>
-                    </ul>
-                </li>
-                <li><a href="/about">About</a></li>
-                <li class="dropdown">
-                    <a href="#">Profile</a>
-                    <ul class="dropdown-content">
-                        <li><a href="/login">로그인</a></li>
-                        <li><a href="/register">회원가입</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="hero">
-            <h1>Join the best projects in the world</h1>
-            <p>Explore, Create, and Inspire with Studylink</p>
-            <!-- <button id="getStarted">Get Started</button> -->
-            <button type="button" onclick="location.href='/start'">Get Started</button>
-        </section>
-        <!-- <section class="gallery-preview" id="galleryPreview"> -->
-            <!-- Gallery items will be loaded here dynamically -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 Studylink. All rights reserved.</p>
-        <ul class="social-links">
-            <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
-            <li><a href="https://www.instagram.com/">Instagram</a></li>
-            <!-- <li><a href="mailto:smilegyh@gmail.com?subject=Studylink 문의 사항입니다.?body=메일 내용을 %0D%0A이렇게 씁니다!">Mail</a></li> -->
+<header>
+    <nav>
+        <div class="logo" onclick="location.reload()">Studylink</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li class="dropdown">
+                <a href="#">Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="#">게시판</a></li>
+                    <li><a href="#">test</a></li>
+                    <li><a href="#">메뉴3</a></li>
+                </ul>
+            </li>
+            <li><a href="/about">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                </ul>
+            </li>
         </ul>
-    </footer>
+    </nav>
+</header>
+<main>
+    <section class="hero">
+        <h1>Join the best projects in the world</h1>
+        <p>Explore, Create, and Inspire with Studylink</p>
+        <button type="button" onclick="location.href='/start'">Get Started</button>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 Studylink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
 
-    <!-- Modal for displaying more information -->
-    <!-- <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close-button" id="closeButton">&times;</span>
-            <h2 id="modalTitle">Art Title</h2>
-            <p id="modalDescription">Art Description</p>
-        </div>
-    </div> -->
-
-    <script src="/js/index.js"></script>
+<script src="/js/index.js"></script>
 </body>
 </html>

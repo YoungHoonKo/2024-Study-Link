@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (accessToken) {
         // 로그인 상태이면 /로 리다이렉트
         fetch('/api/auth/validate-token', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'access': accessToken
             }
