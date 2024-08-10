@@ -1,24 +1,25 @@
 plugins {
-	java
-	id("org.springframework.boot") version "3.3.2"
-	id("io.spring.dependency-management") version "1.1.6"
-	kotlin("jvm") version "2.0.0"
+java
+id("org.springframework.boot") version "3.3.2"
+id("io.spring.dependency-management") version "1.1.6"
+kotlin("jvm") version "2.0.0"
 }
 
 group = "com.project"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+toolchain {
+languageVersion = JavaLanguageVersion.of(17)
+}
 }
 
 repositories {
-	mavenCentral()
+mavenCentral()
 }
 
 dependencies {
+
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -44,10 +45,10 @@ dependencies {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+useJUnitPlatform()
 }
 
 springBoot {
-	mainClass = "com.project.project.ProjectApplication"
+mainClass = "com.project.project.ProjectApplication"
 }
 

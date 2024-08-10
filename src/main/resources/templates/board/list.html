@@ -7,16 +7,15 @@
 <body>
 <table>
     <tr>
-        <th>id</th>x
+        <th>id</th>
         <th>title</th>
         <th>writer</th>
         <th>date</th>
         <th>hits</th>
     </tr>
-    <tr th:each="board: ${boardList}">
+    <tr th:each="board : ${boardList}">
         <td th:text="${board.id}"></td>
-        <td><a th:href="@{|/board/${board.id}|}" th:text="${board.boardTitle}"></a></td>
-<!--        <td><a th:href="@{/board/${board.id}}" th:text="${board.boardTitle}"></a></td>-->   <!-- || 타임리프 문법. 안쓰면 경로가 똑바르지 않음-->
+        <td><a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.boardTitle}"></a></td> <!-- 경로 수정 -->
         <td th:text="${board.boardWriter}"></td>
         <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${board.boardHits}"></td>

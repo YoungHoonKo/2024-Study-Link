@@ -5,7 +5,7 @@
     <title>update</title>
 </head>
 <body>
-<form action="/board/update" method="post" name="updateForm">
+<form action="/Board/update" method="post" name="updateForm"> <!-- 경로 수정 -->
     <input type="hidden" name="id" th:value="${boardUpdate.id}">
     writer: <input type="text" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly><!--readonly : 사용자가 입력은 못하지만 정보는 볼 수 있음--> <br>
     pass: <input type="text" name="boardPass" id="boardPass"> <br>
@@ -26,3 +26,4 @@
     }
 </script>
 </body>
+</html>
