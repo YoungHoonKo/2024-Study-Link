@@ -1,7 +1,10 @@
 package com.project.project.config;
 
-import com.project.project.repository.RefreshTokenRepository;
+import com.project.project.repository.BlackListRepository;
+import com.project.project.repository.UserRepository;
+import com.project.project.service.LogoutService;
 import com.project.project.util.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,28 +12,21 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JWTUtil jwtUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final BlackListRepository blackListRepository;
 
-    public SecurityConfig(JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository,
-                          CustomAccessDeniedHandler customAccessDeniedHandler,
-                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
-        this.jwtUtil = jwtUtil;
-        this.refreshTokenRepository = refreshTokenRepository;
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
-        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -38,7 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager, UserRepository userRepository, LogoutService logoutService) throws Exception {
         http
                 .httpBasic(basic -> basic.disable())
                 .csrf(csrf -> csrf.disable())
@@ -48,18 +44,20 @@ public class SecurityConfig {
                         .requestMatchers("/start", "/", "/api/auth/register","/login","/admin/**",
                                 "/register", "/css/**", "/js/**", "/images/**", "/reissue","/mypage").permitAll()
                         .requestMatchers("/user/**","/api/auth/validate-token","/api/auth/check-role").hasRole("USER")
-                        .requestMatchers("/admin/**","/api/auth/check-role").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/check-role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                 )
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager, jwtUtil, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
+                .addFilterBefore(new JWTFilter(jwtUtil,blackListRepository), LoginFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager, jwtUtil), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(form -> form.disable())
-                .logout(logout -> logout.permitAll())
+                .logout(logout ->
+                        logout.logoutUrl("/logout")
+                                .addLogoutHandler(logoutService)
+                                .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();

@@ -22,12 +22,19 @@ public class Admin {
     @Column(name ="email", unique = true, nullable = false)
     private String email;
 
-    @Column(name="pass_word", nullable = false)
+
+    @Column(name = "pass_word", nullable = false)
     private String password;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    //getter setter
+    @Column(name="status")
+    private String status;
+
+    @Column(name ="admin_role")
+    private String Role;
+    //upper - lower 으로 두개 구분할 예정
+
 }

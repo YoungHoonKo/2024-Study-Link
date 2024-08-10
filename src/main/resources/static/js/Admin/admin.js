@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'access': token  // JWT 토큰을 Authorization 헤더에 추가합니다.
+                    'access': token  // JWT 토큰을 헤더에 추가합니다.
                 }
             });
-            console.log(response)
+
             if (response.ok) {
                 const data = await response.text();
                 return data;  // role 값을 반환합니다.
@@ -30,12 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const adminTitle = document.getElementById('admin-title');
         const adminContent = document.getElementById('admin-content');
         const accessDenied = document.getElementById('access-denied');
+        const memberList = document.getElementById('member_list');
 
         if (role && role.includes('ROLE_USER')) {
-            adminTitle.textContent = 'Admin Page';
+            adminTitle.textContent = '관리자 페이지에 오신 것을 환영합니다';
             adminContent.style.display = 'block';
+            memberList.style.display = 'block'; // 권한이 확인되면 버튼들이 보이도록 설정
         } else {
-            adminTitle.textContent = 'Access Denied';
+            adminTitle.textContent = '접근 불가';
             accessDenied.style.display = 'block';
         }
     }

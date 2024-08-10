@@ -16,7 +16,7 @@ public class User{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,name = "username",length = 20)
+    @Column(nullable = false,name = "username",length = 20,unique = true)
     private String username;
 
     @Column(nullable = false,name = "email", unique = true, length = 50)
@@ -27,6 +27,11 @@ public class User{
 
     @Column(name = "role")
     private String Role;
+
+    @OneToOne(mappedBy = "user")
+    private Admin admin;
+
+
 
     @Column(name = "address")
     private String address;
@@ -56,8 +61,18 @@ public class User{
     private List<String> interests;
 
 
-    //user이랑 연관관계 설정
-    @OneToOne(mappedBy = "user")
-    private Admin admin;
+    public void SetUserRole(String role){
+        this.Role = role;
+    }
+
+    public String getUserRole(){
+        return this.Role;
+    }
+
+    @OneToOne
+    private UserSkill userSkills;
+
+    @OneToOne
+    private UserInterest userInterest;
 
 }

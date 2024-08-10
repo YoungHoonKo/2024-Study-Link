@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Token is valid");
         } else {
             console.log("Token is invalid. Redirecting...");
-            window.location.href = "/";
+            // window.location.href = "/";
         }
     }
 

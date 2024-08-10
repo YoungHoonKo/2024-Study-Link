@@ -1,0 +1,86 @@
+/* 기본 페이지 스타일 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3e5f5; /* 연한 보라색 배경 */
+    color: #4a148c; /* 진한 보라색 텍스트 */
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* 제목 스타일 */
+h1 {
+    color: #6a1b9a; /* 보라색 계열 */
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #ab47bc; /* 밝은 보라색 */
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+
+/* 관리자 콘텐츠 스타일 */
+#admin-content, #access-denied {
+    background-color: #fce4ec; /* 연한 핑크색 배경 */
+    border: 2px solid #ce93d8; /* 보라색 테두리 */
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+#member_list button {
+    background-color: #8e24aa; /* 진한 보라색 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+#member_list button:hover {
+    background-color: #ab47bc; /* 버튼 호버 시 밝은 보라색으로 변경 */
+}
+
+/* 접근 권한 없음 스타일 */
+#access-denied h2 {
+    color: #d32f2f; /* 빨간색 텍스트 */
+}
+
+#access-denied p {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    #admin-content, #access-denied {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #member_list button {
+        width: 100%;
+        margin: 5px 0;
+        font-size: 1.1em;
+    }
+}

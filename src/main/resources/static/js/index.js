@@ -1,81 +1,72 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const galleryData = [
-        {
-            title: 'Abstract Art',
-            description: 'Abstract art uses visual language of shape, form, color, and line to create a composition.',
-            imageUrl: 'your-image-url1.jpg'
-        },
-        {
-            title: 'Contemporary Pieces',
-            description: 'Contemporary art is the art of today, produced in the late 20th century or in the 21st century.',
-            imageUrl: 'your-image-url2.jpg'
-        },
-        {
-            title: 'Modern Sculptures',
-            description: 'Modern sculpture is sculpture made during the period extending roughly from the 1890s to the 1970s.',
-            imageUrl: 'your-image-url3.jpg'
-        }
-    ];
     const accessToken = localStorage.getItem("access");
+    const profileDropdown = document.getElementById('profileDropdown');
 
+    // 로그인 상태 확인 및 토큰 유효성 확인
+    if (accessToken) {
+        // 토큰 유효성 확인을 위한 요청
+        fetch('/api/auth/validate-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': accessToken
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 토큰이 유효한 경우
+                    profileDropdown.innerHTML = `
+                    <li><a href="#">My Profile</a></li>
+                    <li><a href="#" id="logoutButton">로그아웃</a></li>
+                `;
+                    document.getElementById('logoutButton').addEventListener('click', () => {
+                        // 로그아웃 로직
+                        handleLogout();
+                    });
+                } else {
+                    // 토큰이 유효하지 않은 경우, 로컬 스토리지에서 토큰 제거
+                    localStorage.removeItem('access');
+                    displayLoginSignupOptions();
+                }
+            })
+            .catch(error => {
+                console.error('Error validating token:', error);
+                // 오류 발생 시, 로그인 버튼 유지 및 처리
+                localStorage.removeItem('access');
+                displayLoginSignupOptions();
+            });
+    } else {
+        // 토큰이 없을 때 기본 설정
+        displayLoginSignupOptions();
+    }
 
-    const galleryPreview = document.getElementById('galleryPreview');
-    let currentIndex = 0;
-
-    function displayGalleryItem(index) {
-        galleryPreview.innerHTML = '';
-        const item = galleryData[index];
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item active';
-        galleryItem.innerHTML = `
-            <img src="${item.imageUrl}" alt="${item.title}">
-            <h2>${item.title}</h2>
+    function displayLoginSignupOptions() {
+        profileDropdown.innerHTML = `
+            <li><a href="/login">로그인</a></li>
+            <li><a href="/register">회원가입</a></li>
         `;
-        galleryItem.addEventListener('click', () => {
-            showModal(item.title, item.description);
-        });
-        galleryPreview.appendChild(galleryItem);
-    }
-    
-
-    function startSlideshow() {
-        displayGalleryItem(currentIndex);
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % galleryData.length;
-            displayGalleryItem(currentIndex);
-        }, 3000); // Change image every 3 seconds
     }
 
-    galleryData.forEach(item => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.innerHTML = `
-            <img src="${item.imageUrl}" alt="${item.title}">
-            <h2>${item.title}</h2>
-        `;
-        galleryItem.addEventListener('click', () => {
-            showModal(item.title, item.description);
-        });
-        galleryPreview.appendChild(galleryItem);
-    });
-
-    const modal = document.getElementById('modal');
-    const closeButton = document.getElementById('closeButton');
-    closeButton.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    function showModal(title, description) {
-        document.getElementById('modalTitle').textContent = title;
-        document.getElementById('modalDescription').textContent = description;
-        modal.style.display = 'flex';
+    function handleLogout() {
+        // 서버에 로그아웃 요청을 보내고 Refresh Token을 삭제
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': accessToken
+            },
+            credentials: 'include' // 쿠키를 포함한 요청
+        })
+            .then(response => {
+                if (response.ok) {
+                    localStorage.removeItem('access'); // accessToken 삭제
+                    window.location.href = '/'; // 로그아웃 후 로그인 페이지로 리다이렉트
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+            });
     }
-    // Start the slideshow after loading the gallery items
-    startSlideshow();
 });
