@@ -13,4 +13,5 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
     Admin save(Admin admin);
     Optional<Admin> findById(Long id);
     List<Admin> findAll();
+    //List<Admin> findByRole(Role role);
 }

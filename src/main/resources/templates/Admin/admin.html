@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Page</title>
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="/css/Admin/admin.css">
 </head>
 <body>
-<h1 id="admin-title">Checking Access...</h1>
+<h1 id="admin-title">접근 확인 중...</h1>
+
 <div id="admin-content" style="display: none;">
-  <h2>Welcome to the Admin Page</h2>
-  <p>You have administrative privileges.</p>
+  <h2>관리자 페이지에 오신 것을 환영합니다</h2>
+  <p>관리자 권한이 있습니다.</p>
 </div>
+
 <div id="access-denied" style="display: none;">
-  <h2>Access Denied</h2>
-  <p>You do not have the necessary permissions to view this page.</p>
+  <h2>접근 불가</h2>
+  <p>이 페이지를 볼 수 있는 권한이 없습니다.</p>
 </div>
-<div id = "member_list">
+
+<div id="member_list" style="display: none;">
   <button type="button" onclick="location.href='/admin/member'">회원 관리</button>
   <button type="button" onclick="location.href='/admin/board'">게시판 관리</button>
-
+  <button type="button" onclick="location.href='/admin/admin'">관리자 계정 목록</button>
 </div>
+
 <script src="/js/Admin/admin.js"></script>
 </body>
 </html>

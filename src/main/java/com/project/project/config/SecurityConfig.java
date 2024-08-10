@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/start", "/", "/api/auth/register","/login","/admin/**",
                                 "/register", "/css/**", "/js/**", "/images/**", "/reissue","/mypage").permitAll()
                         .requestMatchers("/user/**","/api/auth/validate-token","/api/auth/check-role").hasRole("USER")
-                        .requestMatchers("/admin/**","/api/auth/check-role").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/check-role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

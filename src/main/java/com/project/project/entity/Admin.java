@@ -29,5 +29,11 @@ public class Admin {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //getter setter
+    @Column(name="status")
+    private String status;
+
+    @Column(name ="admin_role")
+    private String Role;
+    //upper - lower 으로 두개 구분할 예정
+
 }
