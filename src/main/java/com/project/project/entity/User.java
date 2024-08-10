@@ -26,12 +26,11 @@ public class User{
     private String password;
 
     @Column(name = "role")
-
+    private String Role;
 
     @OneToOne(mappedBy = "user")
     private Admin admin;
 
-    private String Role;
 
 
     @Column(name = "address")
