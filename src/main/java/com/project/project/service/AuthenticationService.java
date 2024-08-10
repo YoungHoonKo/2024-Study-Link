@@ -49,9 +49,9 @@ public class AuthenticationService {
         user.setSkill(null);
         user.setStatus("ACTIVE");
         user.setInterests(null);
-        user.setRole("ROLE_USER");
         user.setAddress(userRegistrationDto.getAddress());
         user.setPostcode(userRegistrationDto.getPostcode());
+        user.SetUserRole("ROLE_USER");
         return userRepository.save(user);
     }
 
@@ -85,7 +85,4 @@ public class AuthenticationService {
         userRepository.deleteUserByEmail(email);
     }
 
-//    public Boolean vaildateToken(String token){
-//        return jwtUtil.isExpired(token);
-//    }
 }

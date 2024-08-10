@@ -1,11 +1,18 @@
 package com.project.project.controller;
 
+import com.project.project.dto.TokenResponseDto;
 import com.project.project.dto.UserRegistrationDto;
 import com.project.project.exception.EmailAlreadyInUseException;
 import com.project.project.exception.PasswordMismatchException;
 import com.project.project.service.AuthenticationService;
+import com.project.project.service.JwtTokenService;
 import com.project.project.util.JWTUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,14 +27,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final AuthenticationService authenticationService;
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
+    private final JwtTokenService jwtTokenService;
 
-    public AuthController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody UserRegistrationDto userRegistrationDto) {
@@ -43,11 +49,40 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/reissue")
+    public ResponseEntity<Void> reissueToken(
+            @CookieValue("refresh") String refreshTokenCookie,
+            HttpServletResponse response){
+        String email = jwtUtil.getEmail(refreshTokenCookie);
+        TokenResponseDto tokenResponseDto = jwtTokenService.reissueAccessToken(refreshTokenCookie,email);
+
+        response.setHeader("access",tokenResponseDto.getAccessToken());
+        Cookie cookie = new Cookie("refreshToken", tokenResponseDto.getRefreshToken());
+        cookie.setMaxAge(24*60*60);
+        cookie.setHttpOnly(true);
+
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/validate-token")
-    public ResponseEntity<HttpStatus> validateToken(@RequestBody String token){
+    public ResponseEntity<HttpStatus> validateToken(){
             return ResponseEntity.ok(HttpStatus.OK);
         }
 
+
+
+    @PostMapping("/check-role")
+    public Map<String, String> checkRole(@AuthenticationPrincipal UserDetails userDetails){
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        String roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(", "));
+
+        System.out.println("User roles: " + roles);
+        Map<String, String> response = new HashMap<>();
+        response.put("roles", roles);
+        return response;
+    }
 
 
     static class ApiResponse {
@@ -66,18 +101,5 @@ public class AuthController {
         public String getMessage() {
             return message;
         }
-    }
-
-    @PostMapping("/check-role")
-    public Map<String, String> checkRole(@AuthenticationPrincipal UserDetails userDetails){
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        String roles = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(", "));
-
-        System.out.println("User roles: " + roles);
-        Map<String, String> response = new HashMap<>();
-        response.put("roles", roles);
-        return response;
     }
 }

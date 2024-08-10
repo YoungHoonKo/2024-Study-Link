@@ -22,7 +22,8 @@ public class Admin {
     @Column(name ="email", unique = true, nullable = false)
     private String email;
 
-    @Column(name="pass_word", nullable = false)
+
+    @Column(name = "pass_word", nullable = false)
     private String password;
 
     @OneToOne
