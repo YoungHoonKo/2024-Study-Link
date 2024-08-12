@@ -26,7 +26,7 @@ public class ViewController {
 
     @RequestMapping("/403")
     public String accessDenied() {
-        return "403"; // /src/main/resources/templates/403.html
+        return "error/403"; // /src/main/resources/templates/403.html
     }
     @GetMapping("/mypage")
     public String mypage(){
