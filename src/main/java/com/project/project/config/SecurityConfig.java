@@ -40,9 +40,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/start", "/", "/api/auth/register","/login","/admin",
-                                "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/board/**").permitAll()
-                        .requestMatchers("/start", "/", "/api/auth/register","/login","/admin/**",
-                                "/register", "/css/**", "/js/**", "/images/**", "/reissue","/mypage").permitAll()
+                                "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/board/**"
+                        ,"/403","/404","/mypage").permitAll()
                         .requestMatchers("/user/**","/api/auth/validate-token","/api/auth/check-role","/api/user/**").hasRole("USER")
                         .requestMatchers("/api/auth/check-role").hasRole("ADMIN")
                         .anyRequest().authenticated()

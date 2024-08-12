@@ -31,10 +31,6 @@ public class ViewController {
     public String accessDenied() {
         return "error/403"; // /src/main/resources/templates/403.html
     }
-    @GetMapping("/404")
-    public String notfound(){
-        return "error/404";
-    }
     @GetMapping("/mypage")
     public String mypage(){
         return "user/mypage";
@@ -45,4 +41,5 @@ public class ViewController {
     public String admin(){
         return "Admin/admin";
     }
+
 }
