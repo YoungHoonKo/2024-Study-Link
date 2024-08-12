@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ViewController {
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
 
     @GetMapping("/login")
     public String login(Authentication authentication){
@@ -15,9 +19,7 @@ public class ViewController {
 
 
     @GetMapping("/register")
-    public String register(){
-        return "user/register";
-    }
+    public String register(){ return "user/register";}
 
     @GetMapping("/start")
     public String start() {
@@ -35,12 +37,10 @@ public class ViewController {
     public String mypage(){
         return "user/mypage";
     }
+    @GetMapping("/profile")
+    public String profile(){return "use/profile";}
     @GetMapping("/admin")
     public String admin(){
         return "Admin/admin";
-    }
-    @GetMapping("/index")
-    public String index(){
-        return "index";
     }
 }
