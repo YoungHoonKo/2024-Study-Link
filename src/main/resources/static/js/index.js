@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 토큰이 유효한 경우
                     profileDropdown.innerHTML = `
                     <li><a href="/mypage">My Page</a></li>
-                    <li><a href="#">My Profile</a></li>
+                    <li><a href="/profile">My Profile</a></li>
                     <li><a href="#" id="logoutButton">로그아웃</a></li>
                 `;
                     document.getElementById('logoutButton').addEventListener('click', () => {

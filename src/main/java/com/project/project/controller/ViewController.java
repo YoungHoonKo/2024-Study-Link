@@ -25,20 +25,22 @@ public class ViewController {
     public String start() {
         return "start";
     }
-    @GetMapping("/404")
-    public String notfound(){
-        return "404";
-    }
+    @GetMapping("/401")
+    public String unauthorized() {return "error/401";}
     @RequestMapping("/403")
     public String accessDenied() {
-        return "403"; // /src/main/resources/templates/403.html
+        return "error/403"; // /src/main/resources/templates/403.html
+    }
+    @GetMapping("/404")
+    public String notfound(){
+        return "error/404";
     }
     @GetMapping("/mypage")
     public String mypage(){
         return "user/mypage";
     }
     @GetMapping("/profile")
-    public String profile(){return "use/profile";}
+    public String profile() {return "user/profile";}
     @GetMapping("/admin")
     public String admin(){
         return "Admin/admin";
