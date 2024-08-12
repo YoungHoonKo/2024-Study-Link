@@ -1,0 +1,142 @@
+/* 전체 레이아웃 및 폰트 스타일 설정 */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+/* 섹션 레이아웃 및 스타일 */
+section {
+    background-color: #fff;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 폼 레이아웃 및 스타일 */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #495057;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    background-color: #f8f9fa;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form textarea:focus,
+form input[type="file"]:focus {
+    border-color: #80bdff;
+    outline: none;
+    background-color: #fff;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* 버튼 스타일 */
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #004085;
+    transform: translateY(0);
+}
+
+/* 회원탈퇴 버튼 스타일 */
+button.delete-account {
+    background-color: #dc3545;
+}
+
+button.delete-account:hover {
+    background-color: #c82333;
+}
+
+button.delete-account:active {
+    background-color: #bd2130;
+}
+
+/* 리스트 스타일 */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #f8f9fa;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+ul li:hover {
+    background: #e2e6ea;
+    transform: translateX(5px);
+}
+
+/* 상태 텍스트 스타일 */
+#accountStatus {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 1.2em;
+}

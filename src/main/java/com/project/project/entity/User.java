@@ -49,16 +49,12 @@ public class User{
     @Column(name = "bio", columnDefinition = "TEXT")
     private String bio;
 
-    //user_skills, user_interest
-    @ElementCollection
-    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "skill")
-    private List<String> skill;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSkill> userSkills;
 
-    @ElementCollection
-    @CollectionTable(name = "user_interest",joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "interest")
-    private List<String> interests;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<UserInterest> userInterests;
+
 
 
     public void SetUserRole(String role){
@@ -68,11 +64,4 @@ public class User{
     public String getUserRole(){
         return this.Role;
     }
-
-    @OneToOne
-    private UserSkill userSkills;
-
-    @OneToOne
-    private UserInterest userInterest;
-
 }

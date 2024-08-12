@@ -46,9 +46,9 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
         user.setProfilePictureUrl(null);
         user.setBio(null);
-        user.setSkill(null);
+        user.setUserSkills(null);
         user.setStatus("ACTIVE");
-        user.setInterests(null);
+        user.setUserInterests(null);
         user.setAddress(userRegistrationDto.getAddress());
         user.setPostcode(userRegistrationDto.getPostcode());
         user.SetUserRole("ROLE_USER");
@@ -71,8 +71,8 @@ public class AuthenticationService {
         }
         user.setProfilePictureUrl(userUpdateDto.getProfilePictureUrl());
         user.setBio(userUpdateDto.getBio());
-        user.setSkill(userUpdateDto.getSkill());
-        user.setInterests(userUpdateDto.getInterests());
+        user.setUserSkills(null);
+        user.setUserInterests(null);
 
         return userRepository.save(user);
     }

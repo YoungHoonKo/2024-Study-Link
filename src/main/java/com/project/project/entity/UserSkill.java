@@ -6,10 +6,13 @@ import jakarta.persistence.*;
 @Entity
 public class UserSkill {
 
-    @Id
-    private int id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @Column(name = "skill", length = 255)
+    private String skill;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
