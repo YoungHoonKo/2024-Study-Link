@@ -23,7 +23,10 @@ public class ViewController {
     public String start() {
         return "start";
     }
-
+    @GetMapping("/404")
+    public String notfound(){
+        return "404";
+    }
     @RequestMapping("/403")
     public String accessDenied() {
         return "403"; // /src/main/resources/templates/403.html
@@ -36,5 +39,8 @@ public class ViewController {
     public String admin(){
         return "Admin/admin";
     }
-
+    @GetMapping("/index")
+    public String index(){
+        return "index";
+    }
 }
