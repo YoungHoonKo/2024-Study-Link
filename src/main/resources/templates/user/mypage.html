@@ -7,67 +7,113 @@
     <link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
-<h1>My Page</h1>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/'">Studylink</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li class="dropdown">
+                <a href="#">Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="/board/paging">게시판</a></li>
+                </ul>
+            </li>
+            <li><a href="/about">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <li><a href="#profile">Profile Information</a></li>
+                    <li><a href="#password">Change Password</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#interests">Interests</a></li>
+                    <li><a href="#account-status">Account Status</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-<!-- Profile Information -->
-<section>
-    <h2>Profile Information</h2>
-    <form id="profileForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" /><br/>
+<main>
+    <h1>My Page</h1>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" /><br/>
+    <!-- Profile Information -->
+    <section id="profile">
+        <h2>Profile Information</h2>
+        <form id="profileForm">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" />
+            </div>
 
-        <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio"></textarea><br/>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" />
+            </div>
 
-        <label for="profilePicture">Profile Picture:</label>
-        <input type="file" id="profilePicture" name="profilePicture" /><br/>
+            <div>
+                <label for="bio">Bio:</label>
+                <textarea id="bio" name="bio"></textarea>
+            </div>
 
-        <button type="button" onclick="updateProfile()">Update Profile</button>
-    </form>
-</section>
+            <div>
+                <label for="profilePicture">Profile Picture:</label>
+                <input type="file" id="profilePicture" name="profilePicture" />
+            </div>
 
-<!-- Password Change -->
-<section>
-    <h2>Change Password</h2>
-    <form id="passwordForm">
-        <label for="currentPassword">Current Password:</label>
-        <input type="password" id="currentPassword" name="currentPassword" /><br/>
+            <button type="button" onclick="updateProfile()">Update Profile</button>
+        </form>
+    </section>
 
-        <label for="newPassword">New Password:</label>
-        <input type="password" id="newPassword" name="newPassword" /><br/>
+    <!-- Password Change -->
+    <section id="password">
+        <h2>Change Password</h2>
+        <form id="passwordForm">
+            <div>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" />
+            </div>
 
-        <label for="confirmPassword">Confirm New Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" /><br/>
+            <div>
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" />
+            </div>
 
-        <button type="button" onclick="changePassword()">Change Password</button>
-    </form>
-</section>
+            <div>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" />
+            </div>
 
-<!-- Skills Management -->
-<section>
-    <h2>Skills</h2>
-    <ul id="skillsList"></ul>
-    <input type="text" id="newSkill" placeholder="Add a skill" />
-    <button type="button" onclick="addSkill()">Add Skill</button>
-</section>
+            <button type="button" onclick="changePassword()">Change Password</button>
+        </form>
+    </section>
 
-<!-- Interests Management -->
-<section>
-    <h2>Interests</h2>
-    <ul id="interestsList"></ul>
-    <input type="text" id="newInterest" placeholder="Add an interest" />
-    <button type="button" onclick="addInterest()">Add Interest</button>
-</section>
+    <!-- Skills Management -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul id="skillsList">
+            <!-- Skills will be dynamically added here -->
+        </ul>
+        <input type="text" id="newSkill" placeholder="Add a skill" />
+        <button type="button" onclick="addSkill()">Add Skill</button>
+    </section>
 
-<!-- Account Status -->
-<section>
-    <h2>Account Status</h2>
-    <p id="accountStatus"></p>
-    <button type="button" onclick="deleteAccount()">Delete Account</button> <!-- 회원 탈퇴 버튼 추가 -->
-</section>
+    <!-- Interests Management -->
+    <section id="interests">
+        <h2>Interests</h2>
+        <ul id="interestsList">
+            <!-- Interests will be dynamically added here -->
+        </ul>
+        <input type="text" id="newInterest" placeholder="Add an interest" />
+        <button type="button" onclick="addInterest()">Add Interest</button>
+    </section>
+
+    <!-- Account Status -->
+    <section id="account-status">
+        <h2>Account Status</h2>
+        <p id="accountStatus">Your account is active.</p>
+        <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
+    </section>
+</main>
 
 <script src="/js/mypage.js"></script>
 </body>
