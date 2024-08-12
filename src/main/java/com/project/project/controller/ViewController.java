@@ -27,16 +27,24 @@ public class ViewController {
     }
     @GetMapping("/401")
     public String unauthorized() {return "error/401";}
+
     @RequestMapping("/403")
     public String accessDenied() {
         return "error/403"; // /src/main/resources/templates/403.html
     }
+
+    @RequestMapping("/404")
+    public String notFound() {
+        return "error/404";
+    }
+
     @GetMapping("/mypage")
     public String mypage(){
         return "user/mypage";
     }
     @GetMapping("/profile")
     public String profile() {return "user/profile";}
+
     @GetMapping("/admin")
     public String admin(){
         return "Admin/admin";
