@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/start", "/", "/api/auth/register","/login","/admin",
                                 "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/board/**"
-                        ,"/403","/404","/mypage", "profile").permitAll()
+                                , "/401" ,"/403","/404","/mypage", "profile").permitAll()
                         .requestMatchers("/user/**","/api/auth/validate-token","/api/auth/check-role","/api/user/**").hasRole("USER")
                         .requestMatchers("/api/auth/check-role").hasRole("ADMIN")
                         .anyRequest().authenticated()
