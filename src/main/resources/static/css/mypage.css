@@ -1,16 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
+/* Global Styles */
 body {
-    margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
+    background-color: #f8f9fc;
     color: #333;
-    padding-top: 80px; /* 네비게이션 바의 높이만큼 패딩 추가 */
+    margin: 0;
+    padding-top: 80px;
 }
 
 header {
-    background: rgba(255, 255, 255, 0.9);
+    background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: fixed;
     width: 100%;
@@ -29,7 +27,7 @@ nav {
 .logo {
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: #007bff;
 }
@@ -43,7 +41,6 @@ nav {
 
 .nav-links li {
     position: relative;
-    display: inline-block;
 }
 
 .nav-links a {
@@ -61,117 +58,110 @@ nav {
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     z-index: 1;
-    min-width: 160px;
-    padding: 4px 8px;
+    min-width: 150px;
+    padding: 12px 0;
     top: 100%;
     left: 0;
+    border-radius: 8px;
 }
 
 .dropdown-content li {
-    color: black;
-    padding: 8px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
+    padding: 12px 16px;
+}
+
+.dropdown-content li a {
+    color: #333;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 36px;
+.dropdown-content a:hover {
     color: #007bff;
-    text-align: center;
-    margin-bottom: 40px;
+    background-color: #f0f8ff;
 }
 
+/* Section Styles */
 section {
     background: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
 }
 
-h2 {
+h1, h2 {
+    text-align: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    margin-bottom: 20px;
     color: #333;
 }
 
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
 label {
-    font-size: 16px;
-    margin-right: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
 }
 
 input[type="text"],
 input[type="email"],
-input[type="password"],
-textarea {
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
     font-size: 16px;
-    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f8fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
 }
 
 textarea {
     resize: vertical;
-    height: 100px;
+    height: 120px;
 }
 
-input[type="file"] {
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#skillsList,
-#interestsList {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 20px;
-}
-
-#skillsList li,
-#interestsList li {
-    background-color: #f1f1f1;
-    padding: 8px;
-    margin-bottom: 8px;
-    border-radius: 5px;
+/* Tag Container */
+.tag-container {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f7f8fa;
+}
+
+/* Individual Tag */
+.tag {
+    display: flex;
     align-items: center;
-}
-
-#skillsList li:hover,
-#interestsList li:hover {
-    background-color: #e2e2e2;
-}
-
-#accountStatus {
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #555;
 }

@@ -5,24 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page</title>
     <link rel="stylesheet" href="/css/mypage.css">
-    <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/images/favicons/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 <header>
@@ -54,7 +36,6 @@
 <main>
     <h1>My Page</h1>
 
-    <!-- Profile Information -->
     <section id="profile">
         <h2>Profile Information</h2>
         <form id="profileForm">
@@ -82,56 +63,67 @@
         </form>
     </section>
 
-    <!-- Password Change -->
-    <section id="password">
-        <h2>Change Password</h2>
-        <form id="passwordForm">
-            <div>
-                <label for="currentPassword">Current Password:</label>
-                <input type="password" id="currentPassword" name="currentPassword" />
-            </div>
-
-            <div>
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" />
-            </div>
-
-            <div>
-                <label for="confirmPassword">Confirm New Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" />
-            </div>
-
-            <button type="button" onclick="changePassword()">Change Password</button>
-        </form>
-    </section>
-
-    <!-- Skills Management -->
     <section id="skills">
-        <h2>Skills</h2>
-        <ul id="skillsList">
-            <!-- Skills will be dynamically added here -->
-        </ul>
-        <input type="text" id="newSkill" placeholder="Add a skill" />
-        <button type="button" onclick="addSkill()">Add Skill</button>
+        <h2>보유 스킬</h2>
+        <div id="skillsContainer" class="tag-container">
+            <!-- 예시 스킬 태그 -->
+            <div class="tag">
+                JavaScript <span class="remove-tag">&times;</span>
+            </div>
+            <div class="tag">
+                Python <span class="remove-tag">&times;</span>
+            </div>
+            <!-- 스킬 추가 버튼 -->
+            <div class="add-skill-button">+</div>
+        </div>
     </section>
 
-    <!-- Interests Management -->
     <section id="interests">
-        <h2>Interests</h2>
-        <ul id="interestsList">
-            <!-- Interests will be dynamically added here -->
-        </ul>
-        <input type="text" id="newInterest" placeholder="Add an interest" />
-        <button type="button" onclick="addInterest()">Add Interest</button>
+        <h2>관심 분야</h2>
+        <div id="interestsContainer" class="tag-container">
+            <!-- 예시 관심 분야 태그 -->
+            <div class="tag">
+                MySQL <span class="remove-tag">&times;</span>
+            </div>
+            <div class="tag">
+                Docker <span class="remove-tag">&times;</span>
+            </div>
+            <!-- 관심 분야 추가 버튼 -->
+            <div class="add-skill-button">+</div>
+        </div>
     </section>
 
-    <!-- Account Status -->
     <section id="account-status">
         <h2>Account Status</h2>
         <p id="accountStatus">Your account is active.</p>
         <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
     </section>
 </main>
+
+<!-- 스킬 선택 모달 -->
+<div id="skillModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeSkillModal()">&times;</span>
+        <h3>Select a Skill</h3>
+        <ul>
+            <li onclick="addSkill('HTML')"><img src="path_to_icon/html_icon.png" alt="HTML Icon">HTML</li>
+            <li onclick="addSkill('CSS')"><img src="path_to_icon/css_icon.png" alt="CSS Icon">CSS</li>
+            <!-- 다른 스킬들 추가 -->
+        </ul>
+    </div>
+</div>
+
+<!-- 흥미 선택 모달 -->
+<div id="interestModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeInterestModal()">&times;</span>
+        <h3>Select an Interest</h3>
+        <ul>
+            <li onclick="addInterest('Web Development')"><img src="path_to_icon/web_icon.png" alt="Web Icon">Web Development</li>
+            <!-- 다른 흥미 항목들 추가 -->
+        </ul>
+    </div>
+</div>
 
 <script src="/js/mypage.js"></script>
 </body>

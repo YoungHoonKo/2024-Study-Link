@@ -12,6 +12,4 @@ public class UserProfileDTO {
     private String email;
     private String bio;
     private String accountStatus;
-    private List<UserSkill> skill;
-    private List<UserInterest> interests;
 }

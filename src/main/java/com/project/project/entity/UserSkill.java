@@ -1,9 +1,13 @@
 package com.project.project.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Table(name = "user_skills")
 @Entity
+@Getter
+@Setter
 public class UserSkill {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
