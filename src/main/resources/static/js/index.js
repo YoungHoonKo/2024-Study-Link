@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     // 토큰이 유효한 경우
                     profileDropdown.innerHTML = `
-                    <li><a href="/mypage">My Page</a></li>
+<!--                    <li><a href="/mypage">My Page</a></li>--> <!-- 수정 페이지는 프로필 페이지에 배치함 -->
                     <li><a href="/profile">My Profile</a></li>
                     <li><a href="#" id="logoutButton">로그아웃</a></li>
                 `;

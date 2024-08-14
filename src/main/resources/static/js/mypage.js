@@ -18,14 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .catch(error => {
-                localStorage.removeItem("access")
-                window.location.href = "/login"
+                localStorage.removeItem("access");
+                window.location.href = "/login";
             });
     } else {
         window.location.href = "/";
     }
-
-    // 초기 데이터 로드
 });
 
 function loadUserProfile() {
@@ -41,6 +39,15 @@ function loadUserProfile() {
             document.getElementById('email').value = data.email;
             document.getElementById('bio').value = data.bio;
             document.getElementById('accountStatus').innerText = `Status: ${data.accountStatus}`;
+
+            // 로컬 스토리지에 저장
+            const profileData = {
+                username: data.username,
+                email: data.email,
+                bio: data.bio,
+                profilePicture: data.profilePicture // 이미지 경로를 추가
+            };
+            localStorage.setItem('userProfile', JSON.stringify(profileData));
         })
         .catch(error => console.error('Error loading profile:', error));
 }
@@ -49,9 +56,13 @@ function updateProfile() {
     const profileData = {
         username: document.getElementById('username').value,
         email: document.getElementById('email').value,
-        bio: document.getElementById('bio').value
+        bio: document.getElementById('bio').value,
+        profilePicture: document.getElementById('profilePicture').value
     };
-    console.log(profileData)
+
+    // 로컬 스토리지에 데이터 저장
+    localStorage.setItem('userProfile', JSON.stringify(profileData));
+
     fetch('/api/user/update-profile', {
         method: 'PUT',
         headers: {
@@ -61,11 +72,12 @@ function updateProfile() {
         body: JSON.stringify(profileData)
     })
         .then(response => {
-            console.log(response)
-        })
-        .then(data => {
-            alert('Profile updated successfully')
-            window.location.reload()
+            if (response.ok) {
+                alert('Profile updated successfully');
+                window.location.reload();
+            } else {
+                alert('Failed to update profile');
+            }
         })
         .catch(error => console.error('Error updating profile:', error));
 }
@@ -89,7 +101,6 @@ function changePassword() {
             if (response.ok) {
                 alert('Password changed successfully');
             } else {
-                console.log(response);
                 alert('Failed to change password');
             }
         })
@@ -97,7 +108,12 @@ function changePassword() {
 }
 
 function loadUserSkills() {
-    fetch('/api/user/skills')
+    fetch('/api/user/skills', {
+        method: "GET",
+        headers: {
+            "access": localStorage.getItem("access")
+        }
+    })
         .then(response => response.json())
         .then(skills => {
             const skillsList = document.getElementById('skillsList');
@@ -118,25 +134,23 @@ function loadUserSkills() {
 function addSkill() {
     const newSkill = document.getElementById('newSkill').value;
 
-    fetch('/api/user/add-skill', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({skill: newSkill})
-    })
-        .then(response => response.json())
-        .then(skill => {
-            const skillsList = document.getElementById('skillsList');
-            const li = document.createElement('li');
-            li.innerText = skill;
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete';
-            deleteButton.onclick = () => deleteSkill(skill);
-            li.appendChild(deleteButton);
-            skillsList.appendChild(li);
-        })
-        .catch(error => console.error('Error adding skill:', error));
+    if (newSkill.trim() !== '') {
+        const skillsList = document.getElementById('skillsList');
+        const li = document.createElement('li');
+        li.innerText = newSkill;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.onclick = () => {
+            skillsList.removeChild(li);
+        };
+
+        li.appendChild(deleteButton);
+        skillsList.appendChild(li);
+
+        // Clear input field after adding
+        document.getElementById('newSkill').value = '';
+    }
 }
 
 function deleteSkill(skill) {
@@ -145,7 +159,7 @@ function deleteSkill(skill) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({skill: skill})
+        body: JSON.stringify({ skill: skill })
     })
         .then(response => {
             if (response.ok) {
@@ -158,7 +172,12 @@ function deleteSkill(skill) {
 }
 
 function loadUserInterests() {
-    fetch('/api/user/interests')
+    fetch('/api/user/interests', {
+        method: "GET",
+        headers: {
+            "access": localStorage.getItem("access")
+        }
+    })
         .then(response => response.json())
         .then(interests => {
             const interestsList = document.getElementById('interestsList');
@@ -175,21 +194,23 @@ function loadUserInterests() {
 function addInterest() {
     const newInterest = document.getElementById('newInterest').value;
 
-    fetch('/api/user/add-interest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({interest: newInterest})
-    })
-        .then(response => response.json())
-        .then(interest => {
-            const interestsList = document.getElementById('interestsList');
-            const li = document.createElement('li');
-            li.innerText = interest;
-            interestsList.appendChild(li);
-        })
-        .catch(error => console.error('Error adding interest:', error));
+    if (newInterest.trim() !== '') {
+        const interestsList = document.getElementById('interestsList');
+        const li = document.createElement('li');
+        li.innerText = newInterest;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.onclick = () => {
+            interestsList.removeChild(li);
+        };
+
+        li.appendChild(deleteButton);
+        interestsList.appendChild(li);
+
+        // Clear input field after adding
+        document.getElementById('newInterest').value = '';
+    }
 }
 
 function deleteAccount() {
@@ -209,7 +230,6 @@ function deleteAccount() {
                     localStorage.removeItem("access"); // 로그아웃 처리
                     window.location.href = "/"; // 홈 페이지로 리다이렉트
                 } else {
-                    console.log(response)
                     alert("Failed to delete the account. Please try again.");
                 }
             })

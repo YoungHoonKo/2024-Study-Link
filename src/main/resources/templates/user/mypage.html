@@ -27,7 +27,7 @@
 <body>
 <header>
     <nav>
-        <div class="logo" onclick="location.href='/'">Studylink</div>
+        <div class="logo" onclick="location.href='/index'">Studylink</div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li class="dropdown">
@@ -37,16 +37,6 @@
                 </ul>
             </li>
             <li><a href="/about">About</a></li>
-            <li class="dropdown" id="profileMenu">
-                <a href="#">Profile</a>
-                <ul class="dropdown-content" id="profileDropdown">
-                    <li><a href="#profile">Profile Information</a></li>
-                    <li><a href="#password">Change Password</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#interests">Interests</a></li>
-                    <li><a href="#account-status">Account Status</a></li>
-                </ul>
-            </li>
         </ul>
     </nav>
 </header>
@@ -132,7 +122,13 @@
         <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
     </section>
 </main>
-
+<footer>
+    <p>&copy; 2024 MyProfile. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
 <script src="/js/mypage.js"></script>
 </body>
 </html>

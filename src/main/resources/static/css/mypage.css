@@ -110,17 +110,62 @@ label {
     margin-right: 10px;
 }
 
+footer {
+    background: #2c3e50;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.social-links {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.social-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #007bff;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea {
     width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
     box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+    background-color: #fff;
 }
 
 textarea {
@@ -129,22 +174,23 @@ textarea {
 }
 
 input[type="file"] {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 button {
     background-color: #007bff;
     color: #fff;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 #skillsList,
@@ -157,12 +203,13 @@ button:hover {
 #skillsList li,
 #interestsList li {
     background-color: #f1f1f1;
-    padding: 8px;
-    margin-bottom: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background-color 0.3s ease;
 }
 
 #skillsList li:hover,
@@ -170,8 +217,56 @@ button:hover {
     background-color: #e2e2e2;
 }
 
+#skillsList li button,
+#interestsList li button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#skillsList li button:hover,
+#interestsList li button:hover {
+    background-color: #c82333;
+}
+
 #accountStatus {
     font-size: 18px;
     margin-bottom: 20px;
     color: #555;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    section {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        width: calc(100% - 18px);
+    }
+
+    button {
+        width: 100%;
+    }
 }

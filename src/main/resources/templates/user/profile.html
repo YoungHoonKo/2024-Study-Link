@@ -23,34 +23,50 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">MyProfile</div>
-            <ul class="nav-links">
-                <li><a href="/index">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="profile">
-            <img src="/images/register_login.jpg" alt="Profile Picture" class="profile-picture">
-            <h1>사용자 이름</h1>
-            <p>관심 분야</p>
-            <button type="button" onclick="location.href='/mypage'">Edit Profile</button>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 MyProfile. All rights reserved.</p>
-        <ul class="social-links">
-            <li><a href="https://www.facebook.com/">Facebook</a></li>
-            <li><a href="https://www.instagram.com/">Instagram</a></li>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/index'" >Studylink</div>
+        <ul class="nav-links">
+            <li><a href="/index">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
-    </footer>
-
-    <script src="/js/profile.js"></script>
+    </nav>
+</header>
+<main>
+    <section class="profile">
+        <img src="/images/register_login.jpg" alt="Profile Picture" class="profile-picture"> <!-- 이미지 파일을 mypage로 받아와야 함-->
+        <h1>사용자 이름</h1>
+        <div class="profile-info">
+            <div class="info-item">
+                <i class="fas fa-briefcase"></i><span>직무: 프론트엔드 개발자(예시)</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-building"></i><span>소속: Studylink(예시)</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-user"></i><span>자기소개: 열정적인 개발자입니다.(예시)</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-code"></i><span>스킬: HTML, CSS, JavaScript(예시)</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-heart"></i><span>관심 분야: 웹 개발(예시)</span>
+            </div>
+        </div>
+        <button type="button" onclick="location.href='/mypage'">Edit Profile</button>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 MyProfile. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/profile.js"></script>
 </body>
 </html>
