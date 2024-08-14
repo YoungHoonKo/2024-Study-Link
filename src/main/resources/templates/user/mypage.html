@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>프로필 페이지</title>
     <link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
@@ -22,109 +22,105 @@
             <li class="dropdown" id="profileMenu">
                 <a href="#">Profile</a>
                 <ul class="dropdown-content" id="profileDropdown">
-                    <li><a href="#profile">Profile Information</a></li>
-                    <li><a href="#password">Change Password</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#interests">Interests</a></li>
-                    <li><a href="#account-status">Account Status</a></li>
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
                 </ul>
             </li>
         </ul>
     </nav>
 </header>
-
 <main>
-    <h1>My Page</h1>
-
-    <section id="profile">
-        <h2>Profile Information</h2>
+    <section>
+        <h2>환영합니다.</h2>
+        <!-- 닉네임 -->
         <form id="profileForm">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" />
+            <div class="form-group">
+                <label for="nickname">닉네임 *</label>
+                <input type="text" id="nickname" name="nickname">
             </div>
 
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" />
+            <div class="form-group">
+                <label for="job">직무 *</label>
+                <select id="job" name="job">
+                    <option value="backend">백엔드</option>
+                    <option value="designer">디자이너</option>
+                    <option value="ios">iOS</option>
+                    <option value="android">안드로이드</option>
+                    <option value="devops">데브옵스</option>
+                    <option value="pm">PM</option>
+                    <option value="planner">기획자</option>
+                    <option value="marketer">마케터</option>
+                </select>
             </div>
 
-            <div>
-                <label for="bio">Bio:</label>
+            <div class="form-group">
+                <label for="affiliation">소속</label>
+                <input type="text" id="affiliation" name="affiliation">
+            </div>
+
+            <div class="form-group">
+                <label for="bio">자기소개</label>
                 <textarea id="bio" name="bio"></textarea>
             </div>
 
-            <div>
-                <label for="profilePicture">Profile Picture:</label>
-                <input type="file" id="profilePicture" name="profilePicture" />
+            <div class="form-group">
+                <label for="skill-container">Skill</label>
+                <div id="skill-container">
+                    <div class="skill-group">
+                        <select name="skills[]">
+                            <option value="spring boot">Spring Boot</option>
+                            <option value="java">Java</option>
+                            <option value="c">C</option>
+                            <option value="c++">C++</option>
+                            <option value="python">Python</option>
+                            <option value="mysql">MySQL</option>
+                        </select>
+                        <select name="skill-levels[]">
+                            <option value="beginner">초급</option>
+                            <option value="intermediate">중급</option>
+                            <option value="advanced">고급</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="addSkillButton">스킬 추가하기</button>
             </div>
 
-            <button type="button" onclick="updateProfile()">Update Profile</button>
+            <div class="form-group">
+                <label for="interests">관심분야</label>
+                <select id="interests" name="interests">
+                    <option value="web_development">웹개발</option>
+                    <option value="mobile_development">모바일 개발</option>
+                    <option value="frontend_development">프론트엔드 개발</option>
+                    <option value="backend_development">백엔드 개발</option>
+                    <option value="data_science">데이터 사이언스</option>
+                    <option value="ai_ml">인공지능/머신러닝</option>
+                    <option value="game_development">게임 개발</option>
+                    <option value="ui_ux_design">UI/UX 디자인</option>
+                    <option value="cloud_computing">클라우드 컴퓨팅</option>
+                    <option value="devops">데브옵스</option>
+                    <option value="cybersecurity">사이버 보안</option>
+                    <option value="iot">IoT</option>
+                    <option value="blockchain">블록체인</option>
+                    <option value="network_engineering">네트워크 엔지니어링</option>
+                    <option value="big_data">빅데이터</option>
+                    <option value="vr_ar">가상현실/증강현실</option>
+                    <option value="digital_marketing">디지털 마케팅</option>
+                    <option value="project_management">프로젝트 매니지먼트</option>
+                    <option value="planning_strategy">기획/전략</option>
+                    <option value="content_creation">콘텐츠 크리에이션</option>
+                </select>
+            </div>
+
+            <button type="submit" id="saveProfileButton", onclick="updateProfile()">프로필 저장</button>
         </form>
     </section>
-
-    <section id="skills">
-        <h2>보유 스킬</h2>
-        <div id="skillsContainer" class="tag-container">
-            <!-- 예시 스킬 태그 -->
-            <div class="tag">
-                JavaScript <span class="remove-tag">&times;</span>
-            </div>
-            <div class="tag">
-                Python <span class="remove-tag">&times;</span>
-            </div>
-            <!-- 스킬 추가 버튼 -->
-            <div class="add-skill-button">+</div>
-        </div>
-    </section>
-
-    <section id="interests">
-        <h2>관심 분야</h2>
-        <div id="interestsContainer" class="tag-container">
-            <!-- 예시 관심 분야 태그 -->
-            <div class="tag">
-                MySQL <span class="remove-tag">&times;</span>
-            </div>
-            <div class="tag">
-                Docker <span class="remove-tag">&times;</span>
-            </div>
-            <!-- 관심 분야 추가 버튼 -->
-            <div class="add-skill-button">+</div>
-        </div>
-    </section>
-
-    <section id="account-status">
-        <h2>Account Status</h2>
-        <p id="accountStatus">Your account is active.</p>
-        <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
-    </section>
 </main>
-
-<!-- 스킬 선택 모달 -->
-<div id="skillModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" onclick="closeSkillModal()">&times;</span>
-        <h3>Select a Skill</h3>
-        <ul>
-            <li onclick="addSkill('HTML')"><img src="path_to_icon/html_icon.png" alt="HTML Icon">HTML</li>
-            <li onclick="addSkill('CSS')"><img src="path_to_icon/css_icon.png" alt="CSS Icon">CSS</li>
-            <!-- 다른 스킬들 추가 -->
-        </ul>
-    </div>
-</div>
-
-<!-- 흥미 선택 모달 -->
-<div id="interestModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" onclick="closeInterestModal()">&times;</span>
-        <h3>Select an Interest</h3>
-        <ul>
-            <li onclick="addInterest('Web Development')"><img src="path_to_icon/web_icon.png" alt="Web Icon">Web Development</li>
-            <!-- 다른 흥미 항목들 추가 -->
-        </ul>
-    </div>
-</div>
-
+<footer>
+    <p>&copy; 2024 Studylink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
 <script src="/js/mypage.js"></script>
 </body>
 </html>

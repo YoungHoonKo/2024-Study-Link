@@ -35,7 +35,8 @@ public class JWTFilter extends OncePerRequestFilter {
             }
         }catch (ExpiredJwtException e){
             log.warn("Access token expired: {}", accessToken);
-            SecurityContextHolder.clearContext();
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token has expired"); // 401
+            return;
         }catch (Exception e){
             log.error("An error occurred during token processing", e);
             SecurityContextHolder.clearContext();
@@ -46,9 +47,9 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-//    @Override
-//    protected boolean shouldNotFilter(HttpServletRequest request){
-//        String path = request.getRequestURI();
-//        return path.startsWith("/api/auth/**");
-//    }
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request){
+        String path = request.getRequestURI();
+        return path.startsWith("/api/auth/**");
+    }
 }

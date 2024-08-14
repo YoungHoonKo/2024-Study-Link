@@ -77,10 +77,9 @@ public class UserService {
         if (user.isPresent()) {
             UserProfileDTO dto = new UserProfileDTO();
             dto.setUsername(user.get().getUsername());
-            dto.setEmail(user.get().getEmail());
             dto.setBio(user.get().getBio());
-            dto.setAccountStatus(user.get().getStatus());
-            System.out.println(dto);
+            dto.setPosition(user.get().getPosition());
+            dto.setOrganization(user.get().getOrganization());
             return dto;
         }
         return null;
@@ -101,6 +100,9 @@ public class UserService {
             User user = userOptional.get();
             user.setUsername(userProfileUpdateDTO.getUsername());
             user.setBio(userProfileUpdateDTO.getBio());
+            user.setPosition(userProfileUpdateDTO.getPosition());
+            user.setOrganization(userProfileUpdateDTO.getOrganization());
+//            user.setUserInterests(userProfileUpdateDTO.getInterests());
             return userRepository.save(user);
         }else{
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");

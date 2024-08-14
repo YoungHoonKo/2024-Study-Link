@@ -1,7 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
     const accessToken = localStorage.getItem("access");
+    const refreshToken = localStorage.getItem("refresh");
 
-    if (accessToken) {
+    function reissueAccessToken() {
+        return fetch("/api/auth/reissue", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                refresh: refreshToken
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to reissue access token");
+                }
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem("access", data.access);
+                return data.access;
+            });
+    }
+
+    function validateAndLoadData() {
         fetch("/api/auth/validate-token", {
             method: "POST",
             headers: {
@@ -13,14 +36,42 @@ document.addEventListener('DOMContentLoaded', function () {
                     loadUserProfile();
                     loadUserSkills();
                     loadUserInterests();
+                } else if (response.status === 401 && refreshToken) {
+                    // 토큰 만료로 인한 401 응답 시, 재발행 시도
+                    reissueAccessToken().then(newAccessToken => {
+                        fetch("/api/auth/validate-token", {
+                            method: "POST",
+                            headers: {
+                                'access': newAccessToken
+                            }
+                        })
+                            .then(validateResponse => {
+                                if (validateResponse.ok) {
+                                    loadUserProfile();
+                                    loadUserSkills();
+                                    loadUserInterests();
+                                } else {
+                                    throw new Error("Validation failed after reissue");
+                                }
+                            });
+                    }).catch(error => {
+                        localStorage.removeItem("access");
+                        localStorage.removeItem("refresh");
+                        window.location.href = "/login";
+                    });
                 } else {
-                    console.log(response);
+                    throw new Error("Failed to validate token");
                 }
             })
             .catch(error => {
                 localStorage.removeItem("access");
+                localStorage.removeItem("refresh");
                 window.location.href = "/login";
             });
+    }
+
+    if (accessToken) {
+        validateAndLoadData();
     } else {
         window.location.href = "/";
     }
@@ -41,7 +92,6 @@ function loadUserProfile() {
 
             // 응답 본문을 텍스트로 먼저 출력
             return response.text().then(text => {
-                console.log('Response body as text:', text);
                 // JSON일 경우 파싱 시도
                 if (contentType && contentType.includes("application/json")) {
                     try {
@@ -55,10 +105,10 @@ function loadUserProfile() {
             });
         })
         .then(data => {
-            document.getElementById('username').value = data.username;
-            document.getElementById('email').value = data.email;
+            document.getElementById('nickname').value = data.username;
             document.getElementById('bio').value = data.bio;
-            document.getElementById('accountStatus').innerText = `Status: ${data.accountStatus}`;
+            document.getElementById('job').value = data.position;
+            document.getElementById('affiliation').value = data.organization;
         })
         .catch(error => {
             console.error('Error loading profile:', error.message || error);
@@ -67,9 +117,11 @@ function loadUserProfile() {
 
 function updateProfile() {
     const profileData = {
-        username: document.getElementById('username').value,
-        email: document.getElementById('email').value,
-        bio: document.getElementById('bio').value
+        username: document.getElementById('nickname').value,
+        email: document.getElementById('job').value,
+        bio: document.getElementById('bio').value,
+        organization :document.getElementById('affiliation').value,
+        position: document.getElementById("job").value
     };
     fetch('/api/user/update-profile', {
         method: 'PUT',
@@ -236,13 +288,6 @@ function loadUserInterests() {
         .catch(error => console.error('Error loading interests:', error));
 }
 
-function showInterestModal() {
-    document.getElementById('interestModal').style.display = 'flex';
-}
-
-function closeInterestModal() {
-    document.getElementById('interestModal').style.display = 'none';
-}
 
 function addInterest(interestName) {
     fetch('/api/user/add-interest', {
@@ -310,3 +355,65 @@ function deleteAccount() {
             .catch(error => console.error('Error deleting account:', error));
     }
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const availableSkills = {
+        "spring boot": "Spring Boot",
+        "java": "Java",
+        "c": "C",
+        "c++": "C++",
+        "python": "Python",
+        "mysql": "MySQL"
+    };
+
+    document.getElementById('addSkillButton').addEventListener('click', addSkill);
+
+    function addSkill() {
+        const skillContainer = document.getElementById('skill-container');
+        const selectedSkills = Array.from(document.querySelectorAll('select[name="skills[]"]'))
+            .map(select => select.value);
+
+        const skillGroup = document.createElement('div');
+        skillGroup.className = 'skill-group';
+
+        const skillSelect = document.createElement('select');
+        skillSelect.name = 'skills[]';
+
+        Object.keys(availableSkills).forEach(skill => {
+            if (!selectedSkills.includes(skill)) {
+                const option = document.createElement('option');
+                option.value = skill;
+                option.textContent = availableSkills[skill];
+                skillSelect.appendChild(option);
+            }
+        });
+
+        const levelSelect = document.createElement('select');
+        levelSelect.name = 'skill-levels[]';
+        levelSelect.innerHTML = `
+            <option value="beginner">초급</option>
+            <option value="intermediate">중급</option>
+            <option value="advanced">고급</option>
+        `;
+
+        // 삭제 버튼 생성
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button'; // 버튼이 폼 제출을 방해하지 않도록 설정
+        deleteButton.textContent = '삭제';
+        deleteButton.className = 'delete-skill-button';
+
+        // 삭제 버튼 클릭 시 스킬 항목을 삭제하는 이벤트 핸들러
+        deleteButton.addEventListener('click', function () {
+            skillContainer.removeChild(skillGroup);
+        });
+
+        // skillGroup에 요소들 추가
+        skillGroup.appendChild(skillSelect);
+        skillGroup.appendChild(levelSelect);
+        skillGroup.appendChild(deleteButton);
+
+        // skillContainer에 skillGroup 추가
+        skillContainer.appendChild(skillGroup);
+    }
+});
