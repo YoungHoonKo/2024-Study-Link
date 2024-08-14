@@ -43,28 +43,26 @@
 
 <main>
     <h1>My Page</h1>
-
-    <!-- Profile Information -->
     <section id="profile">
         <h2>Profile Information</h2>
         <form id="profileForm">
             <div>
-                <label for="username">Username:</label>
+                <label for="username">Username</label>
                 <input type="text" id="username" name="username" />
             </div>
 
             <div>
-                <label for="email">Email:</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" />
             </div>
 
             <div>
-                <label for="bio">Bio:</label>
+                <label for="bio">Bio</label>
                 <textarea id="bio" name="bio"></textarea>
             </div>
 
             <div>
-                <label for="profilePicture">Profile Picture:</label>
+                <label for="profilePicture">Profile Picture</label>
                 <input type="file" id="profilePicture" name="profilePicture" />
             </div>
 
@@ -72,22 +70,21 @@
         </form>
     </section>
 
-    <!-- Password Change -->
     <section id="password">
         <h2>Change Password</h2>
         <form id="passwordForm">
             <div>
-                <label for="currentPassword">Current Password:</label>
+                <label for="currentPassword">Current Password</label>
                 <input type="password" id="currentPassword" name="currentPassword" />
             </div>
 
             <div>
-                <label for="newPassword">New Password:</label>
+                <label for="newPassword">New Password</label>
                 <input type="password" id="newPassword" name="newPassword" />
             </div>
 
             <div>
-                <label for="confirmPassword">Confirm New Password:</label>
+                <label for="confirmPassword">Confirm New Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" />
             </div>
 
@@ -95,7 +92,6 @@
         </form>
     </section>
 
-    <!-- Skills Management -->
     <section id="skills">
         <h2>Skills</h2>
         <ul id="skillsList">
@@ -105,7 +101,6 @@
         <button type="button" onclick="addSkill()">Add Skill</button>
     </section>
 
-    <!-- Interests Management -->
     <section id="interests">
         <h2>Interests</h2>
         <ul id="interestsList">
@@ -115,20 +110,11 @@
         <button type="button" onclick="addInterest()">Add Interest</button>
     </section>
 
-    <!-- Account Status -->
     <section id="account-status">
-        <h2>Account Status</h2>
-        <p id="accountStatus">Your account is active.</p>
+        <p id="accountStatus"></p>
         <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
     </section>
 </main>
-<footer>
-    <p>&copy; 2024 MyProfile. All rights reserved.</p>
-    <ul class="social-links">
-        <li><a href="https://www.facebook.com/">Facebook</a></li>
-        <li><a href="https://www.instagram.com/">Instagram</a></li>
-    </ul>
-</footer>
 <script src="/js/mypage.js"></script>
 </body>
 </html>

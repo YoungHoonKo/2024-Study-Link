@@ -6,7 +6,7 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: #f0f2f5;
     color: #333;
-    padding-top: 80px; /* 네비게이션 바의 높이만큼 패딩 추가 */
+    padding-top: 80px;
 }
 
 header {
@@ -99,48 +99,20 @@ section {
 }
 
 h2 {
-    font-family: 'Montserrat', sans-serif;
     font-size: 24px;
+    font-family: 'Montserrat', sans-serif;
     margin-bottom: 20px;
     color: #333;
+    text-align: center;
 }
 
 label {
     font-size: 16px;
     margin-right: 10px;
-}
-
-footer {
-    background: #2c3e50;
-    color: #ffffff;
+    display: block;
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-}
-
-footer p {
-    margin: 0;
-    font-size: 14px;
-}
-
-.social-links {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 0;
-    margin-top: 15px;
-}
-
-.social-links a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-.social-links a:hover {
-    color: #007bff;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 input[type="text"],
@@ -174,18 +146,26 @@ textarea {
 }
 
 input[type="file"] {
-    margin-bottom: 12px;
+    display: block; /* 블록 요소로 변경 */
+    margin: 0 auto;
+    text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 button {
     background-color: #007bff;
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 50%;
+    max-width: 200px;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
 }
 
 button:hover {
@@ -239,7 +219,6 @@ button:hover {
     color: #555;
 }
 
-/* 반응형 디자인 */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
