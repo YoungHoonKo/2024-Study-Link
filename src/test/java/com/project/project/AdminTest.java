@@ -11,6 +11,7 @@ public class AdminTest {
     AdminRepositoryCustom adminRepositoryCustom = new AdminRepositoryImpl();
     @Test
     public void jpql_test(){
+        System.out.println("AdminTest.jpql_test");
 
     }
 }

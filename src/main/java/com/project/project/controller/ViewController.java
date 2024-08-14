@@ -42,8 +42,9 @@ public class ViewController {
     public String mypage(){
         return "user/mypage";
     }
+
     @GetMapping("/profile")
-    public String profile() {return "user/profile";}
+    public String profilepage() { return "user/profile"; }
 
     @GetMapping("/admin")
     public String admin(){
