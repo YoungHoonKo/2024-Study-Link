@@ -10,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -20,20 +17,15 @@ public class UserInterestService {
     private final UserRepository userRepository;
     private final UserInterestRepository userInterestRepository;
 
-    public List<InterestDTO> getUserInterests(String email){
+    public InterestDTO getUserInterests(String email){
         Long userId = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"))
                 .getId();
 
-        List<InterestDTO> userInterest = userInterestRepository.findByUserId(userId)
-                .stream()
-                .map( interest->{
-                    InterestDTO dto = new InterestDTO();
-                    dto.setInterest(interest.getInterest());
-                    return dto;
-                })
-                .collect(Collectors.toList());
-        return userInterest;
+        UserInterest userInterest = userInterestRepository.findByUserId(userId);
+        InterestDTO userInterestDto = new InterestDTO();
+        userInterestDto.setInterest(userInterest.getInterest());
+        return userInterestDto;
     }
 
     public UserInterest addUserInterest(String email, String interest){

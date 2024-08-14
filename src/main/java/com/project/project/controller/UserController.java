@@ -79,17 +79,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/add-skill")
-    public ResponseEntity<UserSkill> addSkill(
-            @RequestBody SkillDTO skillDto){
-        try {
-            String email = getUser();
-            UserSkill userSkill = userService.addUserSkill(email,skillDto.getSkill());
-            return ResponseEntity.ok().body(userSkill);
-        }catch (RuntimeException e){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-    }
 
     @GetMapping("/skills")
     public ResponseEntity<List<SkillDTO>> getUserSkills(){
@@ -99,6 +88,7 @@ public class UserController {
                 .map( skill -> {
                     SkillDTO dto = new SkillDTO();
                     dto.setSkill(skill.getSkill());
+                    dto.setLevel(skill.getLevel());
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -109,7 +99,6 @@ public class UserController {
     @DeleteMapping("/delete-skill")
     public ResponseEntity<Void> deleteSkill(@RequestBody SkillDTO skillDTO){
         String email = getUser();
-
         boolean success = userService.deleteSkill(email, skillDTO.getSkill());
 
         if(success){

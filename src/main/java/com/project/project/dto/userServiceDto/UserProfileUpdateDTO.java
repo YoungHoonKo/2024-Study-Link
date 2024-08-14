@@ -10,7 +10,6 @@ public class UserProfileUpdateDTO {
     private String position;
     private String organization;
     private String bio;
-    List<String> skills;
-    String interests;
-
+    List<SkillDTO> skills;
+    String interest;
 }

@@ -2,8 +2,6 @@ package com.project.project.dto.userServiceDto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class UserProfileDTO {
     private String username;
@@ -11,3 +9,4 @@ public class UserProfileDTO {
     private String organization;
     private String bio;
 }
+

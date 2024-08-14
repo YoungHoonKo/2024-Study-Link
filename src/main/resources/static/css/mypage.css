@@ -237,3 +237,27 @@ footer p {
 .social-links a:hover {
     color: #007bff;
 }
+.skill-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.skill-group select {
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.delete-skill-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-skill-button:hover {
+    background-color: #c82333;
+}

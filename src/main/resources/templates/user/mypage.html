@@ -31,7 +31,6 @@
 <main>
     <section>
         <h2>환영합니다.</h2>
-        <!-- 닉네임 -->
         <form id="profileForm">
             <div class="form-group">
                 <label for="nickname">닉네임 *</label>
@@ -63,23 +62,9 @@
             </div>
 
             <div class="form-group">
-                <label for="skill-container">Skill</label>
+                <label for="skill-container">보유 스킬</label>
                 <div id="skill-container">
-                    <div class="skill-group">
-                        <select name="skills[]">
-                            <option value="spring boot">Spring Boot</option>
-                            <option value="java">Java</option>
-                            <option value="c">C</option>
-                            <option value="c++">C++</option>
-                            <option value="python">Python</option>
-                            <option value="mysql">MySQL</option>
-                        </select>
-                        <select name="skill-levels[]">
-                            <option value="beginner">초급</option>
-                            <option value="intermediate">중급</option>
-                            <option value="advanced">고급</option>
-                        </select>
-                    </div>
+                    <!-- 이미 보유하고 있는 스킬들이 여기에 로드됩니다 -->
                 </div>
                 <button type="button" id="addSkillButton">스킬 추가하기</button>
             </div>
@@ -110,7 +95,7 @@
                 </select>
             </div>
 
-            <button type="submit" id="saveProfileButton", onclick="updateProfile()">프로필 저장</button>
+            <button type="submit" id="saveProfileButton">프로필 저장</button>
         </form>
     </section>
 </main>

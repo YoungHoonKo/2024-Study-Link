@@ -1,11 +1,14 @@
 package com.project.project.service;
 
+import com.project.project.dto.userServiceDto.SkillDTO;
 import com.project.project.dto.userServiceDto.UserPasswordChangeDTO;
 import com.project.project.dto.userServiceDto.UserProfileDTO;
 import com.project.project.dto.userServiceDto.UserProfileUpdateDTO;
 import com.project.project.entity.User;
+import com.project.project.entity.UserInterest;
 import com.project.project.entity.UserSkill;
 import com.project.project.exception.UserNotFoundException;
+import com.project.project.repository.UserInterestRepository;
 import com.project.project.repository.UserRepository;
 import com.project.project.repository.UserSkillRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserSkillRepository userSkillRepository;
+    private final UserInterestRepository userInterestRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -93,16 +97,32 @@ public class UserService {
         userRepository.deleteUserByEmail(email);
     }
 
+    @Transactional
     public User updateUserProfile(String email, UserProfileUpdateDTO userProfileUpdateDTO){
         Optional<User> userOptional = userRepository.findByEmail(email);
-
+        System.out.println(userProfileUpdateDTO);
         if (userOptional.isPresent()){
             User user = userOptional.get();
             user.setUsername(userProfileUpdateDTO.getUsername());
             user.setBio(userProfileUpdateDTO.getBio());
             user.setPosition(userProfileUpdateDTO.getPosition());
             user.setOrganization(userProfileUpdateDTO.getOrganization());
-//            user.setUserInterests(userProfileUpdateDTO.getInterests());
+
+            userSkillRepository.deleteByUserId(user.getId());
+            userInterestRepository.deleteByUserId(user.getId());
+            UserInterest userInterest = new UserInterest();
+            userInterest.setInterest(userProfileUpdateDTO.getInterest());
+            userInterest.setUser(user);
+            userInterestRepository.save(userInterest);
+
+            for (SkillDTO skillDTO : userProfileUpdateDTO.getSkills()) {
+                UserSkill userSkill = new UserSkill();
+                userSkill.setUser(user);
+                userSkill.setSkill(skillDTO.getSkill());
+                userSkill.setLevel(skillDTO.getLevel());
+                userSkillRepository.save(userSkill);
+            }
+
             return userRepository.save(user);
         }else{
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
@@ -110,40 +130,23 @@ public class UserService {
 
     }
 
-    public UserSkill addUserSkill(String email, String skill){
-        Long userId = getUserIdByEmail(email);
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        UserSkill existingSkill = userSkillRepository.findByUserIdAndSkill(userId,skill);
-
-        if (existingSkill != null){
-            throw new RuntimeException("Skill already exists for the user");
-        }
-
-        UserSkill userSkill = new UserSkill();
-        userSkill.setUser(user);
-        userSkill.setSkill(skill);
-
-        return userSkillRepository.save(userSkill);
-    }
 
     public List<UserSkill> getUserSkills(String email){
         Long userId = getUserIdByEmail(email);
         return userSkillRepository.findByUserId(userId);
     }
-
+    @Transactional
     public boolean deleteSkill(String email, String skill){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-
         UserSkill userSkill = userSkillRepository.findByUserIdAndSkill(user.getId(), skill);
-
         if (userSkill != null){
             userSkillRepository.deleteByUserIdAndSkill(user.getId(), skill);
             log.info("Skill '{}' deleted successfully for user '{}'", skill, email);
+            System.out.println(userSkill.getSkill());
             return true;
         }else{
+            System.out.println(userSkill.getSkill());
             log.warn("Skill '{}' not found for user '{}' ",skill,email);
             return false;
         }

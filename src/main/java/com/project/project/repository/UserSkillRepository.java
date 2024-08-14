@@ -11,4 +11,5 @@ public interface UserSkillRepository extends JpaRepository<UserSkill,Long> {
     List<UserSkill> findByUserId(Long userId);
     UserSkill findByUserIdAndSkill(Long userId, String skill);
     void deleteByUserIdAndSkill(Long userId, String skill);
+    void deleteByUserId(Long userId);
 }

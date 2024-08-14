@@ -21,9 +21,9 @@ public class UserInterestController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/interests")
-    public ResponseEntity<List<InterestDTO>> getUserInterest(@RequestHeader("access") String accessToken) {
+    public ResponseEntity<InterestDTO> getUserInterest(@RequestHeader("access") String accessToken) {
         String email = jwtUtil.getEmail(accessToken);
-        List<InterestDTO> userInterest = userInterestService.getUserInterests(email);
+       InterestDTO userInterest = userInterestService.getUserInterests(email);
 
         return ResponseEntity.ok().body(userInterest);
     }

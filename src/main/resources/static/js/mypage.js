@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const accessToken = localStorage.getItem("access");
     const refreshToken = localStorage.getItem("refresh");
 
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼 제출 방지
+
+        updateProfile(); // 프로필 업데이트 함수 호출
+    });
+
     function reissueAccessToken() {
         return fetch("/api/auth/reissue", {
             method: "POST",
@@ -37,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     loadUserSkills();
                     loadUserInterests();
                 } else if (response.status === 401 && refreshToken) {
-                    // 토큰 만료로 인한 401 응답 시, 재발행 시도
                     reissueAccessToken().then(newAccessToken => {
                         fetch("/api/auth/validate-token", {
                             method: "POST",
@@ -76,206 +81,203 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = "/";
     }
 
-    // 초기 데이터 로드
-});
-
-function loadUserProfile() {
-    fetch('/api/user/profile', {
-        method: "GET",
-        headers: {
-            "access": localStorage.getItem("access"),
-            "Content-Type": "application/json"
-        }
-    })
-        .then(response => {
-            const contentType = response.headers.get("content-type");
-
-            // 응답 본문을 텍스트로 먼저 출력
-            return response.text().then(text => {
-                // JSON일 경우 파싱 시도
-                if (contentType && contentType.includes("application/json")) {
-                    try {
-                        return JSON.parse(text);
-                    } catch (error) {
-                        throw new Error(`Failed to parse JSON: ${error.message}`);
+    function loadUserProfile() {
+        fetch('/api/user/profile', {
+            method: "GET",
+            headers: {
+                "access": localStorage.getItem("access"),
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => {
+                const contentType = response.headers.get("content-type");
+                return response.text().then(text => {
+                    if (contentType && contentType.includes("application/json")) {
+                        try {
+                            return JSON.parse(text);
+                        } catch (error) {
+                            throw new Error(`Failed to parse JSON: ${error.message}`);
+                        }
+                    } else {
+                        throw new Error(`Expected JSON, but got: ${text}`);
                     }
-                } else {
-                    throw new Error(`Expected JSON, but got: ${text}`);
-                }
+                });
+            })
+            .then(data => {
+                document.getElementById('nickname').value = data.username;
+                document.getElementById('bio').value = data.bio;
+                document.getElementById('job').value = data.position;
+                document.getElementById('affiliation').value = data.organization;
+            })
+            .catch(error => {
+                console.error('Error loading profile:', error.message || error);
             });
-        })
-        .then(data => {
-            document.getElementById('nickname').value = data.username;
-            document.getElementById('bio').value = data.bio;
-            document.getElementById('job').value = data.position;
-            document.getElementById('affiliation').value = data.organization;
-        })
-        .catch(error => {
-            console.error('Error loading profile:', error.message || error);
+    }
+    function updateProfile() {
+        // 기본 프로필 데이터를 수집합니다.
+        const profileData = {
+            username: document.getElementById('nickname').value,
+            email: document.getElementById('job').value,
+            bio: document.getElementById('bio').value,
+            organization: document.getElementById('affiliation').value,
+            position: document.getElementById("job").value,
+            skills: [],  // 스킬 데이터를 추가하기 위한 배열
+            interest: document.getElementById("interests").value
+        };
+
+        // 모든 스킬과 해당 레벨을 수집합니다.
+        const skillGroups = document.querySelectorAll('.skill-group');
+        skillGroups.forEach(group => {
+            const skill = group.querySelector('select[name="skills[]"]').value;
+            const level = group.querySelector('select[name="skill-levels[]"]').value;
+            profileData.skills.push({ skill, level });
         });
-}
 
-function updateProfile() {
-    const profileData = {
-        username: document.getElementById('nickname').value,
-        email: document.getElementById('job').value,
-        bio: document.getElementById('bio').value,
-        organization :document.getElementById('affiliation').value,
-        position: document.getElementById("job").value
-    };
-    fetch('/api/user/update-profile', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify(profileData)
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert('Profile updated successfully');
-            window.location.reload();
+        // 서버로 프로필 데이터를 전송합니다.
+        fetch('/api/user/update-profile', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': localStorage.getItem("access")
+            },
+            body: JSON.stringify(profileData)
         })
-        .catch(error => console.error('Error updating profile:', error));
-}
+            .then(response => response.json())
+            .then(data => {
+                alert('Profile updated successfully');
+            })
+            .catch(error => console.error('Error updating profile:', error));
+    }
 
-function changePassword() {
-    const passwordData = {
-        currentPassword: document.getElementById('currentPassword').value,
-        newPassword: document.getElementById('newPassword').value,
-        confirmPassword: document.getElementById('confirmPassword').value
-    };
+    function changePassword() {
+        const passwordData = {
+            currentPassword: document.getElementById('currentPassword').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value
+        };
 
-    fetch('/api/user/password', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify(passwordData)
-    })
-        .then(response => {
-            if (response.ok) {
-                alert('Password changed successfully');
-            } else {
-                alert('Failed to change password');
+        fetch('/api/user/password', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': localStorage.getItem("access")
+            },
+            body: JSON.stringify(passwordData)
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Password changed successfully');
+                } else {
+                    alert('Failed to change password');
+                }
+            })
+            .catch(error => console.error('Error changing password:', error));
+    }
+
+    function loadUserSkills() {
+        fetch('/api/user/skills', {
+            method: 'GET',
+            headers: {
+                'access': localStorage.getItem("access")
             }
         })
-        .catch(error => console.error('Error changing password:', error));
-}
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(skills => {
+                const skillContainer = document.getElementById('skill-container');
+                skillContainer.innerHTML = '';
 
-function loadUserSkills() {
-    fetch('/api/user/skills', {
-        method: 'GET',
-        headers: {
-            'access': localStorage.getItem("access")
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // JSON으로 파싱
+                skills.forEach(skill => {
+                    const skillGroup = document.createElement('div');
+                    skillGroup.className = 'skill-group';
+
+                    const skillSelect = document.createElement('select');
+                    skillSelect.name = 'skills[]';
+                    const option = document.createElement('option');
+                    option.value = skill.skill;
+                    option.textContent = skill.skill;
+                    skillSelect.appendChild(option);
+                    skillSelect.disabled = true;
+
+                    const levelSelect = document.createElement('select');
+                    levelSelect.name = 'skill-levels[]';
+                    levelSelect.innerHTML = `
+                    <option value="beginner" ${skill.level === 'beginner' ? 'selected' : ''}>초급</option>
+                    <option value="intermediate" ${skill.level === 'intermediate' ? 'selected' : ''}>중급</option>
+                    <option value="advanced" ${skill.level === 'advanced' ? 'selected' : ''}>고급</option>
+                `;
+                    levelSelect.disabled = true;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.type = 'button';
+                    deleteButton.textContent = '삭제';
+                    deleteButton.className = 'delete-skill-button';
+                    deleteButton.addEventListener('click', function () {
+                        console.log(skill)
+                        deleteSkill(skill);
+                    });
+
+                    skillGroup.appendChild(skillSelect);
+                    skillGroup.appendChild(levelSelect);
+                    skillGroup.appendChild(deleteButton);
+
+                    skillContainer.appendChild(skillGroup);
+                });
+            })
+            .catch(error => console.error('Error loading skills:', error));
+    }
+
+
+    function deleteSkill(skill) {
+        fetch('/api/user/delete-skill', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': localStorage.getItem("access")
+            },
+            body: JSON.stringify({ skill: skill.skill,
+                level: skill.level
+            })
         })
-        .then(skills => {
-            console.log('Fetched skills:', skills);
-            const skillsList = document.getElementById('skillsList');
-            skillsList.innerHTML = '';
+            .then(response => {
+                if (response.ok) {
+                    loadUserSkills();
+                } else {
+                    alert('Failed to delete skill');
+                }
+            })
+            .catch(error => console.error('Error deleting skill:', error));
+    }
 
-            skills.forEach(skill => {
-                const li = document.createElement('li');
-                li.innerText = skill.skill; // UserSkillDTO의 skillName 필드 사용
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-                deleteButton.onclick = () => deleteSkill(skill);
-                li.appendChild(deleteButton);
-                skillsList.appendChild(li);
-            });
-
-            // 이미 선택한 스킬을 모달에서 제외
-            const allSkills = ['HTML', 'CSS', 'JavaScript', 'Python', 'Java', 'C++', 'Spring Boot', 'React', 'Vue.js', 'Angular', 'Node.js', 'Django', 'Flask', 'SQL', 'MongoDB', 'Linux', 'Docker', 'Kubernetes', 'Git', 'MySQL', 'PostgreSQL'];
-            const availableSkills = allSkills.filter(skill => !skills.map(s => s.skillName).includes(skill));
-
-            updateSkillModal(availableSkills);
-        })
-        .catch(error => console.error('Error loading skills:', error));
-}
-
-function updateSkillModal(skills) {
-    const skillModalList = document.getElementById('skillModalList');
-    skillModalList.innerHTML = ''; // 모달의 기존 내용을 지움
-    skills.forEach(skill => {
-        const li = document.createElement('li');
-        li.innerText = skill;
-        li.onclick = () => addSkill(skill);
-        skillModalList.appendChild(li);
-    });
-}
-
-function showSkillModal() {
-    document.getElementById('skillModal').style.display = 'flex';
-}
-
-function closeSkillModal() {
-    document.getElementById('skillModal').style.display = 'none';
-}
-
-function addSkill(skillName) {
-    fetch('/api/user/add-skill', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify({ skill: skillName })
-    })
-        .then(response => response.json())
-        .then(skill => {
-            const skillsList = document.getElementById('skillsList');
-            const li = document.createElement('li');
-            li.innerText = skill;
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete';
-            deleteButton.onclick = () => deleteSkill(skill);
-            li.appendChild(deleteButton);
-            skillsList.appendChild(li);
-            closeSkillModal(); // 스킬 선택 후 모달 닫기
-            loadUserSkills(); // 스킬 리스트 갱신
-        })
-        .catch(error => console.error('Error adding skill:', error));
-}
-
-function deleteSkill(skill) {
-    fetch('/api/user/delete-skill', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify({ skill: skill })
-    })
-        .then(response => {
-            if (response.ok) {
-                loadUserSkills(); // 스킬 목록을 다시 로드하여 갱신
-            } else {
-                alert('Failed to delete skill');
+    function loadUserInterests() {
+        fetch('/api/user/interests', {
+            method: 'GET',
+            headers: {
+                'access': localStorage.getItem("access")
             }
         })
-        .catch(error => console.error('Error deleting skill:', error));
-}
-
-function loadUserInterests() {
-    fetch('/api/user/interests', {
-        method: 'GET',
-        headers: {
-            'access': localStorage.getItem("access")
-        }
-    })
-        .then(response => response.json())
-        .then(interests => {
-            const interestsList = document.getElementById('interestsList');
-            interestsList.innerHTML = '';
-            interests.forEach(interest => {
+            .then(response => response.json())
+            .then(interests => {
+                document.getElementById("interests").value = interests.interest
+            })
+            .catch(error => console.error('Error loading interests:', error));
+    }
+    function addInterest(interestName) {
+        fetch('/api/user/add-interest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'access': localStorage.getItem("access")
+            },
+            body: JSON.stringify({ interest: interestName })
+        })
+            .then(response => response.json())
+            .then(interest => {
+                const interestsList = document.getElementById('interestsList');
                 const li = document.createElement('li');
                 li.innerText = interest;
                 const deleteButton = document.createElement('button');
@@ -283,81 +285,53 @@ function loadUserInterests() {
                 deleteButton.onclick = () => deleteInterest(interest);
                 li.appendChild(deleteButton);
                 interestsList.appendChild(li);
-            });
-        })
-        .catch(error => console.error('Error loading interests:', error));
-}
+            })
+            .catch(error => console.error('Error adding interest:', error));
+    }
 
-
-function addInterest(interestName) {
-    fetch('/api/user/add-interest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify({ interest: interestName })
-    })
-        .then(response => response.json())
-        .then(interest => {
-            const interestsList = document.getElementById('interestsList');
-            const li = document.createElement('li');
-            li.innerText = interest;
-            const deleteButton = document.createElement('button');
-            deleteButton.innerText = 'Delete';
-            deleteButton.onclick = () => deleteInterest(interest);
-            li.appendChild(deleteButton);
-            interestsList.appendChild(li);
-            closeInterestModal(); // 흥미 선택 후 모달 닫기
-        })
-        .catch(error => console.error('Error adding interest:', error));
-}
-
-function deleteInterest(interest) {
-    fetch('/api/user/delete-interest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'access': localStorage.getItem("access")
-        },
-        body: JSON.stringify({ interest: interest })
-    })
-        .then(response => {
-            if (response.ok) {
-                loadUserInterests(); // 흥미 목록을 다시 로드하여 갱신
-            } else {
-                alert('Failed to delete interest');
-            }
-        })
-        .catch(error => console.error('Error deleting interest:', error));
-}
-
-function deleteAccount() {
-    const confirmation = confirm("정말 회원탈퇴를 하시겠습니까?");
-
-    if (confirmation) {
-        fetch('/api/user/delete-user', {
-            method: 'DELETE',
+    function deleteInterest(interest) {
+        fetch('/api/user/delete-interest', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'access': localStorage.getItem("access")
-            }
+            },
+            body: JSON.stringify({ interest: interest })
         })
             .then(response => {
                 if (response.ok) {
-                    alert("Your account has been successfully deleted.");
-                    localStorage.removeItem("access"); // 로그아웃 처리
-                    window.location.href = "/"; // 홈 페이지로 리다이렉트
+                    loadUserInterests();
                 } else {
-                    alert("Failed to delete the account. Please try again.");
+                    alert('Failed to delete interest');
                 }
             })
-            .catch(error => console.error('Error deleting account:', error));
+            .catch(error => console.error('Error deleting interest:', error));
     }
-}
 
+    function deleteAccount() {
+        const confirmation = confirm("정말 회원탈퇴를 하시겠습니까?");
+        if (confirmation) {
+            fetch('/api/user/delete-user', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'access': localStorage.getItem("access")
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Your account has been successfully deleted.");
+                        localStorage.removeItem("access");
+                        window.location.href = "/";
+                    } else {
+                        alert("Failed to delete the account. Please try again.");
+                    }
+                })
+                .catch(error => console.error('Error deleting account:', error));
+        }
+    }
 
-document.addEventListener('DOMContentLoaded', function () {
+// 스킬 로드 및 추가 기능 로드
     const availableSkills = {
         "spring boot": "Spring Boot",
         "java": "Java",
@@ -392,28 +366,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const levelSelect = document.createElement('select');
         levelSelect.name = 'skill-levels[]';
         levelSelect.innerHTML = `
-            <option value="beginner">초급</option>
-            <option value="intermediate">중급</option>
-            <option value="advanced">고급</option>
-        `;
+        <option value="beginner">초급</option>
+        <option value="intermediate">중급</option>
+        <option value="advanced">고급</option>
+    `;
 
-        // 삭제 버튼 생성
         const deleteButton = document.createElement('button');
-        deleteButton.type = 'button'; // 버튼이 폼 제출을 방해하지 않도록 설정
+        deleteButton.type = 'button';
         deleteButton.textContent = '삭제';
         deleteButton.className = 'delete-skill-button';
 
-        // 삭제 버튼 클릭 시 스킬 항목을 삭제하는 이벤트 핸들러
         deleteButton.addEventListener('click', function () {
             skillContainer.removeChild(skillGroup);
         });
 
-        // skillGroup에 요소들 추가
         skillGroup.appendChild(skillSelect);
         skillGroup.appendChild(levelSelect);
         skillGroup.appendChild(deleteButton);
 
-        // skillContainer에 skillGroup 추가
         skillContainer.appendChild(skillGroup);
     }
+
+    loadUserSkills();
 });
