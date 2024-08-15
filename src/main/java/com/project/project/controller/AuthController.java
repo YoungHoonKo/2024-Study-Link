@@ -72,7 +72,7 @@ public class AuthController {
 
 
     @PostMapping("/check-role")
-    public Map<String, String> checkRole(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<Map<String, String>> checkRole(@AuthenticationPrincipal UserDetails userDetails, HttpServletResponse httpResponse, String refreshTokenCookie){
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         String roles = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
@@ -81,9 +81,11 @@ public class AuthController {
         System.out.println("User roles: " + roles);
         Map<String, String> response = new HashMap<>();
         response.put("roles", roles);
-        return response;
+        String email = jwtUtil.getEmail(refreshTokenCookie);
+        TokenResponseDto tokenResponseDto = jwtTokenService.reissueAccessToken(refreshTokenCookie, email);
+        httpResponse.setHeader("access", tokenResponseDto.getAccessToken());
+        return ResponseEntity.ok(response);  // JSON 응답 반환
     }
-
 
     static class ApiResponse {
         private boolean success;
