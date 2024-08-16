@@ -1,18 +1,21 @@
 package com.project.project.controller;
 
 import com.project.project.dto.CustomUserDetails;
-import com.project.project.dto.userServiceDto.UserPasswordChangeDTO;
-import com.project.project.dto.userServiceDto.UserProfileDTO;
-import com.project.project.dto.userServiceDto.UserProfileUpdateDTO;
+import com.project.project.dto.userServiceDto.*;
 import com.project.project.entity.User;
+import com.project.project.entity.UserSkill;
 import com.project.project.service.JwtTokenService;
 import com.project.project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,26 +27,25 @@ public class UserController {
 
     private String getUser() {
         CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(customUserDetails.getUsername());
         return customUserDetails.getUsername();
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<UserProfileDTO> getUserProfile(){
+    public ResponseEntity<UserProfileDTO> getUserProfile() {
         String email = getUser();
         UserProfileDTO profile = userService.getUserProfileDTO(email);
-        if (profile != null){
-            return ResponseEntity.ok(profile);
-        }else{
+        if (profile != null) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(profile);
+        } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @PutMapping("/password")
     public ResponseEntity<Void> changePassword(@RequestBody UserPasswordChangeDTO dto) {
         String email = getUser();
-        System.out.println(dto);
         boolean isPaasswordChanged = userService.changeUserPassword(email,dto);
         System.out.println(isPaasswordChanged);
         if (isPaasswordChanged){
@@ -75,5 +77,34 @@ public class UserController {
         User user = userService.updateUserProfile(email,userProfileUpdateDTO);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/skills")
+    public ResponseEntity<List<SkillDTO>> getUserSkills(){
+        List<UserSkill> userSkills = userService.getUserSkills(getUser());
+
+        List<SkillDTO> userSkillsDTO = userSkills.stream()
+                .map( skill -> {
+                    SkillDTO dto = new SkillDTO();
+                    dto.setSkill(skill.getSkill());
+                    dto.setLevel(skill.getLevel());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(userSkillsDTO);
+    }
+
+    @DeleteMapping("/delete-skill")
+    public ResponseEntity<Void> deleteSkill(@RequestBody SkillDTO skillDTO){
+        String email = getUser();
+        boolean success = userService.deleteSkill(email, skillDTO.getSkill());
+
+        if(success){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.status(401).build();
+        }
     }
 }

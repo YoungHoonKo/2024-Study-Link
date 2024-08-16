@@ -31,13 +31,17 @@ public class User{
     @OneToOne(mappedBy = "user")
     private Admin admin;
 
-
+    @Column(name = "position")
+    private String position;
 
     @Column(name = "address")
     private String address;
 
     @Column(name = "postcode")
     private String postcode;
+
+    @Column(name = "Organization")
+    private String organization;
 
     @Column(name="status", nullable = false)
     private String status;
