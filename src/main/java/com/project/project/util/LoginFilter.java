@@ -53,7 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-        System.out.println("role" + role);
+        System.out.println("role : " + role);
         String access = jwtUtil.createAccessJwt(username,role);
         String refresh = jwtUtil.createRefreshJwt(username,role);
 

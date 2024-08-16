@@ -68,21 +68,23 @@ public class AuthController {
         }
 
 
-
+//public ResponseEntity<Void> admin(@RequestHeader("access") String token) {
     @PostMapping("/check-role")
-    public ResponseEntity<Map<String, String>> checkRole(@AuthenticationPrincipal UserDetails userDetails, HttpServletResponse httpResponse, String refreshTokenCookie){
+    public String checkRole(@AuthenticationPrincipal UserDetails userDetails,
+                                                         @RequestHeader("access") String token,HttpServletResponse httpResponse, String refreshTokenCookie){
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         String roles = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
 
-        System.out.println("User roles: " + roles);
+        String checkRole = jwtUtil.getRole(token);
         Map<String, String> response = new HashMap<>();
         response.put("roles", roles);
         String email = jwtUtil.getEmail(refreshTokenCookie);
         TokenResponseDto tokenResponseDto = jwtTokenService.reissueAccessToken(refreshTokenCookie, email);
         httpResponse.setHeader("access", tokenResponseDto.getAccessToken());
-        return ResponseEntity.ok(response);  // JSON 응답 반환
+        S
+        return checkRole;// JSON 응답 반환
     }
 
     static class ApiResponse {

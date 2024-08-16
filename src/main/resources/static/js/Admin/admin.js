@@ -1,33 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('access');
-
+    const token = localStorage.getItem('access'); // access 키로 올바르게 가져오기
 
     async function checkUserRole() {
         try {
             const response = await fetch('/api/auth/check-role', {
-                method: 'POST',
+                method: 'POST', // 서버가 GET을 사용한다고 가정하면 POST로 수정
                 headers: {
+                    'Authorization': `Bearer ${token}`, // 올바른 토큰 사용
                     'Content-Type': 'application/json',
-                    'access': token  // JWT 토큰을 헤더에 추가합니다.
                 }
             });
+            console.log(response);
 
             if (response.ok) {
-
                 const contentType = response.headers.get('content-type');
-                const data = await response.json();  // JSON으로 응답을 처리
-                console.log('Role data:', data);
-                return data.role;  // 서버 응답이 JSON 객체라면 data.role로 접근
-                // if (contentType && contentType.includes('application/json')) {
-                //     const data = await response.json();  // JSON으로 응답을 처리
-                //     console.log('Role data:', data);
-                //     return data.role;  // 서버 응답이 JSON 객체라면 data.role로 접근
-                // } else {
-                //     // 예상하지 못한 형식의 응답일 경우
-                //     const errorText = await response.text();  // 응답을 텍스트로 읽기
-                //     console.error('Unexpected response format:', errorText);
-                //     return null;
-                // }
+                console.log(contentType);
+                //FIXME : contenttype = html임
+
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    console.log(data);
+                    return data.roles; // JSON 응답에서 roles를 반환
+                } else {
+                    const errorText = await response.text();
+                    console.error('Unexpected response format:', errorText);
+                    return null;
+                }
             } else {
                 console.error('Role check failed:', response.status);
                 return null;
@@ -40,26 +38,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function initializeAdminPage() {
         const role = await checkUserRole();
-        console.log(role);
+        console.log('Role:', role);
+
         const adminTitle = document.getElementById('admin-title');
         const adminContent = document.getElementById('admin-content');
         const accessDenied = document.getElementById('access-denied');
         const memberList = document.getElementById('member_list');
 
-
-        adminTitle.textContent = '관리자 페이지에 오신 것을 환영합니다';
-        adminContent.style.display = 'block';
-        memberList.style.display = 'block';
-        // if (role && role.includes("ROLE_ADMIN")) {
-        //
-        //     adminTitle.textContent = '관리자 페이지에 오신 것을 환영합니다';
-        //     adminContent.style.display = 'block';
-        //     memberList.style.display = 'block'; // 권한이 확인되면 버튼들이 보이도록 설정
-        // } else {
-        //     adminTitle.textContent = '접근 불가';
-        //     accessDenied.style.display = 'block';
-        // }
+        if (role === "ROLE_ADMIN") {
+            adminTitle.textContent = '관리자 페이지에 오신 것을 환영합니다';
+            adminContent.style.display = 'block';
+            memberList.style.display = 'block'; // 권한이 확인되면 버튼들이 보이도록 설정
+            accessDenied.style.display = 'none'; // 접근 거부 메시지는 숨김
+        } else if (role === null) {
+            adminTitle.textContent = '지금 role 값이 null 임..';
+            accessDenied.style.display = 'block'; // 접근 거부 메시지 보이기
+            adminContent.style.display = 'none';
+            memberList.style.display = 'none';
+        } else {
+            console.log("role = " + role);
+            adminTitle.textContent = '접근 불가';
+            accessDenied.style.display = 'block'; // 접근 거부 메시지 보이기
+            adminContent.style.display = 'none';
+            memberList.style.display = 'none';
+        }
     }
 
-    initializeAdminPage();
+    initializeAdminPage(); // DOMContentLoaded 안에서 호출
 });
