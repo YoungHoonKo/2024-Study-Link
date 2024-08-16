@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 탈퇴</title>
+  <link rel="stylesheet" href="/css/passwordChange.css">
+</head>
+<body>
+<header>
+  <nav>
+    <div class="logo" onclick="location.href='/'">Studylink</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li class="dropdown">
+        <a href="#">Menu</a>
+        <ul class="dropdown-content">
+          <li><a href="/board/paging">게시판</a></li>
+        </ul>
+      </li>
+      <li><a href="/about">About</a></li>
+      <li class="dropdown" id="profileMenu">
+        <a href="#">Profile</a>
+        <ul class="dropdown-content" id="profileDropdown">
+          <li><a href="/mypage">mypage</a></li>
+          <li><a href="/mypage/password-change">비밀번호 변경</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <section>
+    <h2>회원 탈퇴</h2>
+    <form id="deleteAccountForm">
+      <p>회원 탈퇴를 원하시면 비밀번호를 입력해주세요.</p>
+
+      <div class="form-group">
+        <label for="password">비밀번호 *</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" id="deleteAccountButton">회원 탈퇴</button>
+    </form>
+  </section>
+</main>
+<footer>
+  <p>&copy; 2024 Studylink. All rights reserved.</p>
+  <ul class="social-links">
+    <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+    <li><a href="https://www.instagram.com/">Instagram</a></li>
+  </ul>
+</footer>
+<script src="/js/delete_account.js"></script>
+</body>
+</html>

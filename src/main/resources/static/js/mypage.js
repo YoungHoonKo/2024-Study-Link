@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (accessToken) {
         validateAndLoadData();
     } else {
-        window.location.href = "/";
+        window.location.href = "/login";
     }
 
     function loadUserProfile() {
@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             })
             .then(data => {
+                document.getElementById("welcome").innerText = data.username + "님 환영합니다."
                 document.getElementById('nickname').value = data.username;
                 document.getElementById('bio').value = data.bio;
                 document.getElementById('job').value = data.position;
@@ -142,9 +143,12 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(profileData)
         })
-            .then(response => response.json())
-            .then(data => {
-                alert('Profile updated successfully');
+            .then(response => {
+                if (response.ok){
+                    window.location.reload();
+                }else{
+                    alert("faild!")
+                }
             })
             .catch(error => console.error('Error updating profile:', error));
     }

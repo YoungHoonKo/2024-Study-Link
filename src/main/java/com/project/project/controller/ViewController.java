@@ -51,4 +51,13 @@ public class ViewController {
         return "Admin/admin";
     }
 
+    @GetMapping("/mypage/password-change")
+    public String passwordChange(){
+        return "user/password_change";
+    }
+
+    @GetMapping("/mypage/delete-account")
+    public String deleteAccount(){
+        return "user/delete_account";
+    }
 }

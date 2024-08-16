@@ -22,7 +22,8 @@
             <li class="dropdown" id="profileMenu">
                 <a href="#">Profile</a>
                 <ul class="dropdown-content" id="profileDropdown">
-                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                    <li><a href="/mypage/password-change">비밀번호 변경</a></li>
+                    <li><a href="/mypage/delete-account">회원탈퇴</a></li>
                 </ul>
             </li>
         </ul>
@@ -30,7 +31,7 @@
 </header>
 <main>
     <section>
-        <h2>환영합니다.</h2>
+        <h2 id ="welcome">환영합니다.</h2>
         <form id="profileForm">
             <div class="form-group">
                 <label for="nickname">닉네임 *</label>
