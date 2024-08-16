@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch('/api/auth/check-role', {
                 method: 'POST', // 서버가 GET을 사용한다고 가정하면 POST로 수정
                 headers: {
-                    'Authorization': `Bearer ${token}`, // 올바른 토큰 사용
+                    'access' : token, // 올바른 토큰 사용
                     'Content-Type': 'application/json',
                 }
             });
