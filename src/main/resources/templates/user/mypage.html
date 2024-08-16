@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>My pages</title>
     <link rel="stylesheet" href="/css/mypage.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
@@ -34,80 +34,84 @@
         </ul>
     </nav>
 </header>
-
 <main>
-    <h1>My Page</h1>
-    <section id="profile">
-        <h2>Profile Information</h2>
+    <section>
+        <h2>환영합니다.</h2>
         <form id="profileForm">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" />
+            <div class="form-group">
+                <label for="nickname">닉네임 *</label>
+                <input type="text" id="nickname" name="nickname">
             </div>
 
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" />
+            <div class="form-group">
+                <label for="job">직무 *</label>
+                <select id="job" name="job">
+                    <option value="backend">백엔드</option>
+                    <option value="designer">디자이너</option>
+                    <option value="ios">iOS</option>
+                    <option value="android">안드로이드</option>
+                    <option value="devops">데브옵스</option>
+                    <option value="pm">PM</option>
+                    <option value="planner">기획자</option>
+                    <option value="marketer">마케터</option>
+                </select>
             </div>
 
-            <div>
-                <label for="bio">Bio</label>
+            <div class="form-group">
+                <label for="affiliation">소속</label>
+                <input type="text" id="affiliation" name="affiliation">
+            </div>
+
+            <div class="form-group">
+                <label for="bio">자기소개</label>
                 <textarea id="bio" name="bio"></textarea>
             </div>
 
-            <div>
-                <label for="profilePicture">Profile Picture</label>
-                <input type="file" id="profilePicture" name="profilePicture" />
+            <div class="form-group">
+                <label for="skill-container">보유 스킬</label>
+                <div id="skill-container">
+                    <!-- 이미 보유하고 있는 스킬들이 여기에 로드됩니다 -->
+                </div>
+                <button type="button" id="addSkillButton">스킬 추가하기</button>
             </div>
 
-            <button type="button" onclick="updateProfile()">Update Profile</button>
+            <div class="form-group">
+                <label for="interests">관심분야</label>
+                <select id="interests" name="interests">
+                    <option value="web_development">웹개발</option>
+                    <option value="mobile_development">모바일 개발</option>
+                    <option value="frontend_development">프론트엔드 개발</option>
+                    <option value="backend_development">백엔드 개발</option>
+                    <option value="data_science">데이터 사이언스</option>
+                    <option value="ai_ml">인공지능/머신러닝</option>
+                    <option value="game_development">게임 개발</option>
+                    <option value="ui_ux_design">UI/UX 디자인</option>
+                    <option value="cloud_computing">클라우드 컴퓨팅</option>
+                    <option value="devops">데브옵스</option>
+                    <option value="cybersecurity">사이버 보안</option>
+                    <option value="iot">IoT</option>
+                    <option value="blockchain">블록체인</option>
+                    <option value="network_engineering">네트워크 엔지니어링</option>
+                    <option value="big_data">빅데이터</option>
+                    <option value="vr_ar">가상현실/증강현실</option>
+                    <option value="digital_marketing">디지털 마케팅</option>
+                    <option value="project_management">프로젝트 매니지먼트</option>
+                    <option value="planning_strategy">기획/전략</option>
+                    <option value="content_creation">콘텐츠 크리에이션</option>
+                </select>
+            </div>
+
+            <button type="submit" id="saveProfileButton">프로필 저장</button>
         </form>
-    </section>
-
-    <section id="password">
-        <h2>Change Password</h2>
-        <form id="passwordForm">
-            <div>
-                <label for="currentPassword">Current Password</label>
-                <input type="password" id="currentPassword" name="currentPassword" />
-            </div>
-
-            <div>
-                <label for="newPassword">New Password</label>
-                <input type="password" id="newPassword" name="newPassword" />
-            </div>
-
-            <div>
-                <label for="confirmPassword">Confirm New Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" />
-            </div>
-
-            <button type="button" onclick="changePassword()">Change Password</button>
-        </form>
-    </section>
-
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul id="skillsList">
-            <!-- Skills will be dynamically added here -->
-        </ul>
-        <input type="text" id="newSkill" placeholder="Add a skill" />
-        <button type="button" onclick="addSkill()">Add Skill</button>
-    </section>
-
-    <section id="interests">
-        <h2>Interests</h2>
-        <ul id="interestsList">
-            <!-- Interests will be dynamically added here -->
-        </ul>
-        <input type="text" id="newInterest" placeholder="Add an interest" />
-        <button type="button" onclick="addInterest()">Add Interest</button>
-    </section>
-
-    <section id="account-status">
-        <button type="button" onclick="deleteAccount()" style="background-color: #dc3545;">Delete Account</button>
     </section>
 </main>
+<footer>
+    <p>&copy; 2024 Studylink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
 <script src="/js/mypage.js"></script>
 </body>
 </html>
