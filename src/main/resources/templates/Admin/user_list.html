@@ -43,6 +43,7 @@
         </td>
         <td th:text="${user.email}">john.doe@example.com</td>
         <td>
+            <!-- FIXME 여기 url 달아서 그 바꾸기-->
             <button type="button" th:id="'save_' + ${user.id}" onclick="saveChanges(${user.id})">Save</button>
         </td>
     </tr>
