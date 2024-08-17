@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("position").innerText = data.position;
                 document.getElementById("organization").innerText = data.organization;
                 document.getElementById("bio").innerText = data.bio;
-                // document.getElementById("skills").innerText = data.username;
 
             }).catch(error => {
                 console.error("에러");
@@ -47,8 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(skills => {
-                console.log(skills);
-                    })
+                const a = [];
+                for (i=0;i<skills.length;i++){
+                    a.push(skills[i].skill);
+                }
+                document.getElementById('skills').innerText = a;
+            })
             .catch(error => console.error('Error loading skills:', error));
     }
     function loadUserInterests() {
