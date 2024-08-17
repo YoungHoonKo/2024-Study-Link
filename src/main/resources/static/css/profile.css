@@ -55,9 +55,12 @@ nav {
 }
 
 main {
-    flex: 1;
-    padding-top: 100px;
-    padding-bottom: 20px;
+    flex: 1; /* 남은 공간을 차지하게 설정 */
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    padding-top: 100px; /* 헤더 높이만큼 패딩을 설정 */
+    padding-bottom: 20px; /* 푸터에 가려지지 않도록 추가적인 패딩 설정 */
     background-color: #f4f7f6;
 }
 
