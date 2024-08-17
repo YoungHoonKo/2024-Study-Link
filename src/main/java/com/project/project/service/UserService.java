@@ -75,6 +75,20 @@ public class UserService {
         }
     }
 
+    public Boolean checkPassword(String email,String password){
+        Optional<User> user = userRepository.findByEmail(email);
+
+        if(user.isPresent()){
+            if(passwordEncoder.matches(password,user.get().getPassword())){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            throw new UserNotFoundException("User not found");
+        }
+    }
+
     public UserProfileDTO getUserProfileDTO(String email) {
         Optional<User> user = userRepository.findByEmail(email);
 
