@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => {
                 if (response.ok){
-                    window.location.reload();
+                    window.location.href='/profile';
                 }else{
                     alert("faild!")
                 }
