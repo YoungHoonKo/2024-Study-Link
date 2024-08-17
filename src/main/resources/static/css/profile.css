@@ -6,6 +6,9 @@ body {
     font-family: 'Roboto', sans-serif;
     background: #f7f9fc;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -52,12 +55,10 @@ nav {
 }
 
 main {
+    flex: 1;
     padding-top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 100px);
-    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    padding-bottom: 20px;
+    background-color: #f4f7f6;
 }
 
 .profile {
@@ -150,7 +151,7 @@ footer {
     color: #ffffff;
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: auto;
 }
 
 footer p {
