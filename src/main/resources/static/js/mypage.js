@@ -153,30 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error updating profile:', error));
     }
 
-    function changePassword() {
-        const passwordData = {
-            currentPassword: document.getElementById('currentPassword').value,
-            newPassword: document.getElementById('newPassword').value,
-            confirmPassword: document.getElementById('confirmPassword').value
-        };
 
-        fetch('/api/user/password', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'access': localStorage.getItem("access")
-            },
-            body: JSON.stringify(passwordData)
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('Password changed successfully');
-                } else {
-                    alert('Failed to change password');
-                }
-            })
-            .catch(error => console.error('Error changing password:', error));
-    }
 
     function loadUserSkills() {
         fetch('/api/user/skills', {
@@ -270,70 +247,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Error loading interests:', error));
     }
-    function addInterest(interestName) {
-        fetch('/api/user/add-interest', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'access': localStorage.getItem("access")
-            },
-            body: JSON.stringify({ interest: interestName })
-        })
-            .then(response => response.json())
-            .then(interest => {
-                const interestsList = document.getElementById('interestsList');
-                const li = document.createElement('li');
-                li.innerText = interest;
-                const deleteButton = document.createElement('button');
-                deleteButton.innerText = 'Delete';
-                deleteButton.onclick = () => deleteInterest(interest);
-                li.appendChild(deleteButton);
-                interestsList.appendChild(li);
-            })
-            .catch(error => console.error('Error adding interest:', error));
-    }
 
-    function deleteInterest(interest) {
-        fetch('/api/user/delete-interest', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'access': localStorage.getItem("access")
-            },
-            body: JSON.stringify({ interest: interest })
-        })
-            .then(response => {
-                if (response.ok) {
-                    loadUserInterests();
-                } else {
-                    alert('Failed to delete interest');
-                }
-            })
-            .catch(error => console.error('Error deleting interest:', error));
-    }
 
-    function deleteAccount() {
-        const confirmation = confirm("정말 회원탈퇴를 하시겠습니까?");
-        if (confirmation) {
-            fetch('/api/user/delete-user', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'access': localStorage.getItem("access")
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert("Your account has been successfully deleted.");
-                        localStorage.removeItem("access");
-                        window.location.href = "/";
-                    } else {
-                        alert("Failed to delete the account. Please try again.");
-                    }
-                })
-                .catch(error => console.error('Error deleting account:', error));
-        }
-    }
 
 // 스킬 로드 및 추가 기능 로드
     const availableSkills = {

@@ -56,10 +56,11 @@ public class UserController {
     }
 
     @DeleteMapping("/delete-user")
-    public ResponseEntity<Void> deleteUser(@RequestHeader("access") String accessToken){
+    public ResponseEntity<Void> deleteUser(@RequestHeader("access") String accessToken,
+                                           @RequestBody UserPasswordDTO userPasswordDTO){
         String email = getUser();
 
-        if (email != null){
+        if (email != null && userService.checkPassword(email,userPasswordDTO.getPassword())){
             userService.deleteUser(email);
 
             jwtTokenService.addToBlacklist(accessToken,email);
