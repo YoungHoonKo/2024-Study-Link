@@ -26,6 +26,11 @@ document.getElementById('submit').addEventListener('click', function(event) {
     })
         .then(response => response)
         .then(data => {
+            if (data.headers.get("access") == null){
+                alert("로그인 오류")
+                window.location.reload()
+                return
+            }
             if (data.ok) {
                 const accessToken = data.headers.get("access");
                 messageElement.textContent = 'Login successful!';

@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(response => {
+                console.log(response)
                 if (response.ok) {
                     // 토큰이 유효한 경우
 
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         handleLogout();
                     });
                 } else {
+                    console.log(response)
                     // 토큰이 유효하지 않은 경우, 로컬 스토리지에서 토큰 제거
                     localStorage.removeItem('access');
                     displayLoginSignupOptions();
@@ -35,6 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error validating token:', error);
                 // 오류 발생 시, 로그인 버튼 유지 및 처리
                 localStorage.removeItem('access');
+                alert("로그인 에러 발생")
+                window.location.reload()
                 displayLoginSignupOptions();
             });
     } else {
