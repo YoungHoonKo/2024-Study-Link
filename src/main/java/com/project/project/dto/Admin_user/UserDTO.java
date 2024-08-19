@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UserDTO {
-    private List<User> users;
+    private String username;
+
 
 }

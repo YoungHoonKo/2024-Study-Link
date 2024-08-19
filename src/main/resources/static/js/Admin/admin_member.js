@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'access' : localStorage.getItem("access")
         }
     }).then(response =>  {
-        console.log(response)
+        console.log(response.json())
 
     }).catch(error =>{
         console.error("errpr")

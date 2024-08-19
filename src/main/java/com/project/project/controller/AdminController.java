@@ -10,15 +10,9 @@ import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
 import com.project.project.util.JWTUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
@@ -26,13 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,15 +45,24 @@ public class AdminController {
     }
 
 //member-list
-    @GetMapping("/member")
-    public ResponseEntity<UserDTO> admin_member() {
+@GetMapping("/member")
+public ResponseEntity<List<UserDTO>> admin_member() {
+    // 모든 User 엔티티를 가져옴
+    List<User> users = userService.findAll();
 
-        List<User> users = userService.findAll();
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsers(users);
-        System.out.println(users);
-        return ResponseEntity.ok().body(userDTO);
-    }
+    // User 엔티티를 UserDTO로 변환
+    List<UserDTO> userDTOS = users.stream()
+            .map(user -> {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setUsername(user.getUsername());
+                // 필요한 경우 다른 필드도 설정
+                return userDTO;
+            })
+            .collect(Collectors.toList());
+
+    // DTO 리스트를 ResponseEntity로 반환
+    return ResponseEntity.ok().body(userDTOS);
+}
 
 
     @GetMapping("/board")
