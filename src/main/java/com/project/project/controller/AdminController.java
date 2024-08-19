@@ -1,6 +1,7 @@
 package com.project.project.controller;
 
 
+import com.project.project.dto.Admin_user.UserDTO;
 import com.project.project.dto.BoardDTO;
 import com.project.project.dto.CustomUserDetails;
 import com.project.project.entity.User;
@@ -53,10 +54,13 @@ public class AdminController {
 
 //member-list
     @GetMapping("/member")
-    public ResponseEntity<List<User>> admin_member(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok().body(users);
+    public ResponseEntity<UserDTO> admin_member() {
 
+        List<User> users = userService.findAll();
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsers(users);
+        System.out.println(users);
+        return ResponseEntity.ok().body(userDTO);
     }
 
 
