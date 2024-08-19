@@ -68,20 +68,38 @@ public class AuthController {
         }
 
 
+//public ResponseEntity<Void> admin(@RequestHeader("access") String token) {
+@PostMapping("/check-role")
+public ResponseEntity<Map<String, String>> checkRole(
+        @AuthenticationPrincipal UserDetails userDetails,
+        @RequestHeader("access") String token,
+        HttpServletResponse httpResponse,
+        @RequestHeader(value = "refreshTokenCookie", required = false) String refreshTokenCookie) {
 
-    @PostMapping("/check-role")
-    public Map<String, String> checkRole(@AuthenticationPrincipal UserDetails userDetails){
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        String roles = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(", "));
+    // 사용자 권한 가져오기
+    Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+    String roles = authorities.stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.joining(", "));
 
-        System.out.println("User roles: " + roles);
-        Map<String, String> response = new HashMap<>();
-        response.put("roles", roles);
-        return response;
-    }
+    // JWT 역할 확인
+    String checkRole = jwtUtil.getRole(token);
 
+    // 이메일 및 새 액세스 토큰 발급
+    String email = jwtUtil.getEmail(refreshTokenCookie);
+    TokenResponseDto tokenResponseDto = jwtTokenService.reissueAccessToken(refreshTokenCookie, email);
+
+    // 응답 헤더에 액세스 토큰 설정
+    httpResponse.setHeader("access", tokenResponseDto.getAccessToken());
+
+    // 응답 맵 생성 및 데이터 추가
+    Map<String, String> response = new HashMap<>();
+    response.put("roles", roles);
+    response.put("checkRole", checkRole);
+
+    // JSON 응답 반환
+    return ResponseEntity.ok(response);
+}
 
     static class ApiResponse {
         private boolean success;

@@ -20,6 +20,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
     @PersistenceContext
     private final EntityManager entityManager;
 
+
     //role = admin인 user만 admin에 넣는 메서드
     @Override
     public List<User> findByRole(String role){
