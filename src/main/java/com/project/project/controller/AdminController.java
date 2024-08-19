@@ -2,64 +2,80 @@ package com.project.project.controller;
 
 
 import com.project.project.dto.BoardDTO;
+import com.project.project.dto.CustomUserDetails;
 import com.project.project.entity.User;
+import com.project.project.repository.UserRepository;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
 import com.project.project.util.JWTUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @RestController
 public class AdminController {
 
     private final BoardService boardService;
-   // private final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
     private final AdminService adminService;
-
     private final JWTUtil jwtUtil;
+
+
+    private String getUser() {
+        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return customUserDetails.getUsername();
+    }
+
 //member-list
     @GetMapping("/member")
-    public String admin_member(Model model) {
+    public ResponseEntity<List<User>> admin_member(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "/Admin/user_list";
+        return ResponseEntity.ok().body(users);
+
     }
-    //board - list
+
 
     @GetMapping("/board")
-    public String admin_board(Model model) {
+    public ResponseEntity<Map<String, Object>> admin_board(Model model) {
+        Map<String, Object> response = new HashMap<>();
         List<BoardDTO> boards = boardService.findAll();
         model.addAttribute("boards", boards);
-        return "/Admin/board_list";
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<Void> admin(@RequestHeader("access") String token) {
-       String userRole = jwtUtil.getRole(token);
-        System.out.println("userRole = " + userRole);
-        HttpHeaders headers = new HttpHeaders();
-        if ("ROLE_ADMIN".equals(userRole)) {
-            System.out.println("you are an admin");
-
-            return ResponseEntity.ok()
-                    .build();
-        }
-        else {
-            System.out.println("you are not an admin");
-            return ResponseEntity.notFound().build();
-        }
+    public String admin_admin(Model model) {
+        return "/Admin/admin_list";
     }
+
+
+
+
+
 
 }

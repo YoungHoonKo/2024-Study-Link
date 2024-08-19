@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
 public class CustomUserDetails implements UserDetails {
     private final User user;
     public CustomUserDetails(User user){
@@ -27,6 +28,11 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return user.getEmail();
+    }
+
+    //bibisam이 추가한 코드
+    public String getUserRole(){
+        return user.getRole();
     }
 
 }
