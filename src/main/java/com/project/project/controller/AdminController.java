@@ -55,6 +55,9 @@ public ResponseEntity<List<UserDTO>> admin_member() {
             .map(user -> {
                 UserDTO userDTO = new UserDTO();
                 userDTO.setUsername(user.getUsername());
+                userDTO.setPassword(user.getPassword());
+                userDTO.setRole(user.getRole());
+                userDTO.setStatus(user.getStatus());
                 // 필요한 경우 다른 필드도 설정
                 return userDTO;
             })
