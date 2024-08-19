@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>update</title>
-    <link rel="stylesheet" href="/css/board.css">
+    <link rel="stylesheet" href="/css/Board/board.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
@@ -24,15 +24,21 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<form action="/Board/update" method="post" name="updateForm"> <!-- 경로 수정 -->
-    <input type="hidden" name="id" th:value="${boardUpdate.id}">
-    writer: <input type="text" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly><!--readonly : 사용자가 입력은 못하지만 정보는 볼 수 있음--> <br>
-    pass: <input type="text" name="boardPass" id="boardPass"> <br>
-    title: <input type="text" name="boardTitle" th:value="${boardUpdate.boardTitle}"> <br>
-    contents: <textarea name="boardContents" cols="30" rows="10" th:text="${boardUpdate.boardContents}"></textarea> <br>
-    <input type="hidden" name="boardHits" th:value="${boardUpdate.boardHits}">
-    <input type="button" value="글수정" onclick="boardUpdate()">
-</form>
+<div class="form-container">
+    <form class="form" action="/Board/update" method="post" name="updateForm">
+        <input type="hidden" name="id" th:value="${boardUpdate.id}">
+        <label for="writer">writer:</label>
+        <input type="text" id="writer" name="boardWriter" th:value="${boardUpdate.boardWriter}" readonly><br>
+        <label for="pass">pass:</label>
+        <input type="text" id="pass" name="boardPass"><br>
+        <label for="title">title:</label>
+        <input type="text" id="title" name="boardTitle" th:value="${boardUpdate.boardTitle}"><br>
+        <label for="contents">contents:</label>
+        <textarea id="contents" name="boardContents" cols="30" rows="10" th:text="${boardUpdate.boardContents}"></textarea><br>
+        <input type="hidden" name="boardHits" th:value="${boardUpdate.boardHits}">
+        <input class="btn" type="button" value="글수정" onclick="boardUpdate()">
+    </form>
+</div>
 <script th:inline="javascript">
     const boardUpdate = () => {
         const pass = [[${boardUpdate.boardPass}]];
@@ -45,4 +51,12 @@
     }
 </script>
 </body>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/index.js"></script>
 </html>

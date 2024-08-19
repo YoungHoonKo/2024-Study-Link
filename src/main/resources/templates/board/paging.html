@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/board.css">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/Board/board.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
@@ -24,53 +24,71 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<button onclick="saveReq()">글작성</button>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/'">StudyLink</div>
+        <ul class="nav-links">
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="table-container">
+    <table class="board-table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>writer</th>
+            <th>date</th>
+            <th>hits</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board: ${boardList}">
+            <td th:text="${board.id}"></td>
+            <td><a th:href="@{|/board/${board.id}|(page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardHits}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-fixed" onclick="saveReq()">글작성</button>
+</div>
 
-<table>
-    <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>writer</th>
-        <th>date</th>
-        <th>hits</th>
-    </tr>
-    <tr th:each="board: ${boardList}">
-        <td th:text="${board.id}"></td>
-        <td><a th:href="@{|/board/${board.id}| (page=${boardList.number + 1})}" th:text="${board.boardTitle}"></a></td>
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-</table>
-<!-- 첫번째 페이지로 이동 -->
-<!-- /board/paging?page=1 -->
-<a th:href="@{/board/paging(page=1)}">First</a>
-<!-- 이전 링크 활성화 비활성화 -->
-<!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
-<a th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number})}">prev</a>
+<div class="pagination">
+    <a class="page-link" th:href="@{/board/paging(page=1)}">First</a>
+    <a class="page-link" th:href="${boardList.first} ? '#' : @{/board/paging(page=${boardList.number})}">prev</a>
 
-<!-- 페이지 번호 링크(현재 페이지는 숫자만)
-        for(int page=startPage; page<=endPage; page++)-->
-<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-<!-- 현재페이지는 링크 없이 숫자만 -->
-    <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
-    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-    <span th:unless="${page == boardList.number + 1}">
-        <a th:href="@{/board/paging(page=${page})}" th:text="${page}"></a>
+    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+        <span th:if="${page == boardList.number + 1}" th:text="${page}"></span>
+        <span th:unless="${page == boardList.number + 1}">
+            <a class="page-link" th:href="@{/board/paging(page=${page})}" th:text="${page}"></a>
+        </span>
     </span>
-</span>
 
-<!-- 다음 링크 활성화 비활성화
-    사용자: 2페이지, getNumber: 1, 3페이지-->
-<a th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2})}">next</a>
-<!-- 마지막 페이지로 이동 -->
-<a th:href="@{/board/paging(page=${boardList.totalPages})}">Last</a>
+    <a class="page-link" th:href="${boardList.last} ? '#' : @{/board/paging(page=${boardList.number + 2})}">next</a>
+    <a class="page-link" th:href="@{/board/paging(page=${boardList.totalPages})}">Last</a>
+</div>
 
-</body>
 <script>
     const saveReq = () => {
         location.href = "/board/save";
     }
-
 </script>
+</body>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/index.js"></script>
 </html>
