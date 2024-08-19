@@ -2,33 +2,33 @@ package com.project.project.controller;
 
 
 import com.project.project.dto.BoardDTO;
-import com.project.project.entity.Admin;
 import com.project.project.entity.User;
-import com.project.project.repository.UserRepository;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.project.project.util.JWTUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RequestMapping("/admin")
-@Controller
+@RestController
 public class AdminController {
 
-    @Autowired
-    BoardService boardService;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserService userService;
-    @Autowired
-    AdminService adminService;
+    private final BoardService boardService;
+   // private final UserRepository userRepository;
+    private final UserService userService;
+    private final AdminService adminService;
 
+    private final JWTUtil jwtUtil;
 //member-list
     @GetMapping("/member")
     public String admin_member(Model model) {
@@ -46,9 +46,20 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String admin(Model model) {
-        List<Admin> admin = adminService.findAll();
-        model.addAttribute("admin", admin);
-        return "/Admin/admin_list";
+    public ResponseEntity<Void> admin(@RequestHeader("access") String token) {
+       String userRole = jwtUtil.getRole(token);
+        System.out.println("userRole = " + userRole);
+        HttpHeaders headers = new HttpHeaders();
+        if ("ROLE_ADMIN".equals(userRole)) {
+            System.out.println("you are an admin");
+
+            return ResponseEntity.ok()
+                    .build();
+        }
+        else {
+            System.out.println("you are not an admin");
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }
