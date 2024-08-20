@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    fetch("/board", {  // URL 수정
+    fetch("/api/admin/member", {  // URL 수정
         method: "GET",
         headers: {
             'access': localStorage.getItem("access")

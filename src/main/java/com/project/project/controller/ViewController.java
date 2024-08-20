@@ -65,4 +65,9 @@ public class ViewController {
     public String member(){
         return "Admin/user_list";
     }
+
+    @GetMapping("/admin/board")
+    public String board(){
+        return "Admin/board_list";
+    }
 }
