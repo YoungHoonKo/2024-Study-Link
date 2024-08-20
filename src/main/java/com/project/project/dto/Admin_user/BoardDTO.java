@@ -16,4 +16,6 @@ public class BoardDTO {
     private String boardContent;
     private String status;
     private String boardPass;
+
+    private String boardlink;
 }

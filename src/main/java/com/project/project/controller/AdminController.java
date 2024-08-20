@@ -55,7 +55,6 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     return ResponseEntity.ok().body(userDTOS);
 }
 
-
     @GetMapping("/board")
     public ResponseEntity<List<BoardDTO>> admin_board() {
         // boardService 인스턴스가 있어야 함
@@ -66,7 +65,6 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                     BoardDTO boardDTO = new BoardDTO();
                     boardDTO.setId(board.getId());
                     boardDTO.setBoardContent(board.getBoardContents());
-                    boardDTO.setBoardTitle(board.getBoardTitle());
                     boardDTO.setBoardTitle(board.getBoardTitle());
                     boardDTO.setBoardPass(board.getBoardPass());
                     boardDTO.setBoardWriter(board.getBoardWriter());
