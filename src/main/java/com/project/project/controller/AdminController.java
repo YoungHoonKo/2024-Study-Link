@@ -1,65 +1,101 @@
 package com.project.project.controller;
 
 
-import com.project.project.dto.BoardDTO;
+import com.project.project.dto.Admin_user.AdminDTO;
+import com.project.project.dto.Admin_user.UserDTO;
+import com.project.project.dto.Admin_user.BoardDTO;
+import com.project.project.entity.Admin;
+import com.project.project.entity.BoardEntity;
 import com.project.project.entity.User;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
 import com.project.project.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 @RestController
 public class AdminController {
 
     private final BoardService boardService;
-   // private final UserRepository userRepository;
     private final UserService userService;
     private final AdminService adminService;
-
     private final JWTUtil jwtUtil;
+
+
 //member-list
-    @GetMapping("/member")
-    public String admin_member(Model model) {
-        List<User> users = userService.findAll();
-        model.addAttribute("users", users);
-        return "/Admin/user_list";
-    }
-    //board - list
+@GetMapping("/member")
+public ResponseEntity<List<UserDTO>> admin_member() {
+    // 모든 User 엔티티를 가져옴
+    List<User> users = userService.findAll();
+
+    // User 엔티티를 UserDTO로 변환
+    List<UserDTO> userDTOS = users.stream()
+            .map(user -> {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
+                userDTO.setUsername(user.getUsername());
+                userDTO.setPassword(user.getPassword());
+                userDTO.setRole(user.getRole());
+                userDTO.setStatus(user.getStatus());
+                userDTO.setEmail(user.getEmail());
+                // 필요한 경우 다른 필드도 설정
+                return userDTO;
+            })
+            .collect(Collectors.toList());
+
+    return ResponseEntity.ok().body(userDTOS);
+}
 
     @GetMapping("/board")
-    public String admin_board(Model model) {
-        List<BoardDTO> boards = boardService.findAll();
-        model.addAttribute("boards", boards);
-        return "/Admin/board_list";
-    }
+    public ResponseEntity<List<BoardDTO>> admin_board() {
+        List<BoardEntity> boardList = boardService.findAllBoard();
 
+        List<BoardDTO> boardDTOS = boardList.stream()
+                .map(board -> {
+                    BoardDTO boardDTO = new BoardDTO();
+                    boardDTO.setId(board.getId());
+                    boardDTO.setBoardContent(board.getBoardContents());
+                    boardDTO.setBoardTitle(board.getBoardTitle());
+                    boardDTO.setBoardPass(board.getBoardPass());
+                    boardDTO.setBoardWriter(board.getBoardWriter());
+                    return boardDTO;
+                })
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(boardDTOS); // 변환된 DTO 리스트를 반환
+    }
     @GetMapping("/admin")
-    public ResponseEntity<Void> admin(@RequestHeader("access") String token) {
-       String userRole = jwtUtil.getRole(token);
-        System.out.println("userRole = " + userRole);
-        HttpHeaders headers = new HttpHeaders();
-        if ("ROLE_ADMIN".equals(userRole)) {
-            System.out.println("you are an admin");
+    public ResponseEntity<List<AdminDTO>> admin_admin() {
+        List<Admin> admins = adminService.findAll();
 
-            return ResponseEntity.ok()
-                    .build();
-        }
-        else {
-            System.out.println("you are not an admin");
-            return ResponseEntity.notFound().build();
-        }
+        List<AdminDTO> adminDTOS = admins.stream()
+                .map(admin ->{
+                    AdminDTO adminDTO = new AdminDTO();
+                    adminDTO.setId(admin.getId());
+                    adminDTO.setUsername(admin.getUsername());
+                    adminDTO.setPassword(admin.getPassword());
+                    adminDTO.setRole(admin.getRole());
+                    adminDTO.setStatus(admin.getStatus());
+                    return adminDTO;
+                }) //collectors대신 to list 씀
+                .toList();
+
+        return ResponseEntity.ok().body(adminDTOS);
     }
+
+
+
+
+
 
 }

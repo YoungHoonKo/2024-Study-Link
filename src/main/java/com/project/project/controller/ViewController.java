@@ -60,4 +60,30 @@ public class ViewController {
     public String deleteAccount(){
         return "user/delete_account";
     }
+
+    @GetMapping("/admin/member")
+    public String member(){
+        return "Admin/user_list";
+    }
+
+    @GetMapping("/admin/board")
+    public String board(){
+        return "Admin/board_list";
+    }
+
+    @GetMapping("/admin/admin")
+    public String adminAdmin(){
+        return "Admin/admin_list";
+    }
+
+    @GetMapping("/admin/super")
+    public String superAdmin()
+    {
+        return "Admin/upperAdmin";
+    }
+
+    @GetMapping("/admin/basic")
+    public String basicAdmin(){
+        return "Admin/LowerAdmin";
+    }
 }

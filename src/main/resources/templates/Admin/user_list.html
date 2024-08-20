@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 목록</title>
+    <title>회원 관리</title>
     <link rel="stylesheet" href="/css/Admin/memberList.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
@@ -25,58 +25,23 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<h1>회원 목록</h1>
-<table>
+
+<table id="userTable">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Status</th>
-        <th>Role</th>
-        <th>Email</th>
-        <th>Actions</th>
+        <th>NAME</th>
+        <th>PW</th>
+        <th>STATUS</th>
+        <th>ROLE</th>
+        <th>EMAIL</th>
     </tr>
     </thead>
     <tbody>
-    <!-- th:each를 사용하여 users 리스트의 각 User 객체를 반복 -->
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}">1</td>
-        <!-- 이름을 클릭하면 모달 창이 열리도록 링크를 추가 -->
-        <td><a href="javascript:void(0);" th:text="${user.username}" onclick="openModal('${user.username}', '${user.email}')"></a></td>
-        <td th:text="${user.password}">Jane Doe</td>
-        <td>
-            <select th:id="'status_' + ${user.id}" th:name="'status_' + ${user.id}" th:value="${user.status}">
-                <option value="active" th:selected="${user.status == 'active'}">Active</option>
-                <option value="inactive" th:selected="${user.status == 'inactive'}">Inactive</option>
-                <option value="banned" th:selected="${user.status == 'banned'}">Banned</option>
-            </select>
-        </td>
-        <td>
-            <select th:id="'role_' + ${user.id}" th:name="'role_' + ${user.id}" th:value="${user.role}">
-                <option value="user" th:selected="${user.role == 'user'}">User</option>
-                <option value="admin" th:selected="${user.role == 'admin'}">Admin</option>
-                <option value="moderator" th:selected="${user.role == 'moderator'}">Moderator</option>
-            </select>
-        </td>
-        <td th:text="${user.email}">john.doe@example.com</td>
-        <td>
-            <!-- FIXME 여기 url 달아서 그 바꾸기-->
-            <button type="button" th:id="'save_' + ${user.id}" onclick="saveChanges(${user.id})">Save</button>
-        </td>
-    </tr>
+    <!-- JSON 데이터를 기반으로 테이블 내용이 여기에 채워질 예정 -->
     </tbody>
-    <!-- FIXME 모달창 안뜨는문제-->
 </table>
-
-<div id="userModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2>회원 정보</h2>
-        <p id="modalUsername"></p>
-        <p id="modalEmail"></p>
-    </div>
-</div>
 <script src="/js/Admin/admin_member.js"></script>
+
 </body>
 </html>

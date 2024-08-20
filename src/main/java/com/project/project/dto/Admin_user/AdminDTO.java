@@ -1,9 +1,11 @@
-package com.project.project.dto;
+package com.project.project.dto.Admin_user;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class AdminDto {
+@Getter
+@Setter
+public class AdminDTO {
     private int id;
     private String username;
     private String password;

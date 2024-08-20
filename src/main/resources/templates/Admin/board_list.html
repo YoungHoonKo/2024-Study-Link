@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 목록</title>
+    <title>게시판 관리</title>
     <link rel="stylesheet" href="/css/Admin/memberList.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
@@ -26,36 +26,18 @@
 </head>
 <body>
 <h1>게시물 목록</h1>
-<table>
+<table id="boardTable">
     <thead>
     <tr>
-        <th>아이디</th>
+        <!--FIXME : 이거 수정 예정  -->
+        <th>번호</th>
         <th>작성자</th>
-        <th>비밀번호</th>
-        <th>제목</th>
-        <th>내용</th>
-        <th>조회수</th>
-        <th>게시물 상태</th>
+        <th>상태</th>
+        <th>글 링크</th>
     </tr>
     </thead>
     <tbody>
-    <!-- th:each를 사용하여 boards 리스트의 각 BoardDTO 객체를 반복 -->
-    <tr th:each="board : ${boards}">
-        <td th:text="${board.id}">1</td>
-        <td th:text="${board.boardWriter}">홍길동</td>
-        <td th:text="${board.boardPass}">example@example.com</td>
-        <td th:text="${board.boardTitle}">게시글 제목</td>
-        <td th:text="${board.boardContents}">게시글 내용</td>
-        <td th:text="${board.boardHits}">123</td>
-        <td>
-            <label>
-            <select th:id="'status_' + ${board.id}" th:name="'status_'+ ${board.id}" th:value="${board.status}">
-                <option value="active" th:selected="${board.status == 'active'}">Active</option>
-                <option value="active" th:selected="${board.status == 'active'}">Banned</option>
-            </select>
-            </label>
-        </td>
-    </tr>
+    <!-- JSON 데이터를 기반으로 테이블 내용이 여기에 채워질 예정 -->
     </tbody>
 </table>
 

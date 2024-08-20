@@ -29,24 +29,18 @@
 <div class="admin-management">
     <h1>관리자 계정 관리</h1>
     <button onclick="showAddAdminModal()">관리자 추가</button>
-    <table>
+    <table id="adminTable">
         <thead>
         <tr>
-            <th>관리자 이름</th>
-            <th>이메일</th>
-            <th>권한</th>
+            <!--FIXME : 이거 수정 예정  -->
+            <th>번호</th>
+            <th>이름</th>
             <th>비밀번호</th>
+            <th>관리자 권한</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="admin : ${admin}">
-            <td th:text ="${admin.id}">1</td>
-            <td th:text="${admin.username}">홍길동</td>
-            <td th:text="${admin.email}">홍길동</td>
-            <td th:text="${admin.password}">홍길동</td>
-            <td th:text="${admin.Role}">홍길동</td>
-            <td th:text="${admin.status}">active</td>
-        </tr>
+        <!-- JSON 데이터를 기반으로 테이블 내용이 여기에 채워질 예정 -->
         </tbody>
     </table>
 </div>

@@ -1,36 +1,40 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Admin JS Loaded");
-});
-
-//save 버튼눌렀을때 function
-function saveChanges(userId) {
-    // 사용자 ID를 기반으로 상태와 역할 값을 가져옴
-    const status = document.getElementById('status_' + userId).value;
-    const role = document.getElementById('role_' + userId).value;
-
-    // 변경된 데이터를 서버로 전송 (예를 들어, AJAX를 사용하여 비동기적으로 전송)
-    fetch('/admin/saveUserChanges', {
-        method: 'POST',
+    fetch("/api/admin/member", {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: userId,
-            status: status,
-            role: role
-        })
+            'access': localStorage.getItem("access")
+        }
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error saving changes');
-            }
-            return response.json();
-        })
+        .then(response => response.json())  // 비동기 JSON 변환
         .then(data => {
-            alert('Changes saved successfully');
+            console.log(data);
+            // 데이터를 반복하면서 테이블에 추가
+            data.forEach(user => {
+                populateTable(user);
+            });
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to save changes');
+            console.error("error", error);
         });
+});
+
+// 테이블에 데이터를 추가하는 함수
+function populateTable(user) {
+    const tableBody = document.querySelector('#userTable tbody');
+
+    // 행 추가
+    const row = document.createElement('tr');
+
+    // 각 데이터를 테이블에 추가
+    row.innerHTML = `
+        <td>${user.id ? user.id : 'N/A'}</td>
+        <td>${user.username ? user.username : 'N/A'}</td>
+        <td>${user.password ? user.password : 'N/A'}</td>
+        <td>${user.status ? user.status : 'N/A'}</td>
+        <td>${user.role ? user.role : 'N/A'}</td>
+        <td>${user.email ? user.email : 'N/A'}</td>
+    `;
+
+    // 테이블에 행 추가
+    tableBody.appendChild(row);
 }
