@@ -28,6 +28,10 @@ public class BoardService {
         boardRepository.save(boardEntity);
     }
 
+    //bibisam
+    public List<BoardEntity> findAllBoard(){
+        return boardRepository.findAll();
+    }
     public List<BoardDTO> findAll() {
         List<BoardEntity> boardEntityList = boardRepository.findAll();
         List<BoardDTO> boardDTOList = new ArrayList<>();

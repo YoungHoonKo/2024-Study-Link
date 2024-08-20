@@ -1,11 +1,12 @@
 package com.project.project.controller;
 
 
+import com.project.project.dto.Admin_user.AdminDTO;
 import com.project.project.dto.Admin_user.UserDTO;
-import com.project.project.dto.BoardDTO;
-import com.project.project.dto.CustomUserDetails;
+import com.project.project.dto.Admin_user.BoardDTO;
+import com.project.project.entity.Admin;
+import com.project.project.entity.BoardEntity;
 import com.project.project.entity.User;
-import com.project.project.repository.UserRepository;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
@@ -13,17 +14,10 @@ import com.project.project.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -33,16 +27,10 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final BoardService boardService;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final AdminService adminService;
     private final JWTUtil jwtUtil;
 
-
-    private String getUser() {
-        CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return customUserDetails.getUsername();
-    }
 
 //member-list
 @GetMapping("/member")
@@ -69,16 +57,42 @@ public ResponseEntity<List<UserDTO>> admin_member() {
 
 
     @GetMapping("/board")
-    public ResponseEntity<Map<String, Object>> admin_board(Model model) {
-        Map<String, Object> response = new HashMap<>();
-        List<BoardDTO> boards = boardService.findAll();
-        model.addAttribute("boards", boards);
-        return ResponseEntity.ok(response);
-    }
+    public ResponseEntity<List<BoardDTO>> admin_board() {
+        // boardService 인스턴스가 있어야 함
+        List<BoardEntity> boardList = boardService.findAllBoard();
 
+        List<BoardDTO> boardDTOS = boardList.stream()
+                .map(board -> {
+                    BoardDTO boardDTO = new BoardDTO();
+                    boardDTO.setId(board.getId());
+                    boardDTO.setBoardContent(board.getBoardContents());
+                    boardDTO.setBoardTitle(board.getBoardTitle());
+                    boardDTO.setBoardTitle(board.getBoardTitle());
+                    boardDTO.setBoardPass(board.getBoardPass());
+                    boardDTO.setBoardWriter(board.getBoardWriter());
+                    return boardDTO;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(boardDTOS); // 변환된 DTO 리스트를 반환
+    }
     @GetMapping("/admin")
-    public String admin_admin(Model model) {
-        return "/Admin/admin_list";
+    public ResponseEntity<List<AdminDTO>> admin_admin() {
+        List<Admin> admins = adminService.findAll();
+
+        List<AdminDTO> adminDTOS = admins.stream()
+                .map(admin ->{
+                    AdminDTO adminDTO = new AdminDTO();
+                    adminDTO.setId(admin.getId());
+                    adminDTO.setUsername(admin.getUsername());
+                    adminDTO.setPassword(admin.getPassword());
+                    adminDTO.setRole(admin.getRole());
+                    adminDTO.setStatus(admin.getStatus());
+                    return adminDTO;
+                }) //collectors대신 to list 씀
+                .toList();
+
+        return ResponseEntity.ok().body(adminDTOS);
     }
 
 
