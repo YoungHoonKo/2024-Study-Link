@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // 테이블에 데이터를 추가하는 함수
-function populateTable(board) {
+function populateTable(admin) {
     const tableBody = document.querySelector('#boardTable tbody');
 
     // 행 추가
@@ -27,10 +27,10 @@ function populateTable(board) {
 
     // 각 데이터를 테이블에 추가
     row.innerHTML = `
-        <td>${board.id ? board.id : 'N/A'}</td>
-        <td>${board.boardWriter ? board.boardWriter : 'N/A'}</td>
-        <td>${board.boardTitle ? board.boardTitle : 'N/A'}</td>
-        <td>${board.boardPass ? board.boardPass : 'N/A'}</td>
+        <td>${admin.id ? board.id : 'N/A'}</td>
+        <td>${admin.username ? admin.username : 'N/A'}</td>
+        <td>${admin.password ? admin.password  : 'N/A'}</td>
+        <td>${admin.role ? admin.role : 'N/A'}</td>
     `;
 
     // 테이블에 행 추가

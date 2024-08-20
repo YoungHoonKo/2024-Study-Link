@@ -51,13 +51,11 @@ public ResponseEntity<List<UserDTO>> admin_member() {
             })
             .collect(Collectors.toList());
 
-    // DTO 리스트를 ResponseEntity로 반환
     return ResponseEntity.ok().body(userDTOS);
 }
 
     @GetMapping("/board")
     public ResponseEntity<List<BoardDTO>> admin_board() {
-        // boardService 인스턴스가 있어야 함
         List<BoardEntity> boardList = boardService.findAllBoard();
 
         List<BoardDTO> boardDTOS = boardList.stream()
@@ -72,6 +70,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                 })
                 .collect(Collectors.toList());
 
+        System.out.println(boardDTOS);
         return ResponseEntity.ok(boardDTOS); // 변환된 DTO 리스트를 반환
     }
     @GetMapping("/admin")
