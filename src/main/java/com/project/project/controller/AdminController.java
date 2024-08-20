@@ -42,10 +42,12 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     List<UserDTO> userDTOS = users.stream()
             .map(user -> {
                 UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
                 userDTO.setUsername(user.getUsername());
                 userDTO.setPassword(user.getPassword());
                 userDTO.setRole(user.getRole());
                 userDTO.setStatus(user.getStatus());
+                userDTO.setEmail(user.getEmail());
                 // 필요한 경우 다른 필드도 설정
                 return userDTO;
             })

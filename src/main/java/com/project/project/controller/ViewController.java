@@ -75,4 +75,15 @@ public class ViewController {
     public String adminAdmin(){
         return "Admin/admin_list";
     }
+
+    @GetMapping("/admin/super")
+    public String superAdmin()
+    {
+        return "Admin/upperAdmin";
+    }
+
+    @GetMapping("/admin/basic")
+    public String basicAdmin(){
+        return "Admin/LowerAdmin";
+    }
 }

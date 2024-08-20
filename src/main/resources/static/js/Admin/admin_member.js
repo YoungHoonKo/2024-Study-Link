@@ -27,10 +27,12 @@ function populateTable(user) {
 
     // 각 데이터를 테이블에 추가
     row.innerHTML = `
-        <td>${user.email ? user.email : 'N/A'}</td>
+        <td>${user.id ? user.id : 'N/A'}</td>
         <td>${user.username ? user.username : 'N/A'}</td>
-        <td>${user.role ? user.role : 'N/A'}</td>
+        <td>${user.password ? user.password : 'N/A'}</td>
         <td>${user.status ? user.status : 'N/A'}</td>
+        <td>${user.role ? user.role : 'N/A'}</td>
+        <td>${user.email ? user.email : 'N/A'}</td>
     `;
 
     // 테이블에 행 추가
