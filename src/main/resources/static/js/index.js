@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         })
             .then(response => {
-                console.log(response)
                 if (response.ok) {
                     // 토큰이 유효한 경우
 
@@ -76,3 +75,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+
+function click123(event){
+    event.preventDefault()
+    const accessToken = localStorage.getItem("access")
+
+    if (accessToken){
+        fetch("/api/auth/validate-token",{
+            method : "POST",
+            headers : {
+                'access': accessToken
+            }
+        }).then(response => {
+            if (response.ok){
+                window.location.href = "/board/save"
+            }else{
+                alert("로그인 오류")
+                localStorage.removeItem("access")
+                window.location.href = "/login"
+            }
+        })
+            .catch(error => {
+                console.error("error:",error)
+            })
+    }else{
+        alert("로그인 후 이용가능.")
+        window.location.href = "/login"
+    }
+}

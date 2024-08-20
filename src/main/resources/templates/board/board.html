@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
-    <link rel="stylesheet" href="/css/board.css">
+    <link rel="stylesheet" href="/css/Board/board.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
@@ -24,11 +24,41 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<button onclick="saveReq()">글작성</button>
-<a href="/board/save">글작성(링크)</a> <!-- 경로 수정 -->
-<button onclick="listReq()">글목록</button>
-<button onclick="pagingReq()">페이징 목록</button>
+<header>
+    <nav>
+        <div class="logo" onclick="location.reload()">StudyLink</div>
+        <ul class="nav-links">
+            <li class="dropdown">
+                <a href="#">Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="/board/paging">게시판</a></li>  <!-- 로그인 이후에 확인할 수 있게 수정 필요 index.js 수정 필요-->
+                </ul>
+            </li>
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="background"></div>
+<div class="button-group">
+    <button class="btn" onclick="saveReq()">글작성</button>
+    <a class="btn-link" href="/board/save">글작성(링크)</a>
+    <button class="btn" onclick="listReq()">글목록</button>
+    <button class="btn" onclick="pagingReq()">페이징 목록</button>
+</div>
 </body>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
 <script>
     const saveReq = () => {
         location.href = "/board/save";
@@ -40,4 +70,5 @@
         location.href = "/board/paging";
     }
 </script>
+<script src="/js/index.js"></script>
 </html>
