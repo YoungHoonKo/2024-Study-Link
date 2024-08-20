@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>list</title>
-    <link rel="stylesheet" href="/css/board.css">
+    <title>List</title>
+    <link rel="stylesheet" href="/css/Board/board.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
@@ -24,21 +24,50 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<table>
-    <tr>
-        <th>id</th>
-        <th>title</th>
-        <th>writer</th>
-        <th>date</th>
-        <th>hits</th>
-    </tr>
-    <tr th:each="board : ${boardList}">
-        <td th:text="${board.id}"></td>
-        <td><a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.boardTitle}"></a></td> <!-- 경로 수정 -->
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-</table>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/'">StudyLink</div>
+        <ul class="nav-links">
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="background"></div>
+<div class="table-container">
+    <table class="board-table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>writer</th>
+            <th>date</th>
+            <th>hits</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.id}"></td>
+            <td><a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.boardTitle}"></a></td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="*{#temporals.format(board.boardCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${board.boardHits}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/index.js"></script>
 </html>
