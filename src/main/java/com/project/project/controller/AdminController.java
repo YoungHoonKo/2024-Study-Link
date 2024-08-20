@@ -71,7 +71,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                     return boardDTO;
                 })
                 .collect(Collectors.toList());
-        
+
         return ResponseEntity.ok(boardDTOS); // 변환된 DTO 리스트를 반환
     }
     @GetMapping("/admin")
