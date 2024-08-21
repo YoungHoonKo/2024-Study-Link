@@ -95,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             data.forEach(user => {
                 populateTable(user);
-                attachRoleChangeEvents(); // bibisam - 반복문으로 반복할 수 있게 넣어줌
             });
+            attachRoleChangeEvents();
             attachModalEvents();
         })
         .catch(error => {
