@@ -23,15 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const profileImage = row.dataset.profileImage;
                 const bio = row.dataset.bio;
-                const address = row.dataset.address; // 오타 수정
+                const address = row.dataset.address;
                 //const skills = row.dataset.userSkills;
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
-
+                // FIXME : adress 콘솔 로그 undefined 이렇게 뜨는 문제
+                console.log(address);
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;
-                document.getElementById('profileAddress').textContent = address; // 오타 수정
+                document.getElementById('profileAddress').textContent = address;
                 document.getElementById('profileEmail').textContent = email;
                 document.getElementById('profileOrganization').textContent = organization;
 
