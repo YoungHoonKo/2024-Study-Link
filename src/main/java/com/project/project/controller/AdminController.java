@@ -2,6 +2,7 @@ package com.project.project.controller;
 
 
 import com.project.project.dto.Admin_user.AdminDTO;
+import com.project.project.dto.Admin_user.RoleDTO;
 import com.project.project.dto.Admin_user.UserDTO;
 import com.project.project.dto.Admin_user.BoardDTO;
 import com.project.project.entity.Admin;
@@ -13,6 +14,7 @@ import com.project.project.service.UserService;
 import com.project.project.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,7 +88,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     @GetMapping("/admin")
     public ResponseEntity<List<AdminDTO>> admin_admin() {
         List<Admin> admins = adminService.findAll();
-
+        //role 엔티티를 새로 만들지 말지 고민중
         List<AdminDTO> adminDTOS = admins.stream()
                 .map(admin ->{
                     AdminDTO adminDTO = new AdminDTO();
@@ -111,18 +113,25 @@ public ResponseEntity<List<UserDTO>> admin_member() {
 
     @PutMapping("/member/{userId}")
     public ResponseEntity<String> updateRole(@PathVariable Long userId, @RequestBody String role) {
+        // 역할 출력 확인용 로그
+        System.out.println("userId: " + userId);
+        System.out.println("role: " + role);
+
         // 유효한 역할인지 확인
+        // 롤 값이 유저도 아니고 어드민 도 아니게 출력되는 경우
         if (!"User".equals(role) && !"Admin".equals(role)) {
-            return ResponseEntity.badRequest().body("유효하지 않은 역할 값");
+            return ResponseEntity.badRequest().body("유효하지 않은 역할 값입니다.");
         }
 
         // 사용자 역할 업데이트
         User updatedUser = userService.updateUserRole(userId, role);
         if (updatedUser == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
+
         return ResponseEntity.ok("역할이 성공적으로 업데이트되었습니다.");
     }
+
 
 
 }

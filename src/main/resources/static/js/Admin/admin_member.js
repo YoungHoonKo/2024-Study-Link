@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 사용자 ID를 얻어 서버에 요청을 보냄
                 const userId = row.querySelector('td:nth-child(1)').textContent;
-
+                console.log(userId);
                 // 서버에 PUT 요청을 보내어 역할 업데이트
                 fetch(`/api/admin/member/${userId}`, {
                     method: "PUT",
@@ -90,9 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         'Content-Type': 'application/json',
                         'access': localStorage.getItem("access") // 인증 토큰 등
                     },
-                    body: JSON.stringify({ role: newRole }) // 새 역할을 요청 본문에 포함
+                    body: JSON.stringify({ role: newRole },
+                        {id : userId}) // 새 역할을 요청 본문에 포함
                 })
                     .then(response => {
+                        console.log(response);
                         if (!response.ok) {
                             throw new Error('Network response was not ok.');
                         }
