@@ -110,7 +110,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
 
 
     @PutMapping("/member/{userId}")
-    public ResponseEntity<String> updateRole(@PathVariable String userId, @RequestBody String role) {
+    public ResponseEntity<String> updateRole(@PathVariable Long userId, @RequestBody String role) {
         // 유효한 역할인지 확인
         if (!"User".equals(role) && !"Admin".equals(role)) {
             return ResponseEntity.badRequest().body("유효하지 않은 역할 값");

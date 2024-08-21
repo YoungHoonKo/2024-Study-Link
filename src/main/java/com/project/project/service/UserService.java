@@ -147,12 +147,11 @@ public class UserService {
 
     }
 
-    //FIXME : 이거 에러 머임?
-    //bibisam - 이 코드 내가 짰음
+    //FIXME : 에러 해결됨
+//bibisam - 이 코드 내가 수정함
     @Transactional
-    public User updateUserRole(String userId, String role) {
-        Long id  = getUserIdByEmail();
-        Optional<User> optionalUser = userRepository.findById( id);
+    public User updateUserRole(Long userId, String role) {
+        Optional<User> optionalUser = userRepository.findById(userId); // userId로 수정
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setRole(role);
@@ -160,6 +159,7 @@ public class UserService {
         }
         return null;
     }
+
 
     public List<UserSkill> getUserSkills(String email){
         Long userId = getUserIdByEmail(email);
