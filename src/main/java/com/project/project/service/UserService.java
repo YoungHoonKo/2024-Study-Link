@@ -149,6 +149,7 @@ public class UserService {
 
     //FIXME : 이거 에러 머임?
     //bibisam - 이 코드 내가 짰음
+    @Transactional
     public User updateUserRole(String userId, String role) {
         Long id  = getUserIdByEmail();
         Optional<User> optionalUser = userRepository.findById( id);
