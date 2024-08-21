@@ -48,6 +48,16 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                 userDTO.setRole(user.getRole());
                 userDTO.setStatus(user.getStatus());
                 userDTO.setEmail(user.getEmail());
+                //프로필 모달창을 위해..
+                userDTO.setProfilePictureUrl(user.getProfilePictureUrl());
+                userDTO.setBio(user.getBio());
+                userDTO.setAdress(user.getAddress());
+                //userDTO.setUserInterests(user.getUserInterests());
+                //userDTO.setUserSkills(user.getUserSkills());
+
+                userDTO.setOrganization(user.getOrganization());
+                userDTO.setPostcode(user.getPostcode());
+                userDTO.setPosition(user.getPosition());
                 // 필요한 경우 다른 필드도 설정
                 return userDTO;
             })
@@ -71,7 +81,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                     return boardDTO;
                 })
                 .collect(Collectors.toList());
-        
+
         return ResponseEntity.ok(boardDTOS); // 변환된 DTO 리스트를 반환
     }
     @GetMapping("/admin")
@@ -93,6 +103,11 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok().body(adminDTOS);
     }
 
+    //이거 나중에 수정
+    @GetMapping("/upper/admin")
+    public String upper_admin() {
+        return "upper admin";
+    }
 
 
 

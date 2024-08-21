@@ -41,6 +41,22 @@
     <!-- JSON 데이터를 기반으로 테이블 내용이 여기에 채워질 예정 -->
     </tbody>
 </table>
+<!-- 모달 창 -->
+<div id="profileModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="profile-container">
+            <img id="profileImage" src="" alt="Profile Image" class="profile-image">
+            <div class="profile-details">
+                <h2 id="profileName">회원 이름</h2>
+                <p id="profileBio" class="profile-bio">여기에 회원의 bio가 표시됩니다.</p>
+                <p><strong>주소:</strong> <span id="profileAddress">여기에 회원의 주소가 표시됩니다.</span></p>
+                <p><strong>이메일:</strong> <span id="profileEmail">여기에 회원의 이메일이 표시됩니다.</span></p>
+                <p><strong>자기소개</strong> <span id = 'profileOrganization'>여기에 회원의 회사/소속이 표시됩니다.</span></p>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="/js/Admin/admin_member.js"></script>
 
 </body>

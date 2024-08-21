@@ -95,6 +95,7 @@ public class BoardController {
         // 현재 사용자가 7페이지
         // 7 8 9
         // 보여지는 페이지 갯수 3개
+        // bibisam - 보여지는 페이지 갯수 10개로 바꿔두었음. - blocklimit 값 10
         // 총 페이지 갯수 8개
 
         model.addAttribute("boardList", boardList);

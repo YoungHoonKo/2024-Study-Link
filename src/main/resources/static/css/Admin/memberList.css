@@ -51,3 +51,109 @@ tbody tr:hover td {
     margin-top: 50px;
     border-radius: 8px;
 }
+/* 모달 기본 스타일 */
+.modal {
+    display: none; /* 숨겨진 상태로 시작 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* 배경을 어두운 반투명 검정으로 */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* 배경을 어두운 반투명 검정으로 */
+}
+
+/* 여기서부터 모달 코드 부분임 - bibisam */
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+    background-color: #e8f5e9; /* 옅은 초록색 배경 */
+    margin: 10% auto;
+    padding: 20px;
+    border: 2px solid #66bb6a; /* 진한 초록색 테두리 */
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: #66bb6a; /* 진한 초록색 */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #43a047; /* 더 진한 초록색으로 hover 및 focus 효과 */
+    text-decoration: none;
+}
+
+/* 프로필 컨테이너 */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 프로필 이미지 */
+.profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #66bb6a; /* 진한 초록색 테두리 */
+}
+
+/* 프로필 상세 정보 */
+.profile-details {
+    flex: 1;
+}
+
+.profile-details h2 {
+    font-size: 24px;
+    color: #2e7d32; /* 짙은 초록색 */
+    margin-bottom: 10px;
+}
+
+.profile-bio {
+    font-size: 16px;
+    color: #4caf50; /* 중간 정도의 초록색 */
+    margin-bottom: 10px;
+}
+
+.profile-details p {
+    font-size: 14px;
+    color: #2e7d32;
+    margin: 5px 0;
+}
+
+
+/* 추가적인 스타일 - 버튼 */
+.modal-button {
+    background-color: #66bb6a; /* 진한 초록색 버튼 */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-button:hover {
+    background-color: #43a047; /* 더 진한 초록색으로 hover 효과 */
+}
