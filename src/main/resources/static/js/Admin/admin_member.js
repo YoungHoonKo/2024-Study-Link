@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const profileModal = document.getElementById('profileModal');
     const closeModal = document.querySelector('.modal .close');
 
@@ -18,9 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
     function attachModalEvents() {
         document.querySelectorAll('#userTable tbody tr').forEach(row => {
             row.querySelector('td:nth-child(2)').onclick = () => {
+                const userId = row.querySelector('td:nth-child(1)').textContent;
                 const name = row.querySelector('td:nth-child(2)').textContent;
-                const profileContent = document.getElementById('profileContent');
-                profileContent.textContent = `${name} 의 프로필 정보`;
+                const email = row.querySelector('td:nth-child(6)').textContent;
+
+                const profileImage = row.dataset.profileImage;
+                const bio = row.dataset.bio;
+                const address = row.dataset.address; // 오타 수정
+                const skills = row.dataset.userSkills;
+                const organization = row.dataset.organization;
+                const postcode = row.dataset.postcode;
+
+                document.getElementById('profileImage').src = profileImage;
+                document.getElementById('profileName').textContent = name;
+                document.getElementById('profileBio').textContent = bio;
+                document.getElementById('profileAddress').textContent = address; // 오타 수정
+                document.getElementById('profileEmail').textContent = email;
+                document.getElementById('profileOrganization').textContent = organization;
+
                 profileModal.style.display = 'block';
             };
         });
@@ -44,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.onchange = () => {
                 const newRole = dropdown.value;
                 roleCell.textContent = newRole;
-                // 여기서 서버로 역할 변경 요청을 보낼 수 있습니다.
                 console.log(`Role changed to ${newRole} for user ID: ${row.querySelector('td:nth-child(1)').textContent}`);
             };
             roleCell.innerHTML = ''; // 기존 내용을 지우고 드롭다운 추가
@@ -56,13 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/api/admin/member", {
         method: "GET",
         headers: {
-            'access': localStorage.getItem("access")
+            'access': localStorage.getItem("access"),
+            Accept: "application / json"
         }
     })
         .then(response => response.json())  // 비동기 JSON 변환
         .then(data => {
-            console.log(data);
-            // 데이터를 반복하면서 테이블에 추가
             data.forEach(user => {
                 populateTable(user);
             });
@@ -71,17 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
             attachRoleChangeEvents();
         })
         .catch(error => {
-            console.error("error", error);
+            console.error("error", error); // catch 블록에서 괄호 추가
         });
 
     // 테이블에 데이터를 추가하는 함수
     function populateTable(user) {
         const tableBody = document.querySelector('#userTable tbody');
-
-        // 행 추가
         const row = document.createElement('tr');
-
-        // 각 데이터를 테이블에 추가
         row.innerHTML = `
             <td>${user.id ? user.id : 'N/A'}</td>
             <td>${user.username ? user.username : 'N/A'}</td>
@@ -90,8 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <td>${user.role ? user.role : 'N/A'}</td>
             <td>${user.email ? user.email : 'N/A'}</td>
         `;
-
-        // 테이블에 행 추가
         tableBody.appendChild(row);
     }
-})
+});
