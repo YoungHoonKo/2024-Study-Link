@@ -14,9 +14,8 @@ import com.project.project.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -110,7 +109,20 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     }
 
 
+    @PutMapping("/member/{userId}")
+    public ResponseEntity<String> updateRole(@PathVariable String userId, @RequestBody String role) {
+        // 유효한 역할인지 확인
+        if (!"User".equals(role) && !"Admin".equals(role)) {
+            return ResponseEntity.badRequest().body("유효하지 않은 역할 값");
+        }
 
+        // 사용자 역할 업데이트
+        User updatedUser = userService.updateUserRole(userId, role);
+        if (updatedUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("역할이 성공적으로 업데이트되었습니다.");
+    }
 
 
 }

@@ -76,12 +76,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 dropdown.appendChild(option);
             });
 
-            // 드롭다운 변경 이벤트 처리
             dropdown.onchange = () => {
-                const newRole = dropdown.value;
-                roleCell.textContent = newRole;
-                console.log(`역할이 ${newRole}로 변경되었습니다. 사용자 ID: ${userId}`);
+                const newRole = dropdown.value; // 새 역할 값
+                roleCell.textContent = newRole; // UI에서 역할 업데이트
+
+                // 사용자 ID를 얻어 서버에 요청을 보냄
+                const userId = row.querySelector('td:nth-child(1)').textContent;
+
+                // 서버에 PUT 요청을 보내어 역할 업데이트
+                fetch(`/api/admin/member/${userId}`, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access': localStorage.getItem("access") // 인증 토큰 등
+                    },
+                    body: JSON.stringify({ role: newRole }) // 새 역할을 요청 본문에 포함
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json(); // 서버 응답을 JSON으로 파싱
+                    })
+                    .then(data => {
+                        console.log('서버 응답:', data); // 성공적으로 업데이트된 경우 응답 처리
+                    })
+                    .catch(error => {
+                        console.error('요청 실패:', error); // 요청 실패 시 에러 처리
+                    });
             };
+
 
             // 기존 내용 지우고 드롭다운 추가
             roleCell.innerHTML = '';
