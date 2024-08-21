@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const postcode = row.dataset.postcode;
 
                 console.log(address); // 콘솔에서 주소를 확인
+                document.getElementById('profileId').textContent = profileId;
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;

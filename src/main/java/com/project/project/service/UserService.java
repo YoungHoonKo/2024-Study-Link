@@ -11,6 +11,7 @@ import com.project.project.exception.UserNotFoundException;
 import com.project.project.repository.UserInterestRepository;
 import com.project.project.repository.UserRepository;
 import com.project.project.repository.UserSkillRepository;
+import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 @RequiredArgsConstructor
@@ -144,6 +147,18 @@ public class UserService {
 
     }
 
+    //FIXME : 이거 에러 머임?
+    //bibisam - 이 코드 내가 짰음
+    public User updateUserRole(String userId, String role) {
+        Long id  = getUserIdByEmail();
+        Optional<User> optionalUser = userRepository.findById( id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setRole(role);
+            return userRepository.save(user);
+        }
+        return null;
+    }
 
     public List<UserSkill> getUserSkills(String email){
         Long userId = getUserIdByEmail(email);
