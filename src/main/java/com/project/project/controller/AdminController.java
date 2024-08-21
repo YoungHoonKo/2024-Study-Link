@@ -1,8 +1,9 @@
 package com.project.project.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.project.dto.Admin_user.AdminDTO;
-import com.project.project.dto.Admin_user.RoleDTO;
 import com.project.project.dto.Admin_user.UserDTO;
 import com.project.project.dto.Admin_user.BoardDTO;
 import com.project.project.entity.Admin;
@@ -18,7 +19,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -111,14 +114,26 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     }
 
 
+
+
     @PutMapping("/member/{userId}")
-    public ResponseEntity<String> updateRole(@PathVariable Long userId, @RequestBody String role) {
+    public ResponseEntity<Object> updateRole(@PathVariable Long userId, @RequestBody String roleJson) {
         // 역할 출력 확인용 로그
         System.out.println("userId: " + userId);
-        System.out.println("role: " + role);
+        System.out.println("roleJson: " + roleJson);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String role;
+
+        try {
+            // JSON 파싱하여 role 값 추출
+            JsonNode jsonNode = objectMapper.readTree(roleJson);
+            role = jsonNode.get("role").asText();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("잘못된 형식의 요청입니다.");
+        }
 
         // 유효한 역할인지 확인
-        // 롤 값이 유저도 아니고 어드민 도 아니게 출력되는 경우
         if (!"User".equals(role) && !"Admin".equals(role)) {
             return ResponseEntity.badRequest().body("유효하지 않은 역할 값입니다.");
         }
@@ -129,8 +144,14 @@ public ResponseEntity<List<UserDTO>> admin_member() {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
         }
 
-        return ResponseEntity.ok("역할이 성공적으로 업데이트되었습니다.");
+        // 응답 메시지를 JSON 형태로 반환
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "역할이 성공적으로 업데이트되었습니다.");
+
+        return ResponseEntity.ok(response);
     }
+
+
 
 
 
