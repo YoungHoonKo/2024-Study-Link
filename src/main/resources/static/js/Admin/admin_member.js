@@ -24,11 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const profileImage = row.dataset.profileImage;
                 const bio = row.dataset.bio;
                 const address = row.dataset.address;
-                //const skills = row.dataset.userSkills;
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
-                // FIXME : adress 콘솔 로그 undefined 이렇게 뜨는 문제
-                console.log(address);
+
+                console.log(address); // 콘솔에서 주소를 확인
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;
@@ -59,10 +58,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             ['User', 'Admin'].forEach(role => {
                 const option = document.createElement('option');
+
+                // 콘솔에서 사용자 ID와 역할 출력
+                console.log(`아이디 : ${userId}, optionvalue : ${role}`);
+
                 option.value = role;
-                console.log(`아이디 : ${userId}, 역할 : ${role}`);
                 option.textContent = role;
-                if (role === currentRole) option.selected = true; // 현재 역할과 일치하는 옵션을 선택 상태로 설정
+
+                // 현재 역할과 일치하는 옵션을 선택 상태로 설정
+                if (currentRole === "ROLE_ADMIN" && role === "Admin") {
+                    option.selected = true;
+                } else if (currentRole === "ROLE_USER" && role === "User") {
+                    option.selected = true;
+                }
+
                 dropdown.appendChild(option);
             });
 
@@ -103,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => {
             console.error("Error:", error);
         });
-
 
     // 테이블에 데이터를 추가하는 함수
     function populateTable(user) {
