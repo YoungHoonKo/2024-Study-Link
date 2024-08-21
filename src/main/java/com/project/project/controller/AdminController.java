@@ -52,8 +52,9 @@ public ResponseEntity<List<UserDTO>> admin_member() {
                 userDTO.setProfilePictureUrl(user.getProfilePictureUrl());
                 userDTO.setBio(user.getBio());
                 userDTO.setAdress(user.getAddress());
-                userDTO.setUserInterests(user.getUserInterests());
-                userDTO.setUserSkills(user.getUserSkills());
+                //userDTO.setUserInterests(user.getUserInterests());
+                //userDTO.setUserSkills(user.getUserSkills());
+
                 userDTO.setOrganization(user.getOrganization());
                 userDTO.setPostcode(user.getPostcode());
                 userDTO.setPosition(user.getPosition());

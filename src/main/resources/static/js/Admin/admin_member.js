@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const profileImage = row.dataset.profileImage;
                 const bio = row.dataset.bio;
                 const address = row.dataset.address; // 오타 수정
-                const skills = row.dataset.userSkills;
+                //const skills = row.dataset.userSkills;
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
 
@@ -69,22 +69,27 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/api/admin/member", {
         method: "GET",
         headers: {
-            'access': localStorage.getItem("access"),
-            Accept: "application / json"
+            'access': localStorage.getItem("access")
         }
     })
-        .then(response => response.json())  // 비동기 JSON 변환
+        .then(response => {
+            // 응답 본문을 텍스트로 읽어서 검토
+            return response.text().then(text => {
+                console.log("Response Text:", text); // 응답 내용을 로그에 찍어 봄
+                return JSON.parse(text); // JSON으로 파싱
+            });
+        })
         .then(data => {
             data.forEach(user => {
                 populateTable(user);
             });
-            // 데이터를 추가한 후에 이벤트를 추가해야 함
             attachModalEvents();
             attachRoleChangeEvents();
         })
         .catch(error => {
-            console.error("error", error); // catch 블록에서 괄호 추가
+            console.error("Error:", error);
         });
+
 
     // 테이블에 데이터를 추가하는 함수
     function populateTable(user) {

@@ -25,6 +25,7 @@ public class UserDTO {
     private String profilePictureUrl;
     private String position;
     private String organization;
+    //FIXME : 여기 list에서 에러뜸
     private List<UserSkill> userSkills;
     private List<UserInterest> userInterests;
 
