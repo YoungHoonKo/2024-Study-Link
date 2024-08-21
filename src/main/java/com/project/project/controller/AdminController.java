@@ -103,6 +103,11 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok().body(adminDTOS);
     }
 
+    //이거 나중에 수정
+    @GetMapping("/upper/admin")
+    public String upper_admin() {
+        return "upper admin";
+    }
 
 
 

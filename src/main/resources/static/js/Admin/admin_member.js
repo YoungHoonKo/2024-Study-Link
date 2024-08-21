@@ -41,27 +41,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 역할 드롭다운 변경 이벤트 추가 함수
     function attachRoleChangeEvents() {
         document.querySelectorAll('#userTable tbody tr').forEach(row => {
+            // 현재 역할 셀과 현재 역할 값 가져오기
             const roleCell = row.querySelector('td:nth-child(5)');
             const currentRole = roleCell.textContent.trim();
+
+            // 사용자 ID 가져오기
+            const userId = row.querySelector('td:nth-child(1)').textContent;
+
+            // 콘솔에 사용자 ID와 현재 역할 출력
+            console.log(`아이디: ${userId}, 역할: ${currentRole}`);
+
+            // 드롭다운 생성 및 설정
             const dropdown = document.createElement('select');
             dropdown.className = 'select-role';
+
             ['User', 'Admin'].forEach(role => {
                 const option = document.createElement('option');
                 option.value = role;
                 option.textContent = role;
-                if (role === currentRole) option.selected = true;
+                if (role === currentRole) option.selected = true; // 현재 역할과 일치하는 옵션을 선택 상태로 설정
                 dropdown.appendChild(option);
             });
 
+            // 드롭다운 변경 이벤트 처리
             dropdown.onchange = () => {
                 const newRole = dropdown.value;
                 roleCell.textContent = newRole;
-                console.log(`Role changed to ${newRole} for user ID: ${row.querySelector('td:nth-child(1)').textContent}`);
+                console.log(`역할이 ${newRole}로 변경되었습니다. 사용자 ID: ${userId}`);
             };
-            roleCell.innerHTML = ''; // 기존 내용을 지우고 드롭다운 추가
+
+            // 기존 내용 지우고 드롭다운 추가
+            roleCell.innerHTML = '';
             roleCell.appendChild(dropdown);
         });
     }
@@ -83,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             data.forEach(user => {
                 populateTable(user);
+                attachRoleChangeEvents(); // bibisam - 반복문으로 반복할 수 있게 넣어줌
             });
             attachModalEvents();
-            attachRoleChangeEvents();
         })
         .catch(error => {
             console.error("Error:", error);
