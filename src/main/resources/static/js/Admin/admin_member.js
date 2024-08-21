@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ['User', 'Admin'].forEach(role => {
                 const option = document.createElement('option');
                 option.value = role;
+                console.log(`아이디 : ${userId}, 역할 : ${role}`);
                 option.textContent = role;
                 if (role === currentRole) option.selected = true; // 현재 역할과 일치하는 옵션을 선택 상태로 설정
                 dropdown.appendChild(option);
