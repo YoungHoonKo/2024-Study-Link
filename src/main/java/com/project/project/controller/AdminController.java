@@ -9,6 +9,7 @@ import com.project.project.dto.Admin_user.BoardDTO;
 import com.project.project.entity.Admin;
 import com.project.project.entity.BoardEntity;
 import com.project.project.entity.User;
+import com.project.project.repository.AdminRepository;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
@@ -34,9 +35,10 @@ public class AdminController {
     private final UserService userService;
     private final AdminService adminService;
     private final JWTUtil jwtUtil;
+    private final AdminRepository adminRepository;
 
 
-//member-list
+    //member-list
 @GetMapping("/member")
 public ResponseEntity<List<UserDTO>> admin_member() {
     // 모든 User 엔티티를 가져옴
@@ -107,15 +109,8 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok().body(adminDTOS);
     }
 
-    //이거 나중에 수정
-    @GetMapping("/upper/admin")
-    public String upper_admin() {
-        return "upper admin";
-    }
-
-
-
-
+    //멤버 권한 변경하는 api
+    //FIXME : role 값이 저장되는 형식을 수정할 필요있음
     @PutMapping("/member/{userId}")
     public ResponseEntity<Object> updateRole(@PathVariable Long userId, @RequestBody String roleJson) {
         // 역할 출력 확인용 로그
@@ -151,8 +146,41 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok(response);
     }
 
+    // FIXME : request body, request header ...
+    // Admin 추가 요청 (POST)
+    @PostMapping("/{userId}/add-admin")
+    public ResponseEntity<Admin> addAdmin(@RequestBody UserDTO userDTO) {
+    Admin admin = new Admin();
+    //FIXME : admin - user_id 관련 fixme
+    //admin.setId(userDTO.getId());
+    admin.setUsername(userDTO.getUsername());
+    admin.setRole(userDTO.getRole());
+    admin.setPassword(userDTO.getPassword());
+    admin.setEmail(userDTO.getEmail());
+    //FIXME : 일단 basic으로 넣어두기로 함
+    String status_admin = "basic";
+    admin.setStatus(status_admin);
+    //저장
+    adminRepository.save(admin);
+    //adminService.addAdmin(userId);
 
+        return ResponseEntity.ok(admin);
 
+    }
 
+    // Admin 삭제 요청 (DELETE)
+    @DeleteMapping("/{userId}/remove-admin")
+    public ResponseEntity<?> removeAdmin(@PathVariable Long userId) {
+
+        User user = new User();
+        try {
+            //에러떠서 일단 주석처리해둠
+            //adminService.removeAdmin(userId=); // 관리자 테이블에서 사용자 제거
+
+            return ResponseEntity.ok("관리자 권한이 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("관리자 삭제 중 오류가 발생했습니다.");
+        }
+    }
 
 }

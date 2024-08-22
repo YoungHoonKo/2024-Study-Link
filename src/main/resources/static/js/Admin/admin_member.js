@@ -43,30 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function attachRoleChangeEvents() {
         document.querySelectorAll('#userTable tbody tr').forEach(row => {
-            // 현재 역할 셀과 현재 역할 값 가져오기
             const roleCell = row.querySelector('td:nth-child(5)');
             const currentRole = roleCell.textContent.trim();
-
-            // 사용자 ID 가져오기
             const userId = row.querySelector('td:nth-child(1)').textContent;
 
-            // 콘솔에 사용자 ID와 현재 역할 출력
-            console.log(`아이디: ${userId}, 역할: ${currentRole}`);
-
-            // 드롭다운 생성 및 설정
             const dropdown = document.createElement('select');
             dropdown.className = 'select-role';
 
             ['User', 'Admin'].forEach(role => {
                 const option = document.createElement('option');
-
-                // 콘솔에서 사용자 ID와 역할 출력
-                console.log(`아이디 : ${userId}, optionvalue : ${role}`);
-
                 option.value = role;
                 option.textContent = role;
 
-                // 현재 역할과 일치하는 옵션을 선택 상태로 설정
                 if (currentRole === "ROLE_ADMIN" && role === "Admin") {
                     option.selected = true;
                 } else if (currentRole === "ROLE_USER" && role === "User") {
@@ -77,44 +65,83 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             dropdown.onchange = () => {
-                const newRole = dropdown.value; // 새 역할 값
-                roleCell.textContent = newRole; // UI에서 역할 업데이트
-
-                // 사용자 ID를 얻어 서버에 요청을 보냄
+                const newRole = dropdown.value;
+                roleCell.textContent = newRole;
                 const userId = row.querySelector('td:nth-child(1)').textContent;
-                console.log(userId);
-                // 서버에 PUT 요청을 보내어 역할 업데이트
+
+                // 역할 변경에 따라 관리자를 추가 또는 제거하는 로직
+                if (newRole === 'Admin') {
+                    // Admin으로 변경된 경우
+                    fetch(`/api/admin/member/${userId}/add-admin`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access': localStorage.getItem("access")
+                        },
+                        body: JSON.stringify({ role: newRole })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok.');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('관리자 추가 성공:', data);
+                        })
+                        .catch(error => {
+                            console.error('관리자 추가 실패:', error);
+                        });
+                } else if (newRole === 'User') {
+                    // User로 변경된 경우
+                    fetch(`/api/admin/member/${userId}/remove-admin`, {
+                        method: "DELETE",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access': localStorage.getItem("access")
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok.');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('관리자 삭제 성공:', data);
+                        })
+                        .catch(error => {
+                            console.error('관리자 삭제 실패:', error);
+                        });
+                }
+
+                // 기존 역할 변경 API 호출
                 fetch(`/api/admin/member/${userId}`, {
                     method: "PUT",
                     headers: {
                         'Content-Type': 'application/json',
-                        'access': localStorage.getItem("access") // 인증 토큰 등
+                        'access': localStorage.getItem("access")
                     },
-                    body: JSON.stringify({ role: newRole },
-                        {id : userId}) // 새 역할을 요청 본문에 포함
+                    body: JSON.stringify({ role: newRole })
                 })
                     .then(response => {
-                        console.log(response);
                         if (!response.ok) {
                             throw new Error('Network response was not ok.');
                         }
-                        return response.json(); // 서버 응답을 JSON으로 파싱
+                        return response.json();
                     })
                     .then(data => {
-                        console.log('서버 응답:', data); // 성공적으로 업데이트된 경우 응답 처리
+                        console.log('역할 변경 성공:', data);
                     })
                     .catch(error => {
-                        console.error('요청 실패:', error); // 요청 실패 시 에러 처리
+                        console.error('역할 변경 실패:', error);
                     });
             };
 
-
-            // 기존 내용 지우고 드롭다운 추가
             roleCell.innerHTML = '';
             roleCell.appendChild(dropdown);
         });
     }
-
     // 서버에서 회원 데이터를 가져와 테이블에 추가
     fetch("/api/admin/member", {
         method: "GET",

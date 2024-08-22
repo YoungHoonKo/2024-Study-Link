@@ -14,7 +14,7 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name ="username", unique = true, nullable = false)
     private String username;
@@ -35,6 +35,7 @@ public class Admin {
 
     @Column(name ="admin_role")
     private String Role;
-    //upper - lower 으로 두개 구분할 예정
+    //super - basic 으로 두개 구분할 예정
+
 
 }

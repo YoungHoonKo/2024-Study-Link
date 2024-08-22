@@ -147,7 +147,6 @@ public class UserService {
 
     }
 
-    //FIXME : 에러 해결됨
 //bibisam - 이 코드 내가 수정함
     @Transactional
     public User updateUserRole(Long userId, String role) {
