@@ -11,6 +11,7 @@ import com.project.project.exception.UserNotFoundException;
 import com.project.project.repository.UserInterestRepository;
 import com.project.project.repository.UserRepository;
 import com.project.project.repository.UserSkillRepository;
+import jakarta.persistence.Id;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 @RequiredArgsConstructor
@@ -142,6 +145,18 @@ public class UserService {
             throw new UserNotFoundException("사용자를 찾을 수 없습니다.");
         }
 
+    }
+
+//bibisam - 이 코드 내가 수정함
+    @Transactional
+    public User updateUserRole(Long userId, String role) {
+        Optional<User> optionalUser = userRepository.findById(userId); // userId로 수정
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setRole(role);
+            return userRepository.save(user);
+        }
+        return null;
     }
 
 

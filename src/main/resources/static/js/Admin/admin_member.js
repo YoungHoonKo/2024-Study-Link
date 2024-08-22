@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const profileImage = row.dataset.profileImage;
                 const bio = row.dataset.bio;
                 const address = row.dataset.address;
-                //const skills = row.dataset.userSkills;
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
-                // FIXME : adress 콘솔 로그 undefined 이렇게 뜨는 문제
-                console.log(address);
+
+                console.log(address); // 콘솔에서 주소를 확인
+                document.getElementById('profileId').textContent = userId;
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;
@@ -43,17 +43,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function attachRoleChangeEvents() {
         document.querySelectorAll('#userTable tbody tr').forEach(row => {
-            // 현재 역할 셀과 현재 역할 값 가져오기
             const roleCell = row.querySelector('td:nth-child(5)');
             const currentRole = roleCell.textContent.trim();
-
-            // 사용자 ID 가져오기
             const userId = row.querySelector('td:nth-child(1)').textContent;
 
-            // 콘솔에 사용자 ID와 현재 역할 출력
-            console.log(`아이디: ${userId}, 역할: ${currentRole}`);
-
-            // 드롭다운 생성 및 설정
             const dropdown = document.createElement('select');
             dropdown.className = 'select-role';
 
@@ -61,19 +54,71 @@ document.addEventListener("DOMContentLoaded", () => {
                 const option = document.createElement('option');
                 option.value = role;
                 option.textContent = role;
-                if (role === currentRole) option.selected = true; // 현재 역할과 일치하는 옵션을 선택 상태로 설정
+
+                if (currentRole === role) {
+                    option.selected = true;
+                }
+
                 dropdown.appendChild(option);
             });
 
-            // 드롭다운 변경 이벤트 처리
             dropdown.onchange = () => {
                 const newRole = dropdown.value;
                 roleCell.textContent = newRole;
-                console.log(`역할이 ${newRole}로 변경되었습니다. 사용자 ID: ${userId}`);
+                console.log(newRole);
+
+                if (newRole === 'Admin') {
+                    // Admin으로 변경된 경우
+                    fetch(`/api/admin/member/${userId}/add-admin`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access': localStorage.getItem("access")
+                        },
+                        body: JSON.stringify({ role: newRole })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(errorData => {
+                                    throw new Error('Network response was not ok: ' + JSON.stringify(errorData));
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('관리자 추가 성공:', data);
+                        })
+                        .catch(error => {
+                            console.error('관리자 추가 실패:', error);
+                        });
+                } else if (newRole === 'User') {
+                    // User로 변경된 경우
+                    fetch(`/api/admin/member/${userId}/remove-admin`, {
+                        method: "DELETE",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'access': localStorage.getItem("access")
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(errorData => {
+                                    throw new Error('Network response was not ok: ' + JSON.stringify(errorData));
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('관리자 삭제 성공:', data);
+                        })
+                        .catch(error => {
+                            console.error('관리자 삭제 실패:', error);
+                        });
+                }
             };
 
-            // 기존 내용 지우고 드롭다운 추가
-            roleCell.innerHTML = '';
+            // 기존 역할 변경 API 호출은 여기에 위치할 필요 없음
+            // roleCell.innerHTML = '';
             roleCell.appendChild(dropdown);
         });
     }
@@ -103,18 +148,23 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error:", error);
         });
 
-
     // 테이블에 데이터를 추가하는 함수
     function populateTable(user) {
         const tableBody = document.querySelector('#userTable tbody');
         const row = document.createElement('tr');
+        row.dataset.profileImage = user.profileImage || ''; // 추가된 데이터 속성
+        row.dataset.bio = user.bio || '';
+        row.dataset.address = user.address || '';
+        row.dataset.organization = user.organization || '';
+        row.dataset.postcode = user.postcode || '';
+
         row.innerHTML = `
-            <td>${user.id ? user.id : 'N/A'}</td>
-            <td>${user.username ? user.username : 'N/A'}</td>
-            <td>${user.password ? user.password : 'N/A'}</td>
-            <td>${user.status ? user.status : 'N/A'}</td>
-            <td>${user.role ? user.role : 'N/A'}</td>
-            <td>${user.email ? user.email : 'N/A'}</td>
+            <td>${user.id || 'N/A'}</td>
+            <td>${user.username || 'N/A'}</td>
+            <td>${user.password || 'N/A'}</td>
+            <td>${user.status || 'N/A'}</td>
+            <td>${user.role || 'N/A'}</td>
+            <td>${user.email || 'N/A'}</td>
         `;
         tableBody.appendChild(row);
     }

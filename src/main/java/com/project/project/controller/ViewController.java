@@ -86,4 +86,13 @@ public class ViewController {
     public String basicAdmin(){
         return "Admin/LowerAdmin";
     }
+
+    @GetMapping("/admin/firstpage/super")
+    public String superFirstPage(){
+        return "Admin/admin";
+    }
+    @GetMapping("/admin/firstpage/basic")
+    public String basicFirstPage(){
+        return "Admin/admin";
+    }
 }
