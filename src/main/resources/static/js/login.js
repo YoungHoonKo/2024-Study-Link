@@ -1,4 +1,4 @@
-ocument.getElementById('submit').addEventListener('click', function(event) {
+document.getElementById('submit').addEventListener('click', function(event) {
     event.preventDefault(); // 폼이 기본적으로 제출되지 않도록 방지
 
     const username = document.getElementById('username').value;
