@@ -146,41 +146,41 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok(response);
     }
 
-    // FIXME : request body, request header ...
-    // Admin 추가 요청 (POST)
     @PostMapping("/{userId}/add-admin")
-    public ResponseEntity<Admin> addAdmin(@RequestBody UserDTO userDTO) {
-    Admin admin = new Admin();
-    //FIXME : admin - user_id 관련 fixme
-    //admin.setId(userDTO.getId());
-    admin.setUsername(userDTO.getUsername());
-    admin.setRole(userDTO.getRole());
-    admin.setPassword(userDTO.getPassword());
-    admin.setEmail(userDTO.getEmail());
-    //FIXME : 일단 basic으로 넣어두기로 함
-    String status_admin = "basic";
-    admin.setStatus(status_admin);
-    //저장
-    adminRepository.save(admin);
-    //adminService.addAdmin(userId);
+    public ResponseEntity<Admin> addAdmin(
+            @PathVariable("userId") Long userId,
+            @RequestBody UserDTO userDTO) {
+
+        Admin admin = new Admin();
+        // UserDTO를 사용하여 Admin 엔티티를 설정
+        admin.setUsername(userDTO.getUsername());
+        admin.setRole(userDTO.getRole());
+        admin.setPassword(userDTO.getPassword());
+        admin.setEmail(userDTO.getEmail());
+        admin.setStatus("basic"); // 기본 상태 설정
+
+        // 저장 및 응답
+        adminService.addAdmin(admin);
 
         return ResponseEntity.ok(admin);
-
     }
 
     // Admin 삭제 요청 (DELETE)
     @DeleteMapping("/{userId}/remove-admin")
-    public ResponseEntity<?> removeAdmin(@PathVariable Long userId) {
+    public ResponseEntity<?> removeAdmin(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
 
-        User user = new User();
+        Admin admin = new Admin();
         try {
             //에러떠서 일단 주석처리해둠
             //adminService.removeAdmin(userId=); // 관리자 테이블에서 사용자 제거
-
+            adminService.deleteAdmin(admin);
             return ResponseEntity.ok("관리자 권한이 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("관리자 삭제 중 오류가 발생했습니다.");
         }
     }
+
+    //로그인 시 권한(user-admin) 확인용
+
 
 }

@@ -29,10 +29,12 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public void addAdmin(Long userId) {
-        Admin admin = new Admin();
+    public Admin addAdmin(Admin admin) {
+        return adminRepository.save(admin);  // 관리자 테이블에 추가
+    }
 
-        adminRepository.save(admin);  // 관리자 테이블에 추가
+    public void deleteAdmin(Admin admin) {
+        adminRepository.delete(admin);
     }
 
     //FIXME: 서비스 리포지토리 코드 수정
