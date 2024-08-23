@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/index'" >StudyLink</div>
+        <ul class="nav-links">
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li><a target="_blank" href="mailto:helloword@na.com?body=메일 내용을 입력하세요.">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section class="profile">
+        <img src="/images/nobg.jpg" alt="Profile Picture" class="profile-picture"> <!-- 이미지 파일을 mypage로 받아와야 함-->
+        <h1 id="name">사용자 이름</h1>
+        <div class="profile-info">
+            <div class="info-item">
+                <i class="fas fa-briefcase"></i><span id="position">로딩 중...</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-building"></i><span id="organization">로딩 중...</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-user"></i><span id="bio">로딩 중...</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-code"></i><span id="skills">로딩 중...</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-heart"></i><span id="interests">로딩 중...</span>
+            </div>
+        </div>
+        <button type="button" onclick="location.href='/mypage'">Edit Profile</button>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/profile.js"></script>
+</body>
+</html>

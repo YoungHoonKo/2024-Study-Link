@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/css/mypage.css">
+    <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/'">StudyLink</div>
+        <ul class="nav-links">
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li><a target="_blank" href="mailto:helloword@na.com?body=메일 내용을 입력하세요.">Contact</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <li><a href="/profile">프로필</a></li>
+                    <li><a href="/mypage/password-change">비밀번호 변경</a></li>
+                    <li><a href="/mypage/delete-account">회원탈퇴</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <section>
+        <h2 id ="welcome">환영합니다.</h2>
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="nickname">닉네임 *</label>
+                <input type="text" id="nickname" name="nickname">
+            </div>
+
+            <div class="form-group">
+                <label for="job">직무 *</label>
+                <select id="job" name="job">
+                    <option value="Backend">백엔드</option>
+                    <option value="Designer">디자이너</option>
+                    <option value="iOS">iOS</option>
+                    <option value="Android">안드로이드</option>
+                    <option value="Devops">데브옵스</option>
+                    <option value="PM">PM</option>
+                    <option value="Planner">기획자</option>
+                    <option value="Marketer">마케터</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="affiliation">소속</label>
+                <input type="text" id="affiliation" name="affiliation">
+            </div>
+
+            <div class="form-group">
+                <label for="bio">자기소개</label>
+                <textarea id="bio" name="bio"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="skill-container">보유 스킬</label>
+                <div id="skill-container">
+                    <!-- 이미 보유하고 있는 스킬들이 여기에 로드됩니다 -->
+                </div>
+                <button type="button" id="addSkillButton">스킬 추가하기</button>
+            </div>
+
+            <div class="form-group">
+                <label for="interests">관심분야</label>
+                <select id="interests" name="interests">
+                    <option value="Web Development">웹개발</option>
+                    <option value="Mobile Development">모바일 개발</option>
+                    <option value="Frontend Development">프론트엔드 개발</option>
+                    <option value="Backend Development">백엔드 개발</option>
+                    <option value="Data Science">데이터 사이언스</option>
+                    <option value="AI/Machine Learning">인공지능/머신러닝</option>
+                    <option value="Game Development">게임 개발</option>
+                    <option value="UI/UX design">UI/UX 디자인</option>
+                    <option value="Cloud Computing">클라우드 컴퓨팅</option>
+                    <option value="Devops">데브옵스</option>
+                    <option value="Cybersecurity">사이버 보안</option>
+                    <option value="IoT">IoT</option>
+                    <option value="Blockchain">블록체인</option>
+                    <option value="Network Engineering">네트워크 엔지니어링</option>
+                    <option value="Big Data">빅데이터</option>
+                    <option value=VR/AR>가상현실/증강현실</option>
+                    <option value="Digital Marketing">디지털 마케팅</option>
+                    <option value="Project Management">프로젝트 매니지먼트</option>
+                    <option value="Planning Strategy">기획/전략</option>
+                    <option value="Content Creation">콘텐츠 크리에이션</option>
+                </select>
+            </div>
+
+            <button type="submit" id="saveProfileButton">프로필 저장</button>
+        </form>
+    </section>
+</main>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/mypage.js"></script>
+</body>
+</html>

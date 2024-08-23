@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Save</title>
+    <link rel="stylesheet" href="/css/Board/board.css">
+    <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo" onclick="location.href='/'">StudyLink</div>
+        <ul class="nav-links">
+            <li><a href="https://confirmed-swamp-398.notion.site/About-page-87f370cf36a24e5dae532be6566cb953?pvs=4">About</a></li>
+            <li class="dropdown" id="profileMenu">
+                <a href="#">Profile</a>
+                <ul class="dropdown-content" id="profileDropdown">
+                    <!-- 로그인 상태에 따라 내용이 동적으로 변경됩니다. -->
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="background"></div>
+<div class="form-container">
+    <form class="form" action="/board/save" method="post" onsubmit="handleSubmit(event)">
+        <label for="writer">writer:</label>
+        <input type="text" id="writer" name="boardWriter" required><br>
+        <label for="pass">pass:</label>
+        <input type="text" id="pass" name="boardPass" required><br>
+        <label for="title">title:</label>
+        <input type="text" id="title" name="boardTitle" required><br>
+        <label for="contents">contents:</label>
+        <textarea id="contents" name="boardContents" cols="30" rows="10" required></textarea><br>
+        <input type="file" name="boardFile">
+        <input class="btn" type="submit" value="글작성">
+    </form>
+</div>
+</body>
+<footer>
+    <p>&copy; 2024 StudyLink. All rights reserved.</p>
+    <ul class="social-links">
+        <li><a href="https://www.facebook.com/?locale=ko_KR">Facebook</a></li>
+        <li><a href="https://www.instagram.com/">Instagram</a></li>
+    </ul>
+</footer>
+<script src="/js/index.js"></script>
+<script>
+    function handleSubmit(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작을 막음
+
+        // 여기서 데이터 유효성 검사를 수행하거나 AJAX 요청을 보낼 수 있습니다.
+
+        // 서버에 폼 데이터를 제출하는 AJAX 요청 (예시)
+        const formData = new FormData(event.target);
+
+        fetch('/board/save', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    // 요청이 성공하면 /board 페이지로 리디렉션
+                    window.location.href = '/board/paging';
+                } else {
+                    // 에러 처리
+                    alert('폼 제출 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('폼 제출 중 오류가 발생했습니다.');
+            });
+    }
+</script>
+</html>
