@@ -153,8 +153,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error updating profile:', error));
     }
 
-
-
     function loadUserSkills() {
         fetch('/api/user/skills', {
             method: 'GET',
@@ -247,8 +245,6 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Error loading interests:', error));
     }
-
-
 
 // 스킬 로드 및 추가 기능 로드
     const availableSkills = {"Spring Boot": "Spring Boot",
