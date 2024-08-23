@@ -45,8 +45,8 @@ public class SecurityConfig {
                                 "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/board/**"
                         ,"/403","/404","/mypage/**","/api/auth/register","/api/auth/reissue","/profile/**","/api/auth/check-role").permitAll()
 
-                        .requestMatchers("/user/**","/api/auth/validate-token","/api/user/**", "/api/admin/**").hasRole("USER")
-                        .requestMatchers("/api/auth/check-role").hasRole("ADMIN")
+                        .requestMatchers("/user/**","/api/auth/validate-token","/api/user/**").hasRole("USER")
+                        .requestMatchers("/api/auth/check-role", "/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

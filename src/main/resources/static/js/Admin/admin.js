@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const accessDenied = document.getElementById('access-denied');
         const memberList = document.getElementById('member_list');
 
-        if (role && role.includes('ROLE_USER')) {
+        if (role && role.includes('ROLE_ADMIN')) {
             adminTitle.textContent = '관리자 페이지에 오신 것을 환영합니다';
             adminContent.style.display = 'block';
             memberList.style.display = 'block'; // 권한이 확인되면 버튼들이 보이도록 설정
