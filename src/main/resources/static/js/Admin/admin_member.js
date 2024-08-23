@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // 역할 변경에 따라 관리자를 추가 또는 제거하는 로직
                 if (newRole === 'Admin') {
                     // Admin으로 변경된 경우
-                    fetch(`/api/admin/member/${userId}/add-admin`, {
+                    fetch(`/api/admin/${userId}/add-admin`, {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import com.project.project.entity.Admin;
 import com.project.project.entity.BoardEntity;
 import com.project.project.entity.User;
 import com.project.project.repository.AdminRepository;
+import com.project.project.repository.UserRepository;
 import com.project.project.service.AdminService;
 import com.project.project.service.BoardService;
 import com.project.project.service.UserService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -37,6 +39,7 @@ public class AdminController {
     private final AdminService adminService;
     private final JWTUtil jwtUtil;
     private final AdminRepository adminRepository;
+    private final UserRepository userRepository;
 
 
     //member-list
@@ -154,35 +157,47 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     public ResponseEntity<Admin> addAdmin(
             @PathVariable("userId") Long userId,
             @RequestBody UserDTO userDTO) {
+        User user = userRepository.findById(userId).orElse(null);
+        System.out.println("AdminController.addAdmin");
 
         Admin admin = new Admin();
         // UserDTO를 사용하여 Admin 엔티티를 설정
-        admin.setUsername(userDTO.getUsername());
-        admin.setRole(userDTO.getRole());
-        admin.setPassword(userDTO.getPassword());
-        admin.setEmail(userDTO.getEmail());
-        admin.setStatus("basic"); // 기본 상태 설정
 
+        admin.setRole(userDTO.getRole());
+        admin.setUsername(user.getUsername());
+        admin.setPassword(user.getPassword());
+        admin.setEmail(user.getEmail());
+        admin.setStatus("basic"); // 기본 상태 설정
         // 저장 및 응답
         adminService.addAdmin(admin);
-
         return ResponseEntity.ok(admin);
     }
 
     // Admin 삭제 요청 (DELETE)
     @DeleteMapping("/{userId}/remove-admin")
-    public ResponseEntity<?> removeAdmin(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
-
-        Admin admin = new Admin();
+    public ResponseEntity<?> removeAdmin(@PathVariable Long userId) {
         try {
-            //에러떠서 일단 주석처리해둠
-            //adminService.removeAdmin(userId=); // 관리자 테이블에서 사용자 제거
-            adminService.deleteAdmin(admin);
-            return ResponseEntity.ok("관리자 권한이 성공적으로 삭제되었습니다.");
+            // userId로 Admin 엔티티를 조회
+            Optional<Admin> adminOptional = adminService.findById(userId);
+
+            // 관리자가 존재하는지 확인
+            if (adminOptional.isPresent()) {
+                Admin admin = adminOptional.get();
+
+                // 관리자 삭제
+                adminService.deleteAdmin(admin);
+
+                return ResponseEntity.ok("관리자 권한이 성공적으로 삭제되었습니다.");
+            } else {
+                // 관리자가 존재하지 않을 경우
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 사용자를 찾을 수 없습니다.");
+            }
         } catch (Exception e) {
+            // 예외 발생 시 오류 메시지 반환
             return ResponseEntity.badRequest().body("관리자 삭제 중 오류가 발생했습니다.");
         }
     }
+
 
     //로그인 시 권한(user-admin) 확인용
     @PostMapping("/login")
