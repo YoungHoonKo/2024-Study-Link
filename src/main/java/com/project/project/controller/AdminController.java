@@ -157,6 +157,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     public ResponseEntity<Admin> addAdmin(
             @PathVariable("userId") Long userId,
             @RequestBody UserDTO userDTO) {
+
         User user = userRepository.findById(userId).orElse(null);
         System.out.println("AdminController.addAdmin");
 
@@ -197,7 +198,6 @@ public ResponseEntity<List<UserDTO>> admin_member() {
             return ResponseEntity.badRequest().body("관리자 삭제 중 오류가 발생했습니다.");
         }
     }
-
 
     //로그인 시 권한(user-admin) 확인용
     @PostMapping("/login")
