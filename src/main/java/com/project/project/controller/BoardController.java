@@ -1,16 +1,20 @@
 package com.project.project.controller;
 
 import com.project.project.dto.BoardDTO;
+import com.project.project.dto.CommentDTO;
 import com.project.project.service.BoardService;
+import com.project.project.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -20,6 +24,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final DefaultErrorAttributes errorAttributes;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String saveFrom(){
@@ -28,10 +33,10 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute BoardDTO boardDTO) {
+    public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         System.out.println("boardDTO = " + boardDTO);
         boardService.save(boardDTO);
-        return "board"; // 경로 수정
+        return "board/index"; // 경로 수정
     }
 
     @GetMapping("/")
@@ -52,6 +57,10 @@ public class BoardController {
         System.out.println("id 게시글 들어옴?");
         boardService.updateHits(id);
         BoardDTO boardDTO = boardService.findById(id);
+        /*댓글 목록 가져오기*/
+        List<CommentDTO> commentDTOList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDTOList);
+
         model.addAttribute("board", boardDTO);
         model.addAttribute("page", pageable.getPageNumber());
         return "board/detail"; // 경로 수정
@@ -95,7 +104,6 @@ public class BoardController {
         // 현재 사용자가 7페이지
         // 7 8 9
         // 보여지는 페이지 갯수 3개
-        // bibisam - 보여지는 페이지 갯수 10개로 바꿔두었음. - blocklimit 값 10
         // 총 페이지 갯수 8개
 
         model.addAttribute("boardList", boardList);

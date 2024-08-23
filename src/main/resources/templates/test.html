@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+</head>
+<body>
+<h1>Test Page</h1>
+<!-- 추가할 페이지 콘텐츠 -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            fetch('/test', {
+                method: 'GET',
+                headers: {
+                    'access': `${accessToken}`
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // 페이지 로드 성공
+                        console.log('Access granted to /test');
+                        // 여기에 페이지 로드 로직을 추가합니다.
+                    } else if (response.status === 401) {
+                        // 토큰이 유효하지 않거나 만료된 경우
+                        console.error('Unauthorized: Access token might be expired or invalid');
+                        alert('권한이 없습니다. 다시 로그인하세요.');
+                        window.location.href = "/login";
+                    } else {
+                        console.error('Error:', response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            // 토큰이 없는 경우 로그인 페이지로 리디렉션
+            console.error('No access token found');
+            alert('로그인이 필요합니다.');
+            window.location.href = "/login";
+        }
+    });
+</script>
+</body>
+</html>

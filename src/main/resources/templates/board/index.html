@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 목록</title>
-    <link rel="stylesheet" href="/css/Admin/memberList.css">
+    <title>index</title>
+    <link rel="stylesheet" href="/css/board.css">
     <link rel="shortcut-icon" type="image/x-icon" href="/images/favicons/favicon.ico">
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
@@ -25,42 +24,20 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
-<h1>게시물 목록</h1>
-<table>
-    <thead>
-    <tr>
-        <th>아이디</th>
-        <th>작성자</th>
-        <th>비밀번호</th>
-        <th>제목</th>
-        <th>내용</th>
-        <th>조회수</th>
-        <th>게시물 상태</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- th:each를 사용하여 boards 리스트의 각 BoardDTO 객체를 반복 -->
-    <tr th:each="board : ${boards}">
-        <td th:text="${board.id}">1</td>
-        <td th:text="${board.boardWriter}">홍길동</td>
-        <td th:text="${board.boardPass}">example@example.com</td>
-        <td th:text="${board.boardTitle}">게시글 제목</td>
-        <td th:text="${board.boardContents}">게시글 내용</td>
-        <td th:text="${board.boardHits}">123</td>
-        <td>
-            <label>
-            <select th:id="'status_' + ${board.id}" th:name="'status_'+ ${board.id}" th:value="${board.status}">
-                <option value="active" th:selected="${board.status == 'active'}">Active</option>
-                <option value="active" th:selected="${board.status == 'active'}">Banned</option>
-            </select>
-            </label>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<script src="/js/Admin/admin_board.js">
-</script>
+<button onclick="saveReq()">글작성</button>
+<a href="/board/save">글작성(링크)</a> <!-- 경로 수정 -->
+<button onclick="listReq()">글목록</button>
+<button onclick="pagingReq()">페이징 목록</button>
 </body>
-
+<script>
+    const saveReq = () => {
+        location.href = "/board/save";
+    }
+    const listReq = () => {
+        location.href = "/board/";
+    }
+    const pagingReq = () => {
+        location.href = "/board/paging";
+    }
+</script>
 </html>
