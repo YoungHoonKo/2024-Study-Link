@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
 
-                console.log(address); // 콘솔에서 주소를 확인
-                document.getElementById('profileId').textContent = userId;
+                // 콘솔에서 주소를 확인
+               // document.getElementById('profileId').textContent = userId;
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;
@@ -55,9 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.value = role;
                 option.textContent = role;
 
-                if (currentRole === role) {
+                if (currentRole === "ROLE_ADMIN" && role === "Admin") {
                     option.selected = true;
                 }
+                else if(currentRole === "ROLE_USER" && role === "User"){
+                    option.selected = true;
+                }
+
 
                 dropdown.appendChild(option);
             });

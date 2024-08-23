@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.project.dto.Admin_user.AdminDTO;
 import com.project.project.dto.Admin_user.UserDTO;
 import com.project.project.dto.Admin_user.BoardDTO;
+import com.project.project.dto.userServiceDto.LoginRequestDTO;
 import com.project.project.entity.Admin;
 import com.project.project.entity.BoardEntity;
 import com.project.project.entity.User;
@@ -181,6 +182,38 @@ public ResponseEntity<List<UserDTO>> admin_member() {
     }
 
     //로그인 시 권한(user-admin) 확인용
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDTO loginRequest) {
+        // 실제 로그인 로직은 여기에 추가 (예: 사용자 인증 및 역할 확인)
+        // 예제에서는 간단히 사용자 인증을 모의로 처리
 
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+
+        // 더미 데이터 - 실제 애플리케이션에서는 데이터베이스와 인증 서비스가 필요합니다.
+        if ("admin".equals(username) && "password".equals(password)) {
+            return ResponseEntity.ok(createResponse("ROLE_ADMIN", "dummy-access-token"));
+        } else if ("user".equals(username) && "password".equals(password)) {
+            return ResponseEntity.ok(createResponse("ROLE_USER", "dummy-access-token"));
+        } else {
+            // 잘못된 로그인 시도
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(createErrorResponse("아이디와 비밀번호가 틀립니다."));
+        }
+    }
+
+    private Map<String, Object> createResponse(String role, String accessToken) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("ok", true);
+        response.put("role", role);
+        response.put("access", accessToken);
+        return response;
+    }
+
+    private Map<String, Object> createErrorResponse(String message) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("ok", false);
+        response.put("error", message);
+        return response;
+    }
 
 }
