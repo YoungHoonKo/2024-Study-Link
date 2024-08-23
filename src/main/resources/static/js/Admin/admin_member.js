@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const profileModal = document.getElementById('profileModal');
     const closeModal = document.querySelector('.modal .close');
@@ -27,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const organization = row.dataset.organization;
                 const postcode = row.dataset.postcode;
 
-                // 콘솔에서 주소를 확인
-               // document.getElementById('profileId').textContent = userId;
+                console.log(address); // 콘솔에서 주소를 확인
+                document.getElementById('profileId').textContent = profileId;
                 document.getElementById('profileImage').src = profileImage;
                 document.getElementById('profileName').textContent = name;
                 document.getElementById('profileBio').textContent = bio;
@@ -57,11 +58,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (currentRole === "ROLE_ADMIN" && role === "Admin") {
                     option.selected = true;
-                }
-                else if(currentRole === "ROLE_USER" && role === "User"){
+                } else if (currentRole === "ROLE_USER" && role === "User") {
                     option.selected = true;
                 }
-
 
                 dropdown.appendChild(option);
             });
@@ -69,8 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.onchange = () => {
                 const newRole = dropdown.value;
                 roleCell.textContent = newRole;
-                console.log(newRole);
+                const userId = row.querySelector('td:nth-child(1)').textContent;
 
+                // 역할 변경에 따라 관리자를 추가 또는 제거하는 로직
                 if (newRole === 'Admin') {
                     // Admin으로 변경된 경우
                     fetch(`/api/admin/member/${userId}/add-admin`, {
@@ -83,9 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                         .then(response => {
                             if (!response.ok) {
-                                return response.json().then(errorData => {
-                                    throw new Error('Network response was not ok: ' + JSON.stringify(errorData));
-                                });
+                                throw new Error('Network response was not ok.');
                             }
                             return response.json();
                         })
@@ -106,9 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                         .then(response => {
                             if (!response.ok) {
-                                return response.json().then(errorData => {
-                                    throw new Error('Network response was not ok: ' + JSON.stringify(errorData));
-                                });
+                                throw new Error('Network response was not ok.');
                             }
                             return response.json();
                         })
@@ -119,14 +115,34 @@ document.addEventListener("DOMContentLoaded", () => {
                             console.error('관리자 삭제 실패:', error);
                         });
                 }
+
+                // 기존 역할 변경 API 호출
+                fetch(`/api/admin/member/${userId}`, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'access': localStorage.getItem("access")
+                    },
+                    body: JSON.stringify({ role: newRole })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('역할 변경 성공:', data);
+                    })
+                    .catch(error => {
+                        console.error('역할 변경 실패:', error);
+                    });
             };
 
-            // 기존 역할 변경 API 호출은 여기에 위치할 필요 없음
-            // roleCell.innerHTML = '';
+            roleCell.innerHTML = '';
             roleCell.appendChild(dropdown);
         });
     }
-
     // 서버에서 회원 데이터를 가져와 테이블에 추가
     fetch("/api/admin/member", {
         method: "GET",
@@ -156,19 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function populateTable(user) {
         const tableBody = document.querySelector('#userTable tbody');
         const row = document.createElement('tr');
-        row.dataset.profileImage = user.profileImage || ''; // 추가된 데이터 속성
-        row.dataset.bio = user.bio || '';
-        row.dataset.address = user.address || '';
-        row.dataset.organization = user.organization || '';
-        row.dataset.postcode = user.postcode || '';
-
         row.innerHTML = `
-            <td>${user.id || 'N/A'}</td>
-            <td>${user.username || 'N/A'}</td>
-            <td>${user.password || 'N/A'}</td>
-            <td>${user.status || 'N/A'}</td>
-            <td>${user.role || 'N/A'}</td>
-            <td>${user.email || 'N/A'}</td>
+            <td>${user.id ? user.id : 'N/A'}</td>
+            <td>${user.username ? user.username : 'N/A'}</td>
+            <td>${user.password ? user.password : 'N/A'}</td>
+            <td>${user.status ? user.status : 'N/A'}</td>
+            <td>${user.role ? user.role : 'N/A'}</td>
+            <td>${user.email ? user.email : 'N/A'}</td>
         `;
         tableBody.appendChild(row);
     }
