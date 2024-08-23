@@ -110,27 +110,29 @@ public ResponseEntity<List<UserDTO>> admin_member() {
         return ResponseEntity.ok().body(adminDTOS);
     }
 
-    //멤버 권한 변경하는 api
-    //FIXME : role 값이 저장되는 형식을 수정할 필요있음
     @PutMapping("/member/{userId}")
     public ResponseEntity<Object> updateRole(@PathVariable Long userId, @RequestBody String roleJson) {
         // 역할 출력 확인용 로그
         System.out.println("userId: " + userId);
         System.out.println("roleJson: " + roleJson);
+        String upper = roleJson.toUpperCase();
+
+        System.out.println(upper);
+
+        // 앞뒤 따옴표 제거
+        if (upper.startsWith("\"") && upper.endsWith("\"")) {
+            upper = upper.substring(1, upper.length() - 1);
+        }
+
+        System.out.println("roleJson: " + roleJson);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String role;
-
-        try {
-            // JSON 파싱하여 role 값 추출
-            JsonNode jsonNode = objectMapper.readTree(roleJson);
-            role = jsonNode.get("role").asText();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("잘못된 형식의 요청입니다.");
-        }
+        role = "ROLE_" + upper;
+        System.out.println(role);
 
         // 유효한 역할인지 확인
-        if (!"User".equals(role) && !"Admin".equals(role)) {
+        if (!"ROLE_USER".equals(role) && !"ROLE_ADMIN".equals(role)) {
             return ResponseEntity.badRequest().body("유효하지 않은 역할 값입니다.");
         }
 
@@ -146,6 +148,7 @@ public ResponseEntity<List<UserDTO>> admin_member() {
 
         return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/{userId}/add-admin")
     public ResponseEntity<Admin> addAdmin(

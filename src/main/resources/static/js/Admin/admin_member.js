@@ -123,10 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         'Content-Type': 'application/json',
                         'access': localStorage.getItem("access")
                     },
-                    body: JSON.stringify({ role: newRole })
+                    body: JSON.stringify(newRole)
                 })
                     .then(response => {
                         if (!response.ok) {
+                            console.log(data.role);
                             throw new Error('Network response was not ok.');
                         }
                         return response.json();
