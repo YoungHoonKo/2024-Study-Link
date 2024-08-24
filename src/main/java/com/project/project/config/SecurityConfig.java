@@ -42,7 +42,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/index","/start", "/", "/api/auth/register","/login","/admin/**",
                                 "/register", "/css/**", "/js/**", "/images/**", "/reissue", "/board/**"
-                        ,"/403","/404","/mypage/**","/api/auth/register","/api/auth/reissue","/profile/**","/api/auth/check-role").permitAll()
+                        ,"/403","/404","/mypage/**","/api/auth/register","/api/auth/reissue","/profile/**","/api/auth/check-role", "/comment/save").permitAll()
 
                         .requestMatchers("/user/**","/api/auth/validate-token","/api/user/**").hasRole("USER")
                         .requestMatchers("/api/auth/check-role", "/api/admin/**").hasRole("ADMIN")

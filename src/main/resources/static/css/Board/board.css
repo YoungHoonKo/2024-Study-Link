@@ -352,6 +352,80 @@ footer p {
 }
 
 /* 반응형 디자인 */
+
+/* Comment Section Styling */
+#comment-write {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#comment-write input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+    font-size: 14px;
+}
+
+#comment-write input::placeholder {
+    color: #aaa;
+}
+
+#comment-write-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#comment-write-btn:hover {
+    background-color: #0056b3;
+}
+
+#comment-list {
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+#comment-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#comment-list th, #comment-list td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+}
+
+#comment-list th {
+    background-color: #f8f9fa;
+    color: #555;
+    font-weight: bold;
+    text-align: center;
+}
+
+#comment-list tr:nth-child(even) {
+    background-color: #f0f2f5;
+}
+
+#comment-list tr:hover {
+    background-color: #e9ecef;
+}
+
+#comment-list td {
+    color: #333;
+}
 @media (max-width: 768px) {
     .table-container, .form-container {
         padding: 20px;
