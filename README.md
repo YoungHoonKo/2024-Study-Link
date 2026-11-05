@@ -228,9 +228,9 @@ set -a; source .env; set +a      # .env 값을 환경변수로 불러오기
 | 이름 | GitHub | 커밋 수 |
 | --- | --- | --- |
 | 최영환 | [@choiyounghwan123](https://github.com/choiyounghwan123) | 60 |
-| - | [@bibisam06](https://github.com/bibisam06) | 96 |
+| 정한비 | [@bibisam06](https://github.com/bibisam06) | 96 |
 | 고영훈 | [@YoungHoonKo](https://github.com/YoungHoonKo) | 53 |
-| - | [@parkddangkong](https://github.com/parkddangkong) | 9 |
+| 박계립 | [@parkddangkong](https://github.com/parkddangkong) | 9 |
 
 ### 고영훈 담당 (커밋 기록 기준)
 
