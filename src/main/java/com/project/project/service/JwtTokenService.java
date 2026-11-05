@@ -28,7 +28,7 @@ public class JwtTokenService {
                 long expiration = Duration.between(Instant.now(), jwtUtil.getExpirationDate(accessToken).toInstant())
                         .toMillis();
                 BlackList blackList = new BlackList()
-                        .id(email)
+                        .id(accessToken) // JWTFilter와 같은 키
                                 .accessToken(accessToken)
                                         .expiration(expiration);
                 blackListRepository.save(blackList);

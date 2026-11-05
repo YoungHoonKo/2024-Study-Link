@@ -45,8 +45,9 @@ public class LogoutService implements LogoutHandler {
             long expiration = Duration.between(Instant.now(), jwtUtil.getExpirationDate(accessToken)
                     .toInstant()).toMillis();
 
+            // JWTFilter가 existsById(accessToken)으로 검사하므로 토큰 자체를 키로 저장
             BlackList blackList = new BlackList()
-                    .id(email)
+                    .id(accessToken)
                     .accessToken(accessToken)
                     .expiration(expiration);
             blackListRepository.save(blackList);

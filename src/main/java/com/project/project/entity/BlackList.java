@@ -16,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 public class BlackList {
     @Id
-    private String id; // Email
+    private String id; // 로그아웃된 Access Token
 
     private String accessToken;
 
-    @TimeToLive(unit = TimeUnit.MINUTES)
+    @TimeToLive(unit = TimeUnit.MILLISECONDS) // LogoutService가 남은 시간을 ms로 계산함
     private Long expiration;
 }
