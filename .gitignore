@@ -36,3 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
+
+### Secrets & local data ###
+.env
+dump.rdb
+.DS_Store
