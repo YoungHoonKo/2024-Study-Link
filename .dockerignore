@@ -1,0 +1,6 @@
+.git
+.gradle
+build
+.env
+dump.rdb
+**/.DS_Store

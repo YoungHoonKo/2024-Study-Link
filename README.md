@@ -172,26 +172,54 @@ src/main/resources/
 
 ## Getting Started
 
-### 1. 환경변수
+[Docker Desktop](https://www.docker.com/products/docker-desktop/)만 있으면 앱, MySQL, Redis를 한 번에 실행할 수 있습니다.
 
-DB 접속 정보와 JWT 비밀키는 코드에 넣지 않고 환경변수로 받습니다.
+### 1. 저장소 내려받기
 
 ```bash
-cp .env.example .env   # SPRING_DATASOURCE_PASSWORD, JWT_SECRET 등 채우기
+git clone https://github.com/YoungHoonKo/2024-Study-Link.git
+cd 2024-Study-Link
 ```
 
-### 2. 실행
+### 2. `.env` 만들기
 
 ```bash
-# Docker Compose (앱만 실행, MySQL·Redis는 별도 준비)
-docker compose up --build        # http://localhost:8081
+cp .env.example .env
+echo "JWT_SECRET=$(openssl rand -hex 32)" >> .env
+```
 
-# 또는 로컬 실행 (Java 17, MySQL 8, Redis localhost:6379 필요)
+`SPRING_DATASOURCE_PASSWORD`(로컬 MySQL 비밀번호)는 원하는 값으로 바꿔도 됩니다.
+
+### 3. 실행
+
+```bash
+docker compose up --build
+```
+
+처음에는 Gradle과 라이브러리를 내려받아 빌드하느라 몇 분 걸립니다. 로그에 `Started ProjectApplication`이 보이면 브라우저에서 **http://localhost:8081/index** 로 접속합니다.
+
+- 회원가입(`/register`) 후 로그인(`/login`)하면 마이페이지, 프로필, 게시판을 사용할 수 있습니다.
+- 종료: `Ctrl + C` 후 `docker compose down` (DB 데이터까지 지우려면 `docker compose down -v`)
+
+### 관리자 화면 보기
+
+회원가입한 계정은 `ROLE_USER`입니다. 관리자 화면(`/admin`)을 보려면 DB에서 권한을 바꾼 뒤 다시 로그인합니다.
+
+```bash
+docker compose exec db sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" studylink \
+  -e "UPDATE users SET role = '\''ROLE_ADMIN'\'' WHERE email = '\''내이메일@example.com'\'';"'
+```
+
+### Docker 없이 실행
+
+Java 17, MySQL 8(`studylink` 데이터베이스), Redis(localhost:6379)를 직접 띄운 뒤 실행합니다.
+
+```bash
 set -a; source .env; set +a      # .env 값을 환경변수로 불러오기
-./gradlew bootRun                # http://localhost:8080
+./gradlew bootRun                # http://localhost:8080/index
 ```
 
-게시판 첨부 파일은 `WebConfig`의 `savePath`(기본값 `C:/springboot_img/`)에 저장되므로, 실행 환경에 맞게 경로를 바꿔야 합니다.
+게시판 첨부 파일 경로는 `WebConfig`의 `savePath`(기본값 `C:/springboot_img/`)이므로 실행 환경에 맞게 바꿔야 합니다.
 
 ---
 
@@ -217,6 +245,6 @@ set -a; source .env; set +a      # .env 값을 환경변수로 불러오기
 
 - `/start` 경로는 아직 `start` 템플릿을 반환하지만, 해당 템플릿 파일(`start.html`)은 삭제된 상태입니다.
 - 첨부 파일 저장 경로가 Windows 경로로 고정되어 있습니다 (`WebConfig.savePath`).
-- `Dockerfile`은 컨테이너 안에서 `./gradlew clean build`를 반복 실행하는 개발용 구성입니다. 배포용으로는 빌드 단계와 실행 단계를 나눈 멀티 스테이지 빌드가 적합합니다.
 - `spring.jpa.hibernate.ddl-auto=update`로 테이블을 자동 변경하므로 운영 환경에서는 `validate`와 마이그레이션 도구가 적합합니다.
+- 2026년 정리 과정에서 `Dockerfile`을 빌드·실행 두 단계로 나누고, `docker-compose.yml`에 MySQL과 Redis를 추가했습니다.
 - 2026년 정리 과정에서 로그아웃 블랙리스트를 수정했습니다. 이전에는 이메일을 키로 저장하고 Access Token으로 조회해 로그아웃한 토큰이 계속 통과했고, TTL 단위도 계산값(ms)과 달랐습니다. 이 수정은 빌드 환경이 없어 컴파일·실행 테스트는 하지 못했습니다.
